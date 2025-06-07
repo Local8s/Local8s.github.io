@@ -88,9 +88,11 @@
 @media (max-width: 600px) {
   /* Expand the radio container to fill more space */
   .radio-container {
-  position: fixed;
-    right: 20%;
-    bottom: 30%;  /* tweak as needed */
+    width: 70% !important;
+    max-width: none !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto;
   }
   }
 
