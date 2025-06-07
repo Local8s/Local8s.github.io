@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Live Guestbook</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+    #guestbook { list-style: none; padding: 0; }
+    #guestbook li { padding: 0.5rem; border-bottom: 1px solid #eee; }
+    form { margin-top: 1rem; display: flex; gap: 0.5rem; }
+    input { flex: 1; padding: 0.5rem; }
+    button { padding: 0.5rem 1rem; }
+  </style>
+</head>
+<body>
+
+  <h1>Leave a Message</h1>
+  <ul id="guestbook"></ul>
+
+  <form id="gb-form">
+    <input id="msg" type="text" placeholder="Your comment…" required>
+    <button type="submit">Send</button>
+  </form>
+
+  <!-- Module-style Firebase setup + guestbook logic -->
+  <script type="module">
+    // 1) Import only what you need from the CDN-hosted ES modules
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getDatabase, ref, onChildAdded, push } 
+      from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+    // 2) Your Firebase config (as given by the console)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFUmElnuRTT0Ibv9yrs-evnHM74iH_Biw",
+      authDomain: "l8-guestbook.firebaseapp.com",
+      databaseURL: "https://l8-guestbook-default-rtdb.firebaseio.com",
+      projectId: "l8-guestbook",
+      storageBucket: "l8-guestbook.firebasestorage.app",
+      messagingSenderId: "917726834255",
+      appId: "1:917726834255:web:67ccde2898edf876d9c43a",
+      measurementId: "G-DV3X7Y672C"
+    };
+
+    // 3) Initialize Firebase & get a database reference
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+    const guestbookRef = ref(db, 'guestbook');
+
+    // 4) Stream in new comments (and existing ones, sorted by timestamp)
+    const listEl = document.getElementById('guestbook');
+    onChildAdded(
+      guestbookRef,
+      snapshot => {
+        const { text } = snapshot.val();
+        const li = document.createElement('li');
+        li.textContent = text;
+        listEl.appendChild(li);
+      },
+      { queryParams: { orderBy: '"ts"' } }
+    );
+
+    // 5) Hook up the form to push new comments
+    document.getElementById('gb-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const input = document.getElementById('msg');
+      const text  = input.value.trim();
+      if (!text) return;
+      push(guestbookRef, { text, ts: Date.now() });
+      input.value = '';
+    });
+  </script>
+
+</body>
+</html>
