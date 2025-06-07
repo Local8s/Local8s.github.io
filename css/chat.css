@@ -135,11 +135,11 @@
 
 @media (max-width: 600px) {
   .pixel-guestbook {
-position: fixed;
-    width: 50%;
-    right: 36px;
-    bottom: 20px;   /* sit right above the very bottom */
-    transform: translateX(0) !important; /* if you’d centered earlier */
+    width: 80% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 10px !important;
+    transform: translateX(-50%);
   }
 
   /* (optional) tweak font-size inside for more space) */
