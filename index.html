@@ -265,12 +265,15 @@
   const GIST_FILENAME = "guestbook.json";
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Grab your elements
+    // ─── ELEMENTS ────────────────────────────────────────────────
+    const guestbook  = document.getElementById("guestbook");
+    const gbHeader   = guestbook.querySelector(".gb-header");
+    const minimize   = guestbook.querySelector(".gb-minimize");
     const gbMessages = document.getElementById("gbMessages");
     const gbText     = document.getElementById("gbText");
     const gbSubmit   = document.getElementById("gbSubmit");
 
-    // Create or find a status div for errors/loading
+    // find or create status div
     let statusDiv = document.getElementById("status");
     if (!statusDiv) {
       statusDiv = document.createElement("div");
@@ -278,8 +281,35 @@
       statusDiv.style.color = "red";
       statusDiv.style.fontSize = "12px";
       statusDiv.style.marginTop = "4px";
-      document.querySelector(".gb-input").appendChild(statusDiv);
+      guestbook.querySelector(".gb-input").appendChild(statusDiv);
     }
+
+    // ─── DRAGGING ────────────────────────────────────────────────
+    let dragging = false, offX = 0, offY = 0;
+    gbHeader.addEventListener("mousedown", e => {
+      if (e.target === minimize) return;
+      dragging = true;
+      const r = guestbook.getBoundingClientRect();
+      offX = e.clientX - r.left;
+      offY = e.clientY - r.top;
+      guestbook.style.cursor = "grabbing";
+    });
+    document.addEventListener("mousemove", e => {
+      if (!dragging) return;
+      guestbook.style.left   = `${e.clientX - offX}px`;
+      guestbook.style.top    = `${e.clientY - offY}px`;
+      guestbook.style.right  = "auto";
+      guestbook.style.bottom = "auto";
+    });
+    document.addEventListener("mouseup", () => {
+      dragging = false;
+      guestbook.style.cursor = "default";
+    });
+
+    // ─── MINIMIZE ────────────────────────────────────────────────
+    minimize.addEventListener("click", () => {
+      guestbook.classList.toggle("minimized");
+    });
 
     // ─── LOAD MESSAGES ────────────────────────────────────────────
     async function loadMessages() {
@@ -289,12 +319,10 @@
         if (!res.ok) throw new Error(`Worker GET failed: ${res.status}`);
         const gist = await res.json();
 
-        // Pull out your file
         const file = gist.files?.[GIST_FILENAME];
         if (!file) throw new Error(`File "${GIST_FILENAME}" not found`);
         const arr = JSON.parse(file.content || "[]");
 
-        // Render
         if (arr.length === 0) {
           gbMessages.innerHTML = `<div class="gb-message">No messages yet. Be the first!</div>`;
         } else {
@@ -302,6 +330,7 @@
             .map(m => `<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`)
             .join("");
         }
+
         gbMessages.scrollTop = gbMessages.scrollHeight;
         statusDiv.textContent = "";
       } catch (err) {
@@ -311,7 +340,7 @@
       }
     }
 
-    // ─── SAVE A NEW MESSAGE ────────────────────────────────────────
+    // ─── SAVE NEW MESSAGE ────────────────────────────────────────
     async function saveMessage() {
       const text = gbText.value.trim();
       if (!text) return;
@@ -338,7 +367,7 @@
       }
     }
 
-    // ─── HOOK UP EVENTS & INITIAL LOAD ────────────────────────────
+    // ─── EVENTS & INIT ──────────────────────────────────────────
     gbSubmit.addEventListener("click", saveMessage);
     gbText.addEventListener("keydown", e => {
       if (e.key === "Enter") saveMessage();
@@ -347,6 +376,7 @@
     loadMessages();
   });
 </script>
+
 
 
   
