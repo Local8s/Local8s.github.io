@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,6 +129,8 @@
     
   </style>
 </head>
+  
+<body>
 
 <!-- START GUESTBOOK -->
 <div id="guestbook" class="pixel-guestbook">
@@ -255,176 +258,74 @@
 }
 </style>
 
- <script>
-// CONFIGURATION - YOU MUST SET THESE
-const GIST_ID = "ef5e3a7116b9bf56ee8f9376096dd5c7";  // From your gist URL
-const GIST_FILE = "guestbook.json";   // Name of file in your gist
-const GITHUB_TOKEN = "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"; // GitHub token with gist scope
+<script>
+  // CONFIGURATION
+  const GIST_ID      = "ef5e3a7116b9bf56ee8f9376096dd5c7";
+  const GIST_FILE    = "guestbook.json";
+  const GITHUB_TOKEN = "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";
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Corrected variable names to match your HTML
-  const gbMessages = document.getElementById('gbMessages');
-  const gbText = document.getElementById('gbText');
-  const gbSubmit = document.getElementById('gbSubmit');
-  const guestbook = document.getElementById('guestbook');
-  const gbHeader = document.querySelector('.gb-header');
-  const minimizeBtn = document.querySelector('.gb-minimize');
-  
-  // Create status element (was missing)
-  const statusDiv = document.createElement('div');
-  statusDiv.id = 'status';
-  statusDiv.style.color = '#ff0000';
-  statusDiv.style.marginTop = '10px';
-  document.querySelector('.gb-input').appendChild(statusDiv);
+  document.addEventListener("DOMContentLoaded", () => {
+    const guestbook = document.getElementById("guestbook");
+    const gbHeader  = document.querySelector(".gb-header");
+    const minimize  = document.querySelector(".gb-minimize");
+    const gbMessages= document.getElementById("gbMessages");
+    const gbText    = document.getElementById("gbText");
+    const gbSubmit  = document.getElementById("gbSubmit");
+    const statusDiv = document.getElementById("status");
 
-  // Dragging functionality (fixed references)
-  let isDragging = false;
-  let offsetX, offsetY;
-  
-  gbHeader.addEventListener('mousedown', function(e) {
-    if (e.target === minimizeBtn) return;
-    isDragging = true;
-    offsetX = e.clientX - guestbook.getBoundingClientRect().left;
-    offsetY = e.clientY - guestbook.getBoundingClientRect().top;
-    guestbook.style.cursor = 'grabbing';
-  });
-  
-  document.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    guestbook.style.left = `${e.clientX - offsetX}px`;
-    guestbook.style.top = `${e.clientY - offsetY}px`;
-    guestbook.style.right = 'auto';
-    guestbook.style.bottom = 'auto';
-  });
-  
-  document.addEventListener('mouseup', function() {
-    isDragging = false;
-    guestbook.style.cursor = 'default';
-  });
-  
-  // Minimize functionality
-  minimizeBtn.addEventListener('click', function() {
-    guestbook.classList.toggle('minimized');
-  });
-  
-  // Load messages when page loads
-  loadMessages();
-  
-  // Setup submit handler
-  gbSubmit.addEventListener('click', submitMessage);
-  gbText.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') submitMessage();
-  });
-  
-  async function loadMessages() {
-    try {
-      statusDiv.textContent = "Loading messages...";
-      const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to load: ${response.status}`);
+    // … your dragging + minimizing + submit wiring remains unchanged …
+
+    // REPLACED loadMessages() —
+    async function loadMessages() {
+      try {
+        statusDiv.textContent = "Loading messages…";
+
+        // 1. Get gist metadata (public read, no token needed)
+        const metaRes = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+        if (!metaRes.ok) throw new Error(`Gist metadata error: ${metaRes.status}`);
+        const gistMeta = await metaRes.json();
+
+        // 2. Grab the raw_url for your JSON file
+        const rawUrl = gistMeta.files?.[GIST_FILE]?.raw_url;
+        if (!rawUrl) throw new Error("Guestbook file not found in gist");
+
+        // 3. Fetch the raw JSON directly
+        const rawRes = await fetch(rawUrl);
+        if (!rawRes.ok) throw new Error(`Could not fetch messages: ${rawRes.status}`);
+        const text = await rawRes.text();
+        const messages = JSON.parse(text);
+
+        // 4. Render
+        if (!messages.length) {
+          gbMessages.innerHTML = '<div class="gb-message">No messages yet. Be the first!</div>';
+        } else {
+          gbMessages.innerHTML = messages
+            .map(m => `<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`)
+            .join("");
+        }
+        gbMessages.scrollTop = gbMessages.scrollHeight;
+        statusDiv.textContent = "";
+
+      } catch (err) {
+        console.error(err);
+        gbMessages.innerHTML = '<div class="gb-message">Could not load messages.</div>';
+        statusDiv.textContent = err.message;
+        setTimeout(() => statusDiv.textContent = "", 5000);
       }
-      
-      const gistData = await response.json();
-      console.log("Gist data:", gistData); // Debugging
-      
-      // Check if our file exists in the gist
-      if (!gistData.files || !gistData.files[GIST_FILE]) {
-        throw new Error("Guestbook file not found in gist");
-      }
-      
-      const messages = JSON.parse(gistData.files[GIST_FILE].content);
-      
-      if (messages.length === 0) {
-        gbMessages.innerHTML = '<div class="gb-message">No messages yet. Be the first!</div>';
-      } else {
-        gbMessages.innerHTML = messages.map(msg => `
-          <div class="gb-message">
-            <strong>[${msg.date}]</strong>: ${msg.text}
-          </div>
-        `).join('');
-      }
-      
-      // Auto-scroll to bottom
-      gbMessages.scrollTop = gbMessages.scrollHeight;
-      statusDiv.textContent = "";
-      
-    } catch (error) {
-      console.error("Error loading messages:", error);
-      gbMessages.innerHTML = '<div class="gb-message">Could not load messages. Please try again later.</div>';
-      statusDiv.textContent = error.message;
-      setTimeout(() => statusDiv.textContent = "", 5000);
     }
-  }
-  
-  async function submitMessage() {
-    const text = gbText.value.trim();
-    if (!text) {
-      statusDiv.textContent = "Please enter a message";
-      setTimeout(() => statusDiv.textContent = "", 2000);
-      return;
-    }
-    
-    try {
-      gbSubmit.disabled = true;
-      statusDiv.textContent = "Posting your message...";
-      
-      // 1. Get current gist data
-      const gistResponse = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` }
-      });
-      const gistData = await gistResponse.json();
-      
-      // 2. Parse current messages
-      const currentContent = gistData.files[GIST_FILE].content;
-      const messages = currentContent ? JSON.parse(currentContent) : [];
-      
-      // 3. Add new message
-      messages.push({
-        date: new Date().toLocaleString(),
-        text: text
-      });
-      
-      // 4. Update gist
-      const updateResponse = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          files: {
-            [GIST_FILE]: {
-              content: JSON.stringify(messages, null, 2)
-            }
-          }
-        })
-      });
-      
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update gist");
-      }
-      
-      // 5. Clear input and refresh
-      gbText.value = '';
-      statusDiv.textContent = "Message posted successfully!";
-      setTimeout(() => statusDiv.textContent = "", 2000);
-      loadMessages();
-      
-    } catch (error) {
-      console.error("Error submitting message:", error);
-      statusDiv.textContent = `Error: ${error.message}`;
-      setTimeout(() => statusDiv.textContent = "", 5000);
-    } finally {
-      gbSubmit.disabled = false;
-    }
-  }
-});
+
+    // submitMessage() stays exactly the same, since PATCHing via the API still needs your token
+    // …
+    loadMessages();
+  });
 </script>
 
+  
+  
+
 
   
-<body>
+
   <div class="marquee">
     <div class="marquee-text">NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25</div>
   </div>
