@@ -257,164 +257,132 @@
 </style>
 
 <script>
-// CONFIGURATION - REPLACE THESE VALUES
-const GIST_ID = "5c3e7a48dbd5b88c9cb5f6bff7da2dce"; // Your Gist ID
-const GIST_FILENAME = "comments.json"; // Name of file in your Gist
-const GITHUB_TOKEN = "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"; // GitHub token with gist scope
+  // ─── CONFIGURATION ─────────────────────────────────────────────
+  const GIST_ID       = "ef5e3a7116b9bf56ee8f9376096dd5c7";  // your Gist ID
+  const GIST_FILENAME = "guestbook.json";                   // exact filename in that Gist
+  const GITHUB_TOKEN  = "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"; // your valid PAT with gist scope
 
-document.addEventListener('DOMContentLoaded', async function() {
-  const gbMessages = document.getElementById('gbMessages');
-  const gbText = document.getElementById('gbText');
-  const gbSubmit = document.getElementById('gbSubmit');
-  const guestbook = document.getElementById('guestbook');
-  const gbHeader = document.querySelector('.gb-header');
-  const minimizeBtn = document.querySelector('.gb-minimize');
-  
-  // Create status element for messages
-  const statusDiv = document.createElement('div');
-  statusDiv.style.marginTop = '10px';
-  statusDiv.style.color = '#ff0000';
-  statusDiv.style.fontSize = '12px';
-  document.querySelector('.gb-input').appendChild(statusDiv);
+  document.addEventListener("DOMContentLoaded", () => {
+    const gbMessages  = document.getElementById("gbMessages");
+    const gbText      = document.getElementById("gbText");
+    const gbSubmit    = document.getElementById("gbSubmit");
+    const guestbook   = document.getElementById("guestbook");
+    const gbHeader    = guestbook.querySelector(".gb-header");
+    const minimizeBtn = guestbook.querySelector(".gb-minimize");
+    const statusDiv   = document.createElement("div");
+    statusDiv.id      = "status";
+    statusDiv.style.color = "red";
+    statusDiv.style.fontSize = "12px";
+    statusDiv.style.marginTop = "4px";
+    guestbook.querySelector(".gb-input").appendChild(statusDiv);
 
-  // Dragging functionality
-  let isDragging = false;
-  let offsetX, offsetY;
-  
-  gbHeader.addEventListener('mousedown', function(e) {
-    if (e.target === minimizeBtn) return;
-    isDragging = true;
-    offsetX = e.clientX - guestbook.getBoundingClientRect().left;
-    offsetY = e.clientY - guestbook.getBoundingClientRect().top;
-    guestbook.style.cursor = 'grabbing';
-  });
-  
-  document.addEventListener('mousemove', function(e) {
-    if (!isDragging) return;
-    guestbook.style.left = `${e.clientX - offsetX}px`;
-    guestbook.style.top = `${e.clientY - offsetY}px`;
-    guestbook.style.right = 'auto';
-    guestbook.style.bottom = 'auto';
-  });
-  
-  document.addEventListener('mouseup', function() {
-    isDragging = false;
-    guestbook.style.cursor = 'default';
-  });
-  
-  // Minimize functionality
-  minimizeBtn.addEventListener('click', function() {
-    guestbook.classList.toggle('minimized');
-  });
-  
-  // Message functions
-  async function loadMessages() {
-    try {
-      statusDiv.textContent = "Loading messages...";
-      const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
-      
-      if (!response.ok) throw new Error(`Failed to load: ${response.status}`);
-      
-      const gistData = await response.json();
-      
-      // Check if the file exists
-      if (!gistData.files || !gistData.files[GIST_FILENAME]) {
-        throw new Error("Guestbook file not found in Gist");
-      }
-      
-      const messages = JSON.parse(gistData.files[GIST_FILENAME].content);
-      displayMessages(messages);
-      statusDiv.textContent = "";
-      
-    } catch (e) {
-      console.error("Error loading messages:", e);
-      gbMessages.innerHTML = "Could not load messages. Please refresh.";
-      statusDiv.textContent = e.message;
-    }
-  }
-
-  function displayMessages(messages) {
-    if (messages.length === 0) {
-      gbMessages.innerHTML = "<div class='gb-message'>No messages yet. Be the first!</div>";
-    } else {
-      gbMessages.innerHTML = messages.map(msg => `
-        <div class="gb-message">
-          <strong>[${msg.date}]</strong>: ${msg.text}
-        </div>
-      `).join('');
-    }
-    gbMessages.scrollTop = gbMessages.scrollHeight;
-  }
-  
- async function saveMessage() {
-  const text = gbText.value.trim();
-  if (!text) return;
-
-  gbSubmit.disabled = true;
-  statusDiv.textContent = "Posting message…";
-
-  const headers = {
-    Authorization: `Bearer ${GITHUB_TOKEN}`,
-    Accept:        "application/vnd.github.v3+json",
-    "Content-Type": "application/json"
-  };
-
-  try {
-    // 1) GET the current gist
-    const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
-    if (!getRes.ok) {
-      const e = await getRes.json().catch(() => ({}));
-      throw new Error(e.message || `Fetch failed: ${getRes.status}`);
-    }
-    const gistData = await getRes.json();
-
-    // 2) Parse existing comments
-    const file    = gistData.files?.[GIST_FILENAME];
-    const current = file ? JSON.parse(file.content || "[]") : [];
-
-    // 3) Add the new message
-    current.push({ date: new Date().toLocaleString(), text });
-
-    // 4) PATCH the update back to GitHub
-    const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      method:  "PATCH",
-      headers,
-      body:    JSON.stringify({
-        files: {
-          [GIST_FILENAME]: {
-            content: JSON.stringify(current, null, 2)
-          }
-        }
-      })
+    // ─── DRAG & MINIMIZE ────────────────────────────────────────
+    let dragging = false, offX=0, offY=0;
+    gbHeader.addEventListener("mousedown", e => {
+      if (e.target === minimizeBtn) return;
+      dragging = true;
+      const r = guestbook.getBoundingClientRect();
+      offX = e.clientX - r.left;
+      offY = e.clientY - r.top;
+      guestbook.style.cursor = "grabbing";
     });
-    if (!patchRes.ok) {
-      const e = await patchRes.json().catch(() => ({}));
-      throw new Error(e.message || `Update failed: ${patchRes.status}`);
+    document.addEventListener("mousemove", e => {
+      if (!dragging) return;
+      guestbook.style.left  = (e.clientX-offX)+"px";
+      guestbook.style.top   = (e.clientY-offY)+"px";
+      guestbook.style.right = "auto";
+      guestbook.style.bottom= "auto";
+    });
+    document.addEventListener("mouseup", () => {
+      dragging = false;
+      guestbook.style.cursor = "default";
+    });
+    minimizeBtn.addEventListener("click", () => {
+      guestbook.classList.toggle("minimized");
+    });
+
+    // ─── FETCH + RENDER MESSAGES ────────────────────────────────
+    async function loadMessages() {
+      statusDiv.textContent = "Loading messages…";
+      try {
+        const res = await fetch(
+          `https://api.github.com/gists/${GIST_ID}`,
+          { headers: {
+              "Authorization": `Bearer ${GITHUB_TOKEN}`,
+              "Accept":        "application/vnd.github.v3+json"
+          }}
+        );
+        if (!res.ok) throw new Error(`GET failed: ${res.status}`);
+        const gist = await res.json();
+        const file = gist.files?.[GIST_FILENAME];
+        if (!file) throw new Error(`File "${GIST_FILENAME}" not found`);
+        const arr = JSON.parse(file.content || "[]");
+        gbMessages.innerHTML = arr.length
+          ? arr.map(m=>`<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`).join("")
+          : `<div class="gb-message">No messages yet. Be the first!</div>`;
+        gbMessages.scrollTop = gbMessages.scrollHeight;
+      } catch (err) {
+        console.error("loadMessages error:", err);
+        gbMessages.innerHTML = `<div class="gb-message">Could not load messages.</div>`;
+        statusDiv.textContent = err.message;
+      } finally {
+        setTimeout(()=> statusDiv.textContent = "", 3000);
+      }
     }
 
-    // 5) Success!
-    gbText.value = "";
-    await loadMessages();
-  } catch (err) {
-    console.error("saveMessage error:", err);
-    statusDiv.textContent = `Error: ${err.message}`;
-  } finally {
-    gbSubmit.disabled = false;
-    setTimeout(() => (statusDiv.textContent = ""), 3000);
-  }
-}
+    // ─── POST A NEW MESSAGE ──────────────────────────────────────
+    async function saveMessage() {
+      const text = gbText.value.trim();
+      if (!text) return;
+      gbSubmit.disabled = true;
+      statusDiv.textContent = "Posting message…";
 
-  
-  // Event listeners
-  gbSubmit.addEventListener('click', saveMessage);
-  gbText.addEventListener('keypress', e => {
-    if (e.key === 'Enter') saveMessage();
+      const headers = {
+        "Authorization": `Bearer ${GITHUB_TOKEN}`,
+        "Accept":        "application/vnd.github.v3+json",
+        "Content-Type":  "application/json"
+      };
+
+      try {
+        // fetch current
+        const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
+        if (!getRes.ok) {
+          const e = await getRes.json().catch(()=>({}));
+          throw new Error(e.message||`GET failed: ${getRes.status}`);
+        }
+        const gistData = await getRes.json();
+        const file     = gistData.files?.[GIST_FILENAME];
+        const current  = file ? JSON.parse(file.content||"[]") : [];
+        // append
+        current.push({ date:new Date().toLocaleString(), text });
+        // patch back
+        const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+          method: "PATCH",
+          headers,
+          body: JSON.stringify({ files:{ [GIST_FILENAME]:{ content:JSON.stringify(current,null,2) } } })
+        });
+        if (!patchRes.ok) {
+          const e = await patchRes.json().catch(()=>({}));
+          throw new Error(e.message||`PATCH failed: ${patchRes.status}`);
+        }
+        // done
+        gbText.value = "";
+        await loadMessages();
+      } catch (err) {
+        console.error("saveMessage error:", err);
+        statusDiv.textContent = `Error: ${err.message}`;
+      } finally {
+        gbSubmit.disabled = false;
+        setTimeout(()=> statusDiv.textContent = "", 3000);
+      }
+    }
+
+    gbSubmit.addEventListener("click", saveMessage);
+    gbText.addEventListener("keypress", e=>{ if(e.key==="Enter") saveMessage(); });
+    loadMessages();
   });
-  
-  // Initial load
-  loadMessages();
-});
 </script>
+
 
   
 
