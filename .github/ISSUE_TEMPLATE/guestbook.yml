@@ -1,1 +1,9 @@
-
+name: Guestbook Entry
+description: Submit a message to the guestbook
+labels: ["guestbook"]
+body:
+  - type: textarea
+    attributes:
+      label: Your Message
+      description: Leave a message for the guestbook
+      placeholder: Type your message here...
