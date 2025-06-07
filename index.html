@@ -256,8 +256,13 @@
 </style>
 
 <script src="js/config.js"></script>
-  
 <script>
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log("Config:", {
+    GIST_ID, 
+    GIST_TOKEN: GIST_TOKEN ? "***REDACTED***" : "MISSING"
+  });
+  
 document.addEventListener('DOMContentLoaded', async function() {
  console.log("Guestbook loaded with Gist ID:", GIST_ID ? "✅" : "❌");
   const gbMessages = document.getElementById('gbMessages');
@@ -298,24 +303,29 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
   
   // Message functions
-async function loadMessages() {
-  try {
-    const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
-    const data = await response.json();
-    const comments = JSON.parse(data.files['comments.json'].content);
-    
-    gbMessages.innerHTML = comments.map(msg => `
-      <div class="gb-message">
-        <strong>[${msg.date}]</strong>: ${msg.text}
-      </div>
-    `).join('');
-    
-    // Auto-scroll to bottom
-    gbMessages.scrollTop = gbMessages.scrollHeight;
-    
-  } catch (e) {
-    gbMessages.innerHTML = "Error loading messages. Try refreshing.";
- 
+  async function loadMessages() {
+    try {
+      const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+        headers: { 'Accept': 'application/vnd.github.v3+json' }
+      });
+      
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      
+      const data = await response.json();
+      const content = data.files['comments.json'].content;
+      const comments = JSON.parse(content || '[]');
+      
+      gbMessages.innerHTML = comments.map(msg => `
+        <div class="gb-message">
+          <strong>[${msg.date}]</strong>: ${msg.text}
+        </div>
+      `).join('') || "<div>No messages yet. Be the first!</div>";
+      
+      gbMessages.scrollTop = gbMessages.scrollHeight;
+      
+    } catch (e) {
+      console.error("Load error:", e);
+      gbMessages.innerHTML = `Error: ${e.message}`;
     }
   }
   
