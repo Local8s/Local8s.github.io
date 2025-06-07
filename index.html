@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       statusDiv.textContent = "Posting message...";
       
       // 1. Get current Gist data
-      const gistResponse = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      const gistResponse = await fetch(`https://api.github.com/gists/5c3e7a48dbd5b88c9cb5f6bff7da2dce`, {
         headers: { Authorization: `token ${GITHUB_TOKEN}` }
       });
       const gistData = await gistResponse.json();
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       });
       
       // 4. Update Gist
-      const updateResponse = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      const updateResponse = await fetch(`https://api.github.com/gists/5c3e7a48dbd5b88c9cb5f6bff7da2dce`, {
         method: 'PATCH',
         headers: {
           Authorization: `token ${GITHUB_TOKEN}`,
