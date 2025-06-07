@@ -31,6 +31,8 @@
   const messagesEl = document.getElementById('gbMessages');
   const inputEl    = document.getElementById('gbText');
   const submitBtn  = document.getElementById('gbSubmit');
+  const guestbookEl = document.querySelector('.pixel-guestbook'); // Add this line
+  const minimizeBtn = document.querySelector('.gb-minimize'); 
   
   inputEl.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
@@ -84,4 +86,16 @@ submitBtn.addEventListener('click', e => {
     admin: isAdmin
   });
   inputEl.value = '';
+});
+function checkMobileAndMinimize() {
+  if (window.matchMedia("(max-width: 600px)").matches) {
+    guestbookEl.classList.add('minimized');
+  }
+}
+window.addEventListener('load', checkMobileAndMinimize);
+window.addEventListener('resize', checkMobileAndMinimize);
+
+// (Optional) Ensure minimize button still works
+minimizeBtn.addEventListener('click', () => {
+  guestbookEl.classList.toggle('minimized');
 });
