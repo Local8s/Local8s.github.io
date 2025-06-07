@@ -135,17 +135,14 @@
 
 @media (max-width: 600px) {
   .pixel-guestbook {
-    width: 80% !important;
-    height: 30px !important;
+    width: 90% !important;
+    height: auto !important;
     left: 50% !important;
     right: auto !important;
     bottom: 10px !important;
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
   }
-.pixel-guestbook .gb-messages,
-  .pixel-guestbook .gb-input {
-    display: none !important;
-  }
+
   /* (optional) tweak font-size inside for more space) */
   .gb-header span {
     font-size: 14px;
