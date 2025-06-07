@@ -259,39 +259,75 @@
 </style>
 
 <script>
-  // CONFIGURATION
+  // ─── CONFIGURATION ─────────────────────────────────────────────
   const GIST_ID      = "ef5e3a7116b9bf56ee8f9376096dd5c7";
   const GIST_FILE    = "guestbook.json";
   const GITHUB_TOKEN = "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";
 
   document.addEventListener("DOMContentLoaded", () => {
-    const guestbook = document.getElementById("guestbook");
-    const gbHeader  = document.querySelector(".gb-header");
-    const minimize  = document.querySelector(".gb-minimize");
-    const gbMessages= document.getElementById("gbMessages");
-    const gbText    = document.getElementById("gbText");
-    const gbSubmit  = document.getElementById("gbSubmit");
-    const statusDiv = document.getElementById("status");
+    // ─── ELEMENT REFERENCES ───────────────────────────────────────
+    const guestbook   = document.getElementById("guestbook");
+    const gbHeader    = guestbook.querySelector(".gb-header");
+    const minimizeBtn = guestbook.querySelector(".gb-minimize");
+    const gbMessages  = document.getElementById("gbMessages");
+    const gbText      = document.getElementById("gbText");
+    const gbSubmit    = document.getElementById("gbSubmit");
 
-    // … your dragging + minimizing + submit wiring remains unchanged …
+    // Create or grab status div
+    let statusDiv = document.getElementById("status");
+    if (!statusDiv) {
+      statusDiv = document.createElement("div");
+      statusDiv.id = "status";
+      statusDiv.style.color = "red";
+      statusDiv.style.fontSize = "12px";
+      statusDiv.style.marginTop = "4px";
+      guestbook.querySelector(".gb-input").appendChild(statusDiv);
+    }
 
-    // REPLACED loadMessages() —
+    // ─── DRAGGING LOGIC ───────────────────────────────────────────
+    let isDragging = false, offsetX = 0, offsetY = 0;
+    gbHeader.addEventListener("mousedown", e => {
+      // don't start drag if they clicked the minimize button
+      if (e.target === minimizeBtn) return;
+      isDragging = true;
+      const rect = guestbook.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      guestbook.style.cursor = "grabbing";
+    });
+    document.addEventListener("mousemove", e => {
+      if (!isDragging) return;
+      guestbook.style.left   = `${e.clientX - offsetX}px`;
+      guestbook.style.top    = `${e.clientY - offsetY}px`;
+      guestbook.style.right  = "auto";
+      guestbook.style.bottom = "auto";
+    });
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      guestbook.style.cursor = "default";
+    });
+
+    // ─── MINIMIZE/RESTORE ────────────────────────────────────────
+    minimizeBtn.addEventListener("click", () => {
+      guestbook.classList.toggle("minimized");
+    });
+
+    // ─── LOAD MESSAGES ────────────────────────────────────────────
     async function loadMessages() {
+      statusDiv.textContent = "Loading messages…";
       try {
-        statusDiv.textContent = "Loading messages…";
-
-        // 1. Get gist metadata (public read, no token needed)
+        // 1. Get gist metadata (public)
         const metaRes = await fetch(`https://api.github.com/gists/${GIST_ID}`);
-        if (!metaRes.ok) throw new Error(`Gist metadata error: ${metaRes.status}`);
+        if (!metaRes.ok) throw new Error(`Metadata error: ${metaRes.status}`);
         const gistMeta = await metaRes.json();
 
-        // 2. Grab the raw_url for your JSON file
+        // 2. Extract raw_url
         const rawUrl = gistMeta.files?.[GIST_FILE]?.raw_url;
-        if (!rawUrl) throw new Error("Guestbook file not found in gist");
+        if (!rawUrl) throw new Error("Guestbook file not found");
 
-        // 3. Fetch the raw JSON directly
+        // 3. Fetch the raw JSON
         const rawRes = await fetch(rawUrl);
-        if (!rawRes.ok) throw new Error(`Could not fetch messages: ${rawRes.status}`);
+        if (!rawRes.ok) throw new Error(`Fetch error: ${rawRes.status}`);
         const text = await rawRes.text();
         const messages = JSON.parse(text);
 
@@ -304,86 +340,93 @@
             .join("");
         }
         gbMessages.scrollTop = gbMessages.scrollHeight;
-        statusDiv.textContent = "";
-
       } catch (err) {
-        console.error(err);
+        console.error("loadMessages error:", err);
         gbMessages.innerHTML = '<div class="gb-message">Could not load messages.</div>';
         statusDiv.textContent = err.message;
         setTimeout(() => statusDiv.textContent = "", 5000);
+      } finally {
+        if (statusDiv.textContent === "Loading messages…") {
+          statusDiv.textContent = "";
+        }
       }
     }
-async function submitMessage() {
-  const text = gbText.value.trim();
-  if (!text) {
-    statusDiv.textContent = "Please enter a message";
-    return setTimeout(() => statusDiv.textContent = "", 2000);
-  }
 
-  gbSubmit.disabled = true;
-  statusDiv.textContent = "Posting your message…";
+    // ─── SUBMIT NEW MESSAGE ───────────────────────────────────────
+    async function submitMessage() {
+      const text = gbText.value.trim();
+      if (!text) {
+        statusDiv.textContent = "Please enter a message";
+        return setTimeout(() => statusDiv.textContent = "", 2000);
+      }
 
-  // build shared headers
-  const headers = {
-    "Authorization": `Bearer ${GITHUB_TOKEN}`,
-    "Accept":        "application/vnd.github.v3+json",
-    "Content-Type":  "application/json"
-  };
+      gbSubmit.disabled = true;
+      statusDiv.textContent = "Posting your message…";
 
-  try {
-    // 1. Fetch the current gist (with auth)
-    const gistRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
-    if (!gistRes.ok) {
-      const err = await gistRes.json();
-      throw new Error(err.message || gistRes.statusText);
-    }
-    const gistData = await gistRes.json();
+      const headers = {
+        "Authorization": `Bearer ${GITHUB_TOKEN}`,
+        "Accept":        "application/vnd.github.v3+json",
+        "Content-Type":  "application/json"
+      };
 
-    // 2. Parse out the existing messages
-    const raw = gistData.files?.[GIST_FILE]?.content || "[]";
-    const messages = JSON.parse(raw);
-
-    // 3. Append the new message
-    messages.push({
-      date: new Date().toLocaleString(),
-      text
-    });
-
-    // 4. PATCH the gist with the updated array
-    const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      method: "PATCH",
-      headers,
-      body: JSON.stringify({
-        files: {
-          [GIST_FILE]: {
-            content: JSON.stringify(messages, null, 2)
-          }
+      try {
+        // a) Get current gist (authenticated)
+        const gistRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
+        if (!gistRes.ok) {
+          const err = await gistRes.json();
+          throw new Error(err.message || gistRes.statusText);
         }
-      })
-    });
-    if (!patchRes.ok) {
-      const err = await patchRes.json();
-      throw new Error(err.message || patchRes.statusText);
+        const gistData = await gistRes.json();
+
+        // b) Parse existing messages
+        const raw     = gistData.files?.[GIST_FILE]?.content || "[]";
+        const messages= JSON.parse(raw);
+
+        // c) Append new entry
+        messages.push({
+          date: new Date().toLocaleString(),
+          text
+        });
+
+        // d) PATCH updated array back
+        const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+          method:  "PATCH",
+          headers,
+          body:    JSON.stringify({
+            files: {
+              [GIST_FILE]: {
+                content: JSON.stringify(messages, null, 2)
+              }
+            }
+          })
+        });
+        if (!patchRes.ok) {
+          const err = await patchRes.json();
+          throw new Error(err.message || patchRes.statusText);
+        }
+
+        // e) Success!
+        gbText.value = "";
+        statusDiv.textContent = "Message posted!";
+        loadMessages();
+      } catch (err) {
+        console.error("submitMessage error:", err);
+        statusDiv.textContent = `Error: ${err.message}`;
+      } finally {
+        setTimeout(() => statusDiv.textContent = "", 3000);
+        gbSubmit.disabled = false;
+      }
     }
 
-    // 5. Success!
-    gbText.value = "";
-    statusDiv.textContent = "Message posted!";
-    loadMessages();              // refresh the list
-  } catch (err) {
-    console.error("Error submitting message:", err);
-    statusDiv.textContent = `Error: ${err.message}`;
-  } finally {
-    setTimeout(() => statusDiv.textContent = "", 3000);
-    gbSubmit.disabled = false;
-  }
-}
-
-    // submitMessage() stays exactly the same, since PATCHing via the API still needs your token
-    // …
+    // ─── HOOK UP EVENTS & INITIAL LOAD ───────────────────────────
+    gbSubmit.addEventListener("click", submitMessage);
+    gbText.addEventListener("keypress", e => {
+      if (e.key === "Enter") submitMessage();
+    });
     loadMessages();
   });
 </script>
+
 
   
   
