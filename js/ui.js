@@ -1,26 +1,34 @@
 // ─── DRAG & MINIMIZE ───────────────────────────────────────────────────────
+// 0) Grab your elements
 const guestbook   = document.getElementById('guestbook');
 const gbHeader    = guestbook.querySelector('.gb-header');
 const minimizeBtn = guestbook.querySelector('.gb-minimize');
 
-let isDragging = false, offsetX = 0, offsetY = 0;
-gbHeader.addEventListener('mousedown', e => {
+let isDragging = false;
+let startX = 0, startY = 0;
+
+// ── POINTER‐BASED DRAGGING ────────────────────────────────────
+gbHeader.addEventListener('pointerdown', e => {
   if (e.target === minimizeBtn) return;
   isDragging = true;
-  const rect = guestbook.getBoundingClientRect();
-  offsetX = e.clientX - rect.left;
-  offsetY = e.clientY - rect.top;
+  // calculate offset inside the box
+  startX = e.clientX - guestbook.offsetLeft;
+  startY = e.clientY - guestbook.offsetTop;
+  // capture the pointer so we continue getting events
+  gbHeader.setPointerCapture(e.pointerId);
   guestbook.style.cursor = 'grabbing';
 });
-document.addEventListener('mousemove', e => {
+
+gbHeader.addEventListener('pointermove', e => {
   if (!isDragging) return;
-  guestbook.style.left   = `${e.clientX - offsetX}px`;
-  guestbook.style.top    = `${e.clientY - offsetY}px`;
-  guestbook.style.right  = 'auto';
-  guestbook.style.bottom = 'auto';
+  guestbook.style.left = `${e.clientX - startX}px`;
+  guestbook.style.top  = `${e.clientY - startY}px`;
 });
-document.addEventListener('mouseup', () => {
+
+gbHeader.addEventListener('pointerup', e => {
+  if (!isDragging) return;
   isDragging = false;
+  gbHeader.releasePointerCapture(e.pointerId);
   guestbook.style.cursor = 'default';
 });
 minimizeBtn.addEventListener('click', () => {
