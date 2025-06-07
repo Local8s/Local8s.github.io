@@ -1,0 +1,84 @@
+/* Radio Player Container */
+.radio-container {
+  position: relative;
+  width: 500px;
+  opacity: 0.65;
+  height: auto;
+}
+
+/* Radio Image */
+.radio-img {
+  width: 95%;
+}
+
+/* Play/Pause Button */
+.play-button {
+  position: absolute;
+  top: 51.2%;
+  left: 17.9%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+/* SVG icons inside the button */
+.play-button svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Track display (name & time) */
+.display {
+  position: absolute;
+  top: 33.7%;
+  left: 13.4%;
+  width: 23%;
+  text-align: center;
+  color: #000;
+  opacity: 0.95;
+  font-family: monospace;
+  font-size: 15px;
+  font-weight: bold;
+  filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+}
+
+/* Glow effect (if you use it) */
+.glow {
+  color: #000;
+  text-shadow:
+    0 0 5px #bae190,
+    0 0 5px #bae190,
+    0 0 5px #bae190,
+    0 0 5px #bae190;
+}
+
+/* Now Playing GIF */
+#gif {
+  position: absolute;
+  top: 9.5%;
+  left: 15.5%;
+  width: 75%;
+  max-width: 150px;
+  display: none;
+  opacity: 0.98;
+}
+
+/* Blinking pause icon */
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* Apply blink when playing */
+.playing #pause-icon {
+  animation: blink 1.8s infinite;
+}
