@@ -98,6 +98,8 @@
 /* SVG icons inside the button */
 .play-button svg {
   position: absolute;
+  width: 17px;
+  height: 17px;
   top: 0;
   left: 0;
 }
@@ -120,8 +122,8 @@
 /* Now Playing GIF */
 #gif {
   position: absolute;
-  top: 4.5%;
-  left: 10.5%;
+  top: 2.5%;
+  left: 6.5%;
   width: 75%;
   max-width: 150px;
   display: none;
