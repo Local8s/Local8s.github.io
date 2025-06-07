@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,7 +140,7 @@
   </div>
   
   <div class="gb-messages" id="gbMessages">
-    Loading messages...
+
   </div>
   
   <div class="gb-input">
@@ -255,131 +256,32 @@
   scroll-behavior: ; /* Smooth scrolling */
   overflow-anchor: auto; /* Prevents jumping when new messages load */
 }
+  
+  @keyframes blink-admin {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0.5; }
+}
+
+/* 2) Apply it to your admin label */
+.gb-admin-label {
+  color: #fff;
+  font-weight: bold;
+  margin: 0 4px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  /* blink once every second */
+  animation: blink-admin 1s step-start infinite;
+}
+
+
 </style>
 
 
 
-<script>
-  // ─── CONFIGURATION ─────────────────────────────────────────────
-  const WORKER_URL    = "https://late-darkness-d0f2.local8sfm.workers.dev/";
-  const GIST_FILENAME = "guestbook.json";
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // ─── ELEMENTS ────────────────────────────────────────────────
-    const guestbook  = document.getElementById("guestbook");
-    const gbHeader   = guestbook.querySelector(".gb-header");
-    const minimize   = guestbook.querySelector(".gb-minimize");
-    const gbMessages = document.getElementById("gbMessages");
-    const gbText     = document.getElementById("gbText");
-    const gbSubmit   = document.getElementById("gbSubmit");
-
-    // find or create status div
-    let statusDiv = document.getElementById("status");
-    if (!statusDiv) {
-      statusDiv = document.createElement("div");
-      statusDiv.id = "status";
-      statusDiv.style.color = "red";
-      statusDiv.style.fontSize = "12px";
-      statusDiv.style.marginTop = "4px";
-      guestbook.querySelector(".gb-input").appendChild(statusDiv);
-    }
-
-    // ─── DRAGGING ────────────────────────────────────────────────
-    let dragging = false, offX = 0, offY = 0;
-    gbHeader.addEventListener("mousedown", e => {
-      if (e.target === minimize) return;
-      dragging = true;
-      const r = guestbook.getBoundingClientRect();
-      offX = e.clientX - r.left;
-      offY = e.clientY - r.top;
-      guestbook.style.cursor = "grabbing";
-    });
-    document.addEventListener("mousemove", e => {
-      if (!dragging) return;
-      guestbook.style.left   = `${e.clientX - offX}px`;
-      guestbook.style.top    = `${e.clientY - offY}px`;
-      guestbook.style.right  = "auto";
-      guestbook.style.bottom = "auto";
-    });
-    document.addEventListener("mouseup", () => {
-      dragging = false;
-      guestbook.style.cursor = "default";
-    });
-
-    // ─── MINIMIZE ────────────────────────────────────────────────
-    minimize.addEventListener("click", () => {
-      guestbook.classList.toggle("minimized");
-    });
-
-    // ─── LOAD MESSAGES ────────────────────────────────────────────
-    async function loadMessages() {
-      statusDiv.textContent = "Loading messages…";
-      try {
-        const res = await fetch(WORKER_URL, { method: "GET" });
-        if (!res.ok) throw new Error(`Worker GET failed: ${res.status}`);
-        const gist = await res.json();
-
-        const file = gist.files?.[GIST_FILENAME];
-        if (!file) throw new Error(`File "${GIST_FILENAME}" not found`);
-        const arr = JSON.parse(file.content || "[]");
-
-        if (arr.length === 0) {
-          gbMessages.innerHTML = `<div class="gb-message">No messages yet. Be the first!</div>`;
-        } else {
-          gbMessages.innerHTML = arr
-            .map(m => `<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`)
-            .join("");
-        }
-
-        gbMessages.scrollTop = gbMessages.scrollHeight;
-        statusDiv.textContent = "";
-      } catch (err) {
-        console.error("loadMessages error:", err);
-        statusDiv.textContent = `Error: ${err.message}`;
-        setTimeout(() => (statusDiv.textContent = ""), 3000);
-      }
-    }
-
-    // ─── SAVE NEW MESSAGE ────────────────────────────────────────
-    async function saveMessage() {
-      const text = gbText.value.trim();
-      if (!text) return;
-
-      gbSubmit.disabled = true;
-      statusDiv.textContent = "Posting message…";
-
-      try {
-        const res = await fetch(WORKER_URL, {
-          method:  "POST",
-          headers: { "Content-Type": "application/json" },
-          body:    JSON.stringify({ text })
-        });
-        if (!res.ok) throw new Error(`Worker POST failed: ${res.status}`);
-
-        gbText.value = "";
-        await loadMessages();
-      } catch (err) {
-        console.error("saveMessage error:", err);
-        statusDiv.textContent = `Error: ${err.message}`;
-      } finally {
-        gbSubmit.disabled = false;
-        setTimeout(() => (statusDiv.textContent = ""), 3000);
-      }
-    }
-
-    // ─── EVENTS & INIT ──────────────────────────────────────────
-    gbSubmit.addEventListener("click", saveMessage);
-    gbText.addEventListener("keydown", e => {
-      if (e.key === "Enter") saveMessage();
-    });
-
-    loadMessages();
-  });
-</script>
+     
 
 
-
-  
 
   <div class="marquee">
     <div class="marquee-text">NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25</div>
@@ -506,5 +408,138 @@
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
   </script>
+  
+  
+<script type="module">
+  // 1) Import everything you need exactly once
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import {
+    getDatabase,
+    ref,
+    push,
+    query,
+    orderByChild,
+    onChildAdded
+  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+  // 2) Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFUmElnuRTT0Ibv9yrs-evnHM74iH_Biw",
+    authDomain: "l8-guestbook.firebaseapp.com",
+    databaseURL: "https://l8-guestbook-default-rtdb.firebaseio.com",
+    projectId: "l8-guestbook",
+    storageBucket: "l8-guestbook.firebasestorage.app",
+    messagingSenderId: "917726834255",
+    appId: "1:917726834255:web:67ccde2898edf876d9c43a",
+    measurementId: "G-DV3X7Y672C"
+  };
+
+  // 3) Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db  = getDatabase(app);
+  const guestbookRef = ref(db, 'guestbook');
+  const orderedRef   = query(guestbookRef, orderByChild('ts'));
+
+  // 4) Element refs
+  const messagesEl = document.getElementById('gbMessages');
+  const inputEl    = document.getElementById('gbText');
+  const submitBtn  = document.getElementById('gbSubmit');
+  
+  inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submitBtn.click();
+  }
+});
+
+  // 5) Date formatter
+  function formatDate(ts) {
+    const d   = new Date(ts);
+    const m   = d.getMonth() + 1;
+    const day = d.getDate();
+    const yy  = String(d.getFullYear()).slice(-2);
+    return `${m}/${day}/${yy}`;
+  }
+
+  // 6) Single listener for both normal & admin messages
+onChildAdded(orderedRef, snap => {
+  const { text, ts, admin } = snap.val();
+  const div = document.createElement('div');
+  div.className = 'gb-message';
+
+  if (admin) {
+    // ADMIN: message [date]
+    div.innerHTML = `
+      <span class="gb-admin-label">UPDATE:</span>
+      ${text}
+      <span class="gb-date">[${formatDate(ts)}]</span>
+    `;
+  } else {
+    // Normal users: [date]: message
+    div.innerHTML = `<strong>[${formatDate(ts)}]:</strong> ${text}`;
+  }
+
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+});
+
+
+  // 7) Submit new messages
+const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
+
+submitBtn.addEventListener('click', e => {
+  e.preventDefault();
+  const txt = inputEl.value.trim();
+  if (!txt) return;
+  push(guestbookRef, {
+    text:  txt,
+    ts:    Date.now(),
+    admin: isAdmin
+  });
+  inputEl.value = '';
+});
+</script>
+
+  <script>
+  // 0) Grab your elements
+  const guestbook    = document.getElementById('guestbook');
+  const gbHeader     = guestbook.querySelector('.gb-header');
+  const minimizeBtn  = guestbook.querySelector('.gb-minimize');
+
+  // ─── DRAGGING ────────────────────────────────────────────────
+  let isDragging = false, offsetX = 0, offsetY = 0;
+
+  gbHeader.addEventListener('mousedown', e => {
+    // don’t start drag when clicking the minimize button
+    if (e.target === minimizeBtn) return;
+    isDragging = true;
+    const rect = guestbook.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    guestbook.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    guestbook.style.left   = `${e.clientX - offsetX}px`;
+    guestbook.style.top    = `${e.clientY - offsetY}px`;
+    guestbook.style.right  = 'auto';
+    guestbook.style.bottom = 'auto';
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    guestbook.style.cursor = 'default';
+  });
+
+  // ─── MINIMIZE ────────────────────────────────────────────────
+  minimizeBtn.addEventListener('click', () => {
+    guestbook.classList.toggle('minimized');
+  });
+</script>
+
+ 
+
 </body>
 </html>
