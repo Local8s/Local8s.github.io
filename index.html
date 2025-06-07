@@ -322,20 +322,24 @@ async function loadMessages() {
   
 async function saveMessage() {
   const text = gbText.value.trim();
-  
-  if (text) {
-    try {
-      // [Your existing save code...]
-      
+  if (!text) return;
+
+  try {
+    const response = await fetch('/.netlify/functions/save-message', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+
+    if (response.ok) {
       gbText.value = '';
-      loadMessages().then(() => {
-        // Double ensure scroll after load completes
-        gbMessages.scrollTop = gbMessages.scrollHeight;
-      });
-      
-    } catch (e) {
-      alert("Failed to save. Try again later!");
+      loadMessages();
+      alert("Message saved!");
+    } else {
+      throw new Error(await response.text());
     }
+  } catch (e) {
+    alert("Error saving: " + e.message);
   }
 }
   
