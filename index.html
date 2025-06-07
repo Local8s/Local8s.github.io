@@ -256,6 +256,7 @@
 </style>
 
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', async function() {
   console.log("Guestbook loaded");
   const gbMessages = document.getElementById('gbMessages');
@@ -265,47 +266,68 @@ document.addEventListener('DOMContentLoaded', async function() {
   const gbHeader = document.querySelector('.gb-header');
   const minimizeBtn = document.querySelector('.gb-minimize');
   
-  // [Previous dragging/minimize code remains the same...]
-
+  // Dragging functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+  
+  gbHeader.addEventListener('mousedown', function(e) {
+    if (e.target === minimizeBtn) return;
+    isDragging = true;
+    offsetX = e.clientX - guestbook.getBoundingClientRect().left;
+    offsetY = e.clientY - guestbook.getBoundingClientRect().top;
+    guestbook.style.cursor = 'grabbing';
+  });
+  
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    guestbook.style.left = `${e.clientX - offsetX}px`;
+    guestbook.style.top = `${e.clientY - offsetY}px`;
+    guestbook.style.right = 'auto';
+    guestbook.style.bottom = 'auto';
+  });
+  
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+    guestbook.style.cursor = 'default';
+  });
+  
+  // Minimize functionality
+  minimizeBtn.addEventListener('click', function() {
+    guestbook.classList.toggle('minimized');
+  });
+  
   // Message functions
   async function loadMessages() {
     try {
       console.log("Loading messages...");
-      // Use only ONE fetch call - choose either:
-      // Option 1: GitHub Pages URL
       const response = await fetch('https://local8s.github.io/data/comments.json');
-      
-      // OR Option 2: Raw GitHub URL (comment out the above line if using this)
-      // const response = await fetch('https://raw.githubusercontent.com/Local8s/Local8s.github.io/main/data/comments.json');
-      
       console.log("Response status:", response.status);
       
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) throw new Error(`Failed to load messages: ${response.status}`);
       
       const comments = await response.json();
       console.log("Received comments:", comments);
       
       if (!Array.isArray(comments)) {
-        throw new Error("Comments is not an array");
+        throw new Error("Invalid data format - expected array");
       }
       
       displayMessages(comments);
     } catch (e) {
       console.error("Error loading messages:", e);
-      // Fallback to localStorage
-      const localMessages = JSON.parse(localStorage.getItem('guestbook-messages') || [];
-      if (localMessages.length > 0) {
-        displayMessages(localMessages);
-      } else {
-        gbMessages.innerHTML = "No messages yet. Be the first!";
-      }
+      gbMessages.innerHTML = "No messages could be loaded. Try refreshing.";
     }
   }
 
   function displayMessages(messages) {
+    if (messages.length === 0) {
+      gbMessages.innerHTML = "No messages yet. Be the first!";
+      return;
+    }
+    
     gbMessages.innerHTML = messages.map(msg => `
       <div class="gb-message">
-        <strong>[${msg.date || new Date().toLocaleString()}]</strong>: ${msg.text}
+        <strong>[${msg.date || "No date"}]</strong>: ${msg.text || "No text"}
       </div>
     `).join('');
     gbMessages.scrollTop = gbMessages.scrollHeight;
@@ -316,22 +338,38 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (!text) return;
 
     try {
-      const messages = JSON.parse(localStorage.getItem('guestbook-messages') || '[]');
-      messages.push({
-        date: new Date().toLocaleString(),
-        text: text
+      // Create a new GitHub Issue with the message
+      const response = await fetch('https://api.github.com/repos/Local8s/Local8s.github.io/issues', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/vnd.github.v3+json',
+        },
+        body: JSON.stringify({ 
+          title: `New Message: ${new Date().toLocaleString()}`,
+          body: text 
+        })
       });
-      localStorage.setItem('guestbook-messages', JSON.stringify(messages));
-      
-      gbText.value = '';
-      displayMessages(messages);
+
+      if (response.ok) {
+        gbText.value = '';
+        alert("Message submitted! It will appear after approval.");
+        loadMessages(); // Refresh the messages
+      } else {
+        throw new Error(`Submission failed: ${response.status}`);
+      }
     } catch (e) {
       console.error("Save error:", e);
-      alert("Failed to save message");
+      alert("Failed to submit message. Please try again later.");
     }
   }
 
-  // [Rest of your event listeners remain the same...]
+  // Event listeners
+  gbSubmit.addEventListener('click', saveMessage);
+  gbText.addEventListener('keypress', e => {
+    if (e.key === 'Enter') saveMessage();
+  });
+  
+  // Initial load
   loadMessages();
 });
 </script>
