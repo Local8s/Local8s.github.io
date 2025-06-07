@@ -94,5 +94,50 @@
     right: 0 !important;
     margin: 0 auto;
   }
+/* SVG icons inside the button */
+.play-button svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Track display (name & time) */
+.display {
+  position: absolute;
+  top: 33.7%;
+  left: 13.4%;
+  width: 23%;
+  text-align: center;
+  color: #000;
+  opacity: 0.95;
+  font-family: monospace;
+  font-size: 8px;
+  font-weight: bold;
+  filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+}
+
+/* Glow effect (if you use it) */
+.glow {
+  color: #000;
+  text-shadow:
+    0 0 5px #bae190,
+    0 0 5px #bae190,
+    0 0 5px #bae190,
+    0 0 5px #bae190;
+}
+
+/* Now Playing GIF */
+#gif {
+  position: absolute;
+  top: 4.5%;
+  left: 10.5%;
+  width: 75%;
+  max-width: 150px;
+  display: none;
+  opacity: 0.98;
+}
+
+
+  
   }
 
