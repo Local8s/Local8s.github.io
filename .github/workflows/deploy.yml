@@ -1,0 +1,19 @@
+name: Build with Secrets
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Inject secrets
+        run: |
+          sed -i "s/__GIST_ID__/${{ secrets.GIST_ID }}/g" js/config.js
+          sed -i "s/__GH_TOKEN__/${{ secrets.GH_TOKEN }}/g" js/config.js
+          
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
