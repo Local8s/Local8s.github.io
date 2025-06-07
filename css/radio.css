@@ -89,8 +89,8 @@
   /* Expand the radio container to fill more space */
   .radio-container {
   position: fixed;
-    right: 36px;
-    bottom: 280px;  /* tweak as needed */
+    right: 20%;
+    bottom: 30%;  /* tweak as needed */
   }
   }
 
