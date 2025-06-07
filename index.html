@@ -1,10 +1,484 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+  <meta charset="UTF-8">
+  <title>404 - Local 8's Radio</title>
+  <style>
+    body {
+      background-image: url(https://walzr.com/gridnew.png);
+      background-size: 60px 60px;
+      background-color: #7f9c68;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .radio-container {
+      position: relative;
+      width: 500px;
+      opacity: 65%;
+      height: auto;
+    }
+
+    .radio-img {
+      width: 95%;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 51.2%;
+      left: 17.9%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .play-button svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .display {
+      position: absolute;
+      top: 33.7%;
+      left: 13.4%;
+      width: 23%;
+      text-align: center;
+      color: #000;
+      opacity: 95%;
+      font-family: monospace;
+      font-size: 15px;
+      font-weight: bold;
+      filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+    }
+
+    .glow {
+      color: #000000;
+      text-shadow:
+        0 0 5px #bae190,
+        0 0 5px #bae190,
+        0 0 5px #bae190,
+        0 0 5px #bae190;
+    }
+
+    #gif {
+      position: absolute;
+      top: 9.5%;
+      left: 15.5%;
+      width: 75%;
+      max-width: 150px;
+      display: none;
+      opacity: 98%;
+    }
+
+    .marquee {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.65);
+      opacity: 0%;
+      overflow: hidden;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+    }
+
+    .marquee-text {
+      white-space: nowrap;
+      display: inline-block;
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: bold;
+      color: #7f9c68;
+      padding-left: 100%;
+      animation: scroll-left 18s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Blinking pause button effect */
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    .playing #pause-icon {
+      animation: blink 1.8s infinite;
+    }
+    
+  </style>
 </head>
+
+<!-- START GUESTBOOK -->
+<div id="guestbook" class="pixel-guestbook">
+  <div class="gb-header">
+    <span>LEAVE A MESSAGE</span>
+    <button class="gb-minimize">-</button>
+  </div>
+  
+  <div class="gb-messages" id="gbMessages">
+    Loading messages...
+  </div>
+  
+  <div class="gb-input">
+    <div class="input-fields">
+      <input type="text" id="gbText" placeholder="Type your message..">
+    </div>
+    <button id="gbSubmit">SEND</button>
+  </div>
+</div>
+
+<style>
+  .pixel-guestbook {
+    position: fixed;
+    width: 250px;
+    height: 300px;
+    background: #7f9c68;
+    opacity: 0.65;
+    border: 2px solid #000;
+    bottom: 400px;
+    right: 36px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    font-family: monospace;
+  }
+  .gb-header {
+    background: #000;
+    color: #7f9c68;
+    padding: 8px 8px 8px 8px;
+    display: flex;
+    justify-content: space-between;
+    cursor: move;
+  }
+  .gb-messages {
+    flex-grow: 1;
+    padding: 6px;
+    overflow-y: auto;
+    font-size: 12px;
+    letter-spacing: -0.5px;
+    color: #000;
+    background: rgba(127, 156, 104, 0.6);
+  }
+  .gb-message {
+    margin-bottom: 4px;
+    border-bottom: 0px dotted #000;
+    padding-bottom: 6px;
+  }
+  .gb-input {
+    display: flex;
+    height: 25px;
+    gap: 18px;
+    padding: 5px;
+    border-top: 2px solid #000;
+  }
+  .input-fields {
+    flex-grow: 1;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  #gbText {
+    background: #000000;
+    color: #7f9c68;
+    border: 2px solid #7f9c68;
+    padding: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    width: 100%;
+  }
+  #gbText::placeholder {
+    color: #555;
+    opacity: 1;
+  }
+  #gbSubmit {
+    width: 50px;
+    height: 25px;
+    align-self: flex-end;
+    background: #000;
+    font-family: monospace;
+    font-weight: bold;
+    color: #7f9c68;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+  }
+  
+ .gb-minimize {
+  color: #7f9c68;       /* Text color (green) */
+  background: #000;     /* Background color (black) */
+  border: 0px solid #7f9c68; /* Green border */
+  font-family: monospace;
+
+  font-size: 14px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.gb-minimize:hover {
+  background: #222;     /* Darker background on hover */
+}
+  .pixel-guestbook.minimized {
+    height: 30px !important;
+  }
+  .pixel-guestbook.minimized .gb-messages,
+  .pixel-guestbook.minimized .gb-input {
+    display: none !important;
+  }
+  
+  .gb-messages {
+  scroll-behavior: ; /* Smooth scrolling */
+  overflow-anchor: auto; /* Prevents jumping when new messages load */
+}
+</style>
+
+<script>
+// REPLACE THESE TWO LINES WITH YOUR INFO:
+const GIST_ID = "5c3e7a48dbd5b88c9cb5f6bff7da2dce"; // Like "a1b2c3d4e5"
+const GIST_TOKEN = "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"; // Long random string
+
+document.addEventListener('DOMContentLoaded', async function() {
+  const gbMessages = document.getElementById('gbMessages');
+  const gbText = document.getElementById('gbText');
+  const gbSubmit = document.getElementById('gbSubmit');
+  const guestbook = document.getElementById('guestbook');
+  const gbHeader = document.querySelector('.gb-header');
+  const minimizeBtn = document.querySelector('.gb-minimize');
+  
+  // Dragging functionality
+  let isDragging = false;
+  let offsetX, offsetY;
+  
+  gbHeader.addEventListener('mousedown', function(e) {
+    if (e.target === minimizeBtn) return;
+    isDragging = true;
+    offsetX = e.clientX - guestbook.getBoundingClientRect().left;
+    offsetY = e.clientY - guestbook.getBoundingClientRect().top;
+    guestbook.style.cursor = 'grabbing';
+  });
+  
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    guestbook.style.left = `${e.clientX - offsetX}px`;
+    guestbook.style.top = `${e.clientY - offsetY}px`;
+    guestbook.style.right = 'auto';
+    guestbook.style.bottom = 'auto';
+  });
+  
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+    guestbook.style.cursor = 'default';
+  });
+  
+  // Minimize functionality
+  minimizeBtn.addEventListener('click', function() {
+    guestbook.classList.toggle('minimized');
+  });
+  
+  // Message functions
+async function loadMessages() {
+  try {
+    const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+    const data = await response.json();
+    const comments = JSON.parse(data.files['comments.json'].content);
+    
+    gbMessages.innerHTML = comments.map(msg => `
+      <div class="gb-message">
+        <strong>[${msg.date}]</strong>: ${msg.text}
+      </div>
+    `).join('');
+    
+    // Auto-scroll to bottom
+    gbMessages.scrollTop = gbMessages.scrollHeight;
+    
+  } catch (e) {
+    gbMessages.innerHTML = "Error loading messages. Try refreshing.";
+ 
+    }
+  }
+  
+async function saveMessage() {
+  const text = gbText.value.trim();
+  
+  if (text) {
+    try {
+      // [Your existing save code...]
+      
+      gbText.value = '';
+      loadMessages().then(() => {
+        // Double ensure scroll after load completes
+        gbMessages.scrollTop = gbMessages.scrollHeight;
+      });
+      
+    } catch (e) {
+      alert("Failed to save. Try again later!");
+    }
+  }
+}
+  
+  // Event listeners
+  gbSubmit.addEventListener('click', saveMessage);
+  gbText.addEventListener('keypress', e => {
+    if (e.key === 'Enter') saveMessage();
+  });
+  
+  // Initial load
+  loadMessages();
+});
+</script>  
+  
+  
+
+
+  
 <body>
-    <h1>Welcome to My GitHub Page!</h1>
-    <p>This is a free website hosted on GitHub Pages.</p>
+  <div class="marquee">
+    <div class="marquee-text">NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25</div>
+  </div>
+  
+  
+  <div class="radio-container">
+    <img src="https://static.wixstatic.com/media/19b7e6_0176280cb3fc479e9e52fcf6089e12ad~mv2.webp" alt="radio UI" class="radio-img">
+    <div class="display">
+      <div id="track-name">Loading...</div>
+      <div id="time">0:00</div>
+    </div>
+    <button class="play-button" id="playPauseBtn">
+      <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="37" height="37" fill="#7f9c68">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+      <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="37" height="37" fill="#7f9c68" style="display:none;">
+        <path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/>
+      </svg>
+    </button>
+    <audio id="audio" preload="none"></audio>
+    <img id="gif" src="https://u.cubeupload.com/1800HOTSOUP/musicalnotesv2.gif" />
+  </div>
+  
+  
+
+
+
+  <script>
+    document.title = "Local 8's Radio";
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const audio = document.getElementById('audio');
+    const trackName = document.getElementById('track-name');
+    const timeDisplay = document.getElementById('time');
+    const gif = document.getElementById('gif');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+
+    // Song list
+    const songs = [
+      {
+        src: 'https://static.wixstatic.com/mp3/19b7e6_da2dad670ecc409aba0bf39c13707fac.mp3',
+        name: 'L8s RADIO 98.1FM'
+      },
+      {
+        src: 'https://static.wixstatic.com/mp3/19b7e6_e5690f7bc1824ac1994578cf3c56934a.mp3',
+        name: 'L8s RADIO 97.7FM'
+      },
+      {
+        src: 'https://static.wixstatic.com/mp3/19b7e6_a2adbbf58f0848b6a90d7363b2c4e6ea.mp3',
+        name: 'L8s RADIO 104.3FM'
+      },
+      {
+        src: 'https://static.wixstatic.com/mp3/19b7e6_a7252ef1469042b486f58c47858914eb.mp3',
+        name: 'L8s RADIO 92.1FM'
+      },
+      {
+        src: 'https://static.wixstatic.com/mp3/19b7e6_73842fe6d4ad4d3b8e9391bc149aee38.mp3',
+        name: 'L8s RADIO 66.6FM'
+      }
+    ];
+
+    // Initialize player
+    function initPlayer() {
+      audio.volume = 0.7;
+      const randomSong = songs[Math.floor(Math.random() * songs.length)];
+      audio.src = randomSong.src;
+      trackName.textContent = randomSong.name;
+      
+      // Try autoplay (may be blocked by browser)
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(_ => {
+            // Autoplay worked
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+            gif.style.display = 'block';
+            playPauseBtn.classList.add('playing');
+            document.title = `▶ ${randomSong.name}`;
+          })
+          .catch(error => {
+            // Autoplay was prevented
+            console.log("Autoplay prevented, user interaction required");
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+          });
+      }
+    }
+
+    // Time display
+    function formatTime(sec) {
+      const minutes = Math.floor(sec / 60);
+      const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    }
+
+    function updateTime() {
+      timeDisplay.textContent = formatTime(audio.currentTime);
+    }
+
+    // Play/pause toggle
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+        gif.style.display = 'block';
+        playPauseBtn.classList.add('playing');
+        document.title = `▶ ${trackName.textContent}`;
+      } else {
+        audio.pause();
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+        gif.style.display = 'none';
+        playPauseBtn.classList.remove('playing');
+        document.title = "Local 8's Radio";
+      }
+    });
+
+    // Initialize when page loads
+    window.addEventListener('load', initPlayer);
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', updateTime);
+  </script>
 </body>
 </html>
