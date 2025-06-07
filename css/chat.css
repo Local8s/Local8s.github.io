@@ -133,14 +133,30 @@
 }
 
 
-/* Mobile adjustments */
 @media (max-width: 600px) {
-  /* Center the guestbook and make it full-width */
   .pixel-guestbook {
     width: 90% !important;
+    height: auto !important;
     left: 50% !important;
     right: auto !important;
     bottom: 10px !important;
-    transform: translateX(-50%);
+    transform: translateX(-50%) !important;
   }
+
+  /* (optional) tweak font-size inside for more space) */
+  .gb-header span {
+    font-size: 14px;
+  }
+  .gb-minimize {
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+  }
+  .gb-input {
+    height: 28px;
+  }
+  .gb-messages {
+    font-size: 11px;
+  }
+}
 
