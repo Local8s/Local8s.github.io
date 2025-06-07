@@ -346,62 +346,64 @@ document.addEventListener('DOMContentLoaded', async function() {
     gbMessages.scrollTop = gbMessages.scrollHeight;
   }
   
-  async function saveMessage() {
-    const text = gbText.value.trim();
-    if (!text) return;
+ async function saveMessage() {
+  const text = gbText.value.trim();
+  if (!text) return;
 
-    try {
-      gbSubmit.disabled = true;
-      statusDiv.textContent = "Posting message...";
-      
-      // 1. Get current Gist data
-      const gistResponse = await fetch(`https://api.github.com/gists/5c3e7a48dbd5b88c9cb5f6bff7da2dce`, {
-        headers: { Authorization: `token ${GITHUB_TOKEN}` }
-      });
-      const gistData = await gistResponse.json();
-      
-      // 2. Parse current messages
-      const currentContent = gistData.files[GIST_FILENAME].content;
-      const messages = JSON.parse(currentContent);
-      
-      // 3. Add new message
-      messages.push({
-        date: new Date().toLocaleString(),
-        text: text
-      });
-      
-      // 4. Update Gist
-      const updateResponse = await fetch(`https://api.github.com/gists/5c3e7a48dbd5b88c9cb5f6bff7da2dce`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `token ${GITHUB_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          files: {
-            [GIST_FILENAME]: {
-              content: JSON.stringify(messages, null, 2)
-            }
-          }
-        })
-      });
+  gbSubmit.disabled = true;
+  statusDiv.textContent = "Posting message…";
 
-      if (!updateResponse.ok) throw new Error("Failed to update Gist");
-      
-      // 5. Clear input and refresh
-      gbText.value = '';
-      statusDiv.textContent = "Message posted!";
-      setTimeout(() => statusDiv.textContent = "", 2000);
-      loadMessages();
-      
-    } catch (e) {
-      console.error("Error saving message:", e);
-      statusDiv.textContent = `Error: ${e.message}`;
-      setTimeout(() => statusDiv.textContent = "", 5000);
-    } finally {
-      gbSubmit.disabled = false;
+  const headers = {
+    Authorization: `Bearer ${GITHUB_TOKEN}`,
+    Accept:        "application/vnd.github.v3+json",
+    "Content-Type": "application/json"
+  };
+
+  try {
+    // 1) GET the current gist
+    const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
+    if (!getRes.ok) {
+      const e = await getRes.json().catch(() => ({}));
+      throw new Error(e.message || `Fetch failed: ${getRes.status}`);
     }
+    const gistData = await getRes.json();
+
+    // 2) Parse existing comments
+    const file    = gistData.files?.[GIST_FILENAME];
+    const current = file ? JSON.parse(file.content || "[]") : [];
+
+    // 3) Add the new message
+    current.push({ date: new Date().toLocaleString(), text });
+
+    // 4) PATCH the update back to GitHub
+    const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method:  "PATCH",
+      headers,
+      body:    JSON.stringify({
+        files: {
+          [GIST_FILENAME]: {
+            content: JSON.stringify(current, null, 2)
+          }
+        }
+      })
+    });
+    if (!patchRes.ok) {
+      const e = await patchRes.json().catch(() => ({}));
+      throw new Error(e.message || `Update failed: ${patchRes.status}`);
+    }
+
+    // 5) Success!
+    gbText.value = "";
+    await loadMessages();
+  } catch (err) {
+    console.error("saveMessage error:", err);
+    statusDiv.textContent = `Error: ${err.message}`;
+  } finally {
+    gbSubmit.disabled = false;
+    setTimeout(() => (statusDiv.textContent = ""), 3000);
   }
+}
+
   
   // Event listeners
   gbSubmit.addEventListener('click', saveMessage);
