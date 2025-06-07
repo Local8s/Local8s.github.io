@@ -255,7 +255,6 @@
 }
 </style>
 
-
 <script>
 document.addEventListener('DOMContentLoaded', async function() {
   console.log("Guestbook loaded");
@@ -299,11 +298,18 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Message functions
   async function loadMessages() {
     try {
-      // Use this URL format for GitHub Pages
-      const response = await fetch('https://local8s.github.io/data/comments.json');
-      if (!response.ok) throw new Error('Failed to load');
-      
+      console.log("Loading messages...");
       const response = await fetch('https://raw.githubusercontent.com/Local8s/Local8s.github.io/main/data/comments.json');
+      console.log("Response status:", response.status);
+      
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      
+      const comments = await response.json();
+      console.log("Received comments:", comments);
+      
+      if (!Array.isArray(comments)) {
+        throw new Error("Comments is not an array");
+      }
       
       gbMessages.innerHTML = comments.map(msg => `
         <div class="gb-message">
@@ -315,6 +321,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (e) {
       console.error("Error loading messages:", e);
       gbMessages.innerHTML = "No messages yet. Be the first!";
+      
+      // Fallback to localStorage if available
+      const localMessages = JSON.parse(localStorage.getItem('guestbook-messages') || '[]');
+      if (localMessages.length > 0) {
+        gbMessages.innerHTML = localMessages.map(msg => `
+          <div class="gb-message">
+            <strong>[${msg.date}]</strong>: ${msg.text}
+          </div>
+        `).join('');
+      }
     }
   }
   
@@ -323,25 +339,19 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (!text) return;
 
     try {
-      const response = await fetch('https://api.github.com/repos/Local8s/Local8s.github.io/issues', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/vnd.github.v3+json',
-        },
-        body: JSON.stringify({ 
-          title: `New Message: ${new Date().toLocaleString()}`,
-          body: text 
-        })
+      // Simple localStorage solution
+      const messages = JSON.parse(localStorage.getItem('guestbook-messages') || '[]');
+      messages.push({
+        date: new Date().toLocaleString(),
+        text: text
       });
-
-      if (response.ok) {
-        gbText.value = '';
-        alert("Message submitted for approval!");
-      } else {
-        throw new Error('Submission failed');
-      }
+      localStorage.setItem('guestbook-messages', JSON.stringify(messages));
+      
+      gbText.value = '';
+      alert("Message saved!");
+      loadMessages();
     } catch (e) {
-      alert("Failed to submit. Try again later.");
+      alert("Failed to save message");
       console.error(e);
     }
   }
@@ -355,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Initial load
   loadMessages();
 });
-</script>  
+</script>
   
   
 
