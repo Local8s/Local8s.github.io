@@ -313,6 +313,71 @@
         setTimeout(() => statusDiv.textContent = "", 5000);
       }
     }
+async function submitMessage() {
+  const text = gbText.value.trim();
+  if (!text) {
+    statusDiv.textContent = "Please enter a message";
+    return setTimeout(() => statusDiv.textContent = "", 2000);
+  }
+
+  gbSubmit.disabled = true;
+  statusDiv.textContent = "Posting your message…";
+
+  // build shared headers
+  const headers = {
+    "Authorization": `Bearer ${GITHUB_TOKEN}`,
+    "Accept":        "application/vnd.github.v3+json",
+    "Content-Type":  "application/json"
+  };
+
+  try {
+    // 1. Fetch the current gist (with auth)
+    const gistRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
+    if (!gistRes.ok) {
+      const err = await gistRes.json();
+      throw new Error(err.message || gistRes.statusText);
+    }
+    const gistData = await gistRes.json();
+
+    // 2. Parse out the existing messages
+    const raw = gistData.files?.[GIST_FILE]?.content || "[]";
+    const messages = JSON.parse(raw);
+
+    // 3. Append the new message
+    messages.push({
+      date: new Date().toLocaleString(),
+      text
+    });
+
+    // 4. PATCH the gist with the updated array
+    const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({
+        files: {
+          [GIST_FILE]: {
+            content: JSON.stringify(messages, null, 2)
+          }
+        }
+      })
+    });
+    if (!patchRes.ok) {
+      const err = await patchRes.json();
+      throw new Error(err.message || patchRes.statusText);
+    }
+
+    // 5. Success!
+    gbText.value = "";
+    statusDiv.textContent = "Message posted!";
+    loadMessages();              // refresh the list
+  } catch (err) {
+    console.error("Error submitting message:", err);
+    statusDiv.textContent = `Error: ${err.message}`;
+  } finally {
+    setTimeout(() => statusDiv.textContent = "", 3000);
+    gbSubmit.disabled = false;
+  }
+}
 
     // submitMessage() stays exactly the same, since PATCHing via the API still needs your token
     // …
