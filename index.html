@@ -303,49 +303,46 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
   
   // Message functions
-  async function loadMessages() {
-    try {
-      const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-        headers: { 'Accept': 'application/vnd.github.v3+json' }
-      });
-      
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-      
-      const data = await response.json();
-      const content = data.files['comments.json'].content;
-      const comments = JSON.parse(content || '[]');
-      
-      gbMessages.innerHTML = comments.map(msg => `
-        <div class="gb-message">
-          <strong>[${msg.date}]</strong>: ${msg.text}
-        </div>
-      `).join('') || "<div>No messages yet. Be the first!</div>";
-      
-      gbMessages.scrollTop = gbMessages.scrollHeight;
-      
-    } catch (e) {
-      console.error("Load error:", e);
-      gbMessages.innerHTML = `Error: ${e.message}`;
-    }
+async function loadMessages() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/Local8s/Local8s.github.io/main/data/comments.json');
+    const comments = await response.json();
+    
+    gbMessages.innerHTML = comments.map(msg => `
+      <div class="gb-message">
+        <strong>[${msg.date}]</strong>: ${msg.text}
+      </div>
+    `).join('');
+    
+    gbMessages.scrollTop = gbMessages.scrollHeight;
+  } catch (e) {
+    gbMessages.innerHTML = "Error loading messages. Try refreshing.";
   }
+}
   
 async function saveMessage() {
   const text = gbText.value.trim();
+  if (!text) return;
+
+  // Create a new GitHub Issue with the message
+  const issueTitle = `New Guestbook Entry: ${new Date().toLocaleString()}`;
+  const issueBody = `Message: ${text}`;
   
-  if (text) {
-    try {
-      // [Your existing save code...]
-      
-      gbText.value = '';
-      loadMessages().then(() => {
-        // Double ensure scroll after load completes
-        gbMessages.scrollTop = gbMessages.scrollHeight;
-      });
-      
-    } catch (e) {
-      alert("Failed to save. Try again later!");
-    }
+  const response = await fetch('https://api.github.com/repos/Local8s/Local8s.github.io/issues', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/vnd.github.v3+json',
+    },
+    body: JSON.stringify({ title: issueTitle, body: issueBody })
+  });
+
+  if (response.ok) {
+    gbText.value = '';
+    alert("Message submitted! It will appear after approval.");
+  } else {
+    alert("Failed to submit. Try again later.");
   }
+}
 }
   
   // Event listeners
