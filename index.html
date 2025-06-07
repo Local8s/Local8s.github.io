@@ -2,526 +2,295 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>404 - Local 8's Radio</title>
+  <title>Local 8's Radio & Guestbook</title>
   <style>
+    /* ─── PAGE BACKGROUND ───────────────────────────────────────── */
     body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       background-image: url(https://walzr.com/gridnew.png);
       background-size: 60px 60px;
       background-color: #7f9c68;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
+      font-family: monospace;
     }
 
+    /* ─── GUESTBOOK ─────────────────────────────────────────────── */
+    .pixel-guestbook {
+      position: fixed;
+      bottom: 400px;
+      right: 36px;
+      width: 250px;
+      height: 300px;
+      background: rgba(127,156,104,0.65);
+      border: 2px solid #000;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .pixel-guestbook.minimized { height: 30px; }
+    .pixel-guestbook.minimized .gb-messages,
+    .pixel-guestbook.minimized .gb-input { display: none; }
+
+    .gb-header {
+      background: #000;
+      color: #7f9c68;
+      padding: 8px;
+      display: flex;
+      justify-content: space-between;
+      cursor: move;
+      user-select: none;
+    }
+    .gb-minimize {
+      background: #000;
+      color: #7f9c68;
+      border: none;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .gb-minimize:hover { background: #222; }
+
+    .gb-messages {
+      flex-grow: 1;
+      padding: 6px;
+      overflow-y: auto;
+      background: rgba(127,156,104,0.6);
+      color: #000;
+      font-size: 12px;
+      letter-spacing: -0.5px;
+      scroll-behavior: smooth;
+    }
+    .gb-message { margin-bottom: 4px; }
+
+    .gb-input {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      border-top: 2px solid #000;
+      gap: 8px;
+    }
+    .gb-input input {
+      flex-grow: 1;
+      background: #000;
+      color: #7f9c68;
+      border: 2px solid #7f9c68;
+      padding: 4px;
+      font-size: 12px;
+    }
+    .gb-input button {
+      background: #000;
+      color: #7f9c68;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 10px;
+      width: 50px;
+      height: 25px;
+    }
+    #status {
+      color: red;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    /* ─── MARQUEE ──────────────────────────────────────────────── */
+    .marquee {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 25px;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      z-index: 1000;
+      filter: drop-shadow(1px 1px 0.5px rgba(0,0,0,0.5));
+    }
+    .marquee-text {
+      white-space: nowrap;
+      padding-left: 100%;
+      animation: scroll-left 18s linear infinite;
+      font-size: 12px;
+      font-weight: bold;
+      color: #7f9c68;
+    }
+    @keyframes scroll-left {
+      from { transform: translateX(0%); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ─── RADIO UI ─────────────────────────────────────────────── */
     .radio-container {
       position: relative;
       width: 500px;
-      opacity: 65%;
-      height: auto;
+      opacity: 0.65;
     }
-
-    .radio-img {
-      width: 95%;
-    }
-
-    .play-button {
-      position: absolute;
-      top: 51.2%;
-      left: 17.9%;
-      transform: translate(-50%, -50%);
-      width: 60px;
-      height: 60px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    }
-
-    .play-button svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
+    .radio-img { width: 95%; }
     .display {
       position: absolute;
       top: 33.7%;
       left: 13.4%;
       width: 23%;
       text-align: center;
-      color: #000;
-      opacity: 95%;
-      font-family: monospace;
       font-size: 15px;
       font-weight: bold;
-      filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+      color: #000;
+      filter: drop-shadow(1px 1px 0.5px rgba(0,0,0,0.5));
     }
-
-    .glow {
-      color: #000000;
-      text-shadow:
-        0 0 5px #bae190,
-        0 0 5px #bae190,
-        0 0 5px #bae190,
-        0 0 5px #bae190;
-    }
-
-    #gif {
+    #gif { 
       position: absolute;
       top: 9.5%;
       left: 15.5%;
       width: 75%;
       max-width: 150px;
       display: none;
-      opacity: 98%;
+      opacity: 0.98;
     }
-
-    .marquee {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.65);
-      opacity: 0%;
-      overflow: hidden;
-      height: 25px;
+    .play-button {
+      position: absolute;
+      top: 51.2%;
+      left: 17.9%;
+      transform: translate(-50%,-50%);
+      width: 60px; height: 60px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      z-index: 1000;
-      filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
+      justify-content: center;
     }
-
-    .marquee-text {
-      white-space: nowrap;
-      display: inline-block;
-      font-family: monospace;
-      font-size: 12px;
-      font-weight: bold;
-      color: #7f9c68;
-      padding-left: 100%;
-      animation: scroll-left 18s linear infinite;
-    }
-
-    @keyframes scroll-left {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-    /* Blinking pause button effect */
+    .playing #pause-icon { animation: blink 1.8s infinite; }
     @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
     }
-
-    .playing #pause-icon {
-      animation: blink 1.8s infinite;
-    }
-    
   </style>
 </head>
 
-<!-- START GUESTBOOK -->
-<div id="guestbook" class="pixel-guestbook">
-  <div class="gb-header">
-    <span>LEAVE A MESSAGE</span>
-    <button class="gb-minimize">-</button>
-  </div>
-  
-  <div class="gb-messages" id="gbMessages">
-    Loading messages...
-  </div>
-  
-  <div class="gb-input">
-    <div class="input-fields">
-      <input type="text" id="gbText" placeholder="Type your message..">
-    </div>
-    <button id="gbSubmit">SEND</button>
-  </div>
-</div>
-
-<style>
-  .pixel-guestbook {
-    position: fixed;
-    width: 250px;
-    height: 300px;
-    background: #7f9c68;
-    opacity: 0.65;
-    border: 2px solid #000;
-    bottom: 400px;
-    right: 36px;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
-    font-family: monospace;
-  }
-  .gb-header {
-    background: #000;
-    color: #7f9c68;
-    padding: 8px 8px 8px 8px;
-    display: flex;
-    justify-content: space-between;
-    cursor: move;
-  }
-  .gb-messages {
-    flex-grow: 1;
-    padding: 6px;
-    overflow-y: auto;
-    font-size: 12px;
-    letter-spacing: -0.5px;
-    color: #000;
-    background: rgba(127, 156, 104, 0.6);
-  }
-  .gb-message {
-    margin-bottom: 4px;
-    border-bottom: 0px dotted #000;
-    padding-bottom: 6px;
-  }
-  .gb-input {
-    display: flex;
-    height: 25px;
-    gap: 18px;
-    padding: 5px;
-    border-top: 2px solid #000;
-  }
-  .input-fields {
-    flex-grow: 1;
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  #gbText {
-    background: #000000;
-    color: #7f9c68;
-    border: 2px solid #7f9c68;
-    padding: 4px;
-    font-family: monospace;
-    font-size: 12px;
-    width: 100%;
-  }
-  #gbText::placeholder {
-    color: #555;
-    opacity: 1;
-  }
-  #gbSubmit {
-    width: 50px;
-    height: 25px;
-    align-self: flex-end;
-    background: #000;
-    font-family: monospace;
-    font-weight: bold;
-    color: #7f9c68;
-    border: none;
-    cursor: pointer;
-    font-size: 10px;
-  }
-  
- .gb-minimize {
-  color: #7f9c68;       /* Text color (green) */
-  background: #000;     /* Background color (black) */
-  border: 0px solid #7f9c68; /* Green border */
-  font-family: monospace;
-
-  font-size: 14px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.gb-minimize:hover {
-  background: #222;     /* Darker background on hover */
-}
-  .pixel-guestbook.minimized {
-    height: 30px !important;
-  }
-  .pixel-guestbook.minimized .gb-messages,
-  .pixel-guestbook.minimized .gb-input {
-    display: none !important;
-  }
-  
-  .gb-messages {
-  scroll-behavior: ; /* Smooth scrolling */
-  overflow-anchor: auto; /* Prevents jumping when new messages load */
-}
-</style>
-
-
-  <script>
-  // ─── CONFIGURATION (replace with your own) ───────────────────────
-  const GIST_ID    = "5c3e7a48dbd5b88c9cb5f6bff7da2dce";
-  const GIST_FILE  = "comments.json";
-  const GIST_TOKEN = "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";
-
-  document.addEventListener("DOMContentLoaded", function() {
-    // ─── ELEMENTS ─────────────────────────────────────────────────
-    const guestbook   = document.getElementById("guestbook");
-    const gbHeader    = guestbook.querySelector(".gb-header");
-    const minimizeBtn = guestbook.querySelector(".gb-minimize");
-    const gbMessages  = document.getElementById("gbMessages");
-    const gbText      = document.getElementById("gbText");
-    const gbSubmit    = document.getElementById("gbSubmit");
-
-    // ─── DRAGGING ─────────────────────────────────────────────────
-    let isDragging = false, offsetX = 0, offsetY = 0;
-    gbHeader.addEventListener("mousedown", e => {
-      if (e.target === minimizeBtn) return;  // don’t drag when clicking the “–”
-      isDragging = true;
-      const rect = guestbook.getBoundingClientRect();
-      offsetX = e.clientX - rect.left;
-      offsetY = e.clientY - rect.top;
-      guestbook.style.cursor = "grabbing";
-    });
-    document.addEventListener("mousemove", e => {
-      if (!isDragging) return;
-      guestbook.style.left   = `${e.clientX - offsetX}px`;
-      guestbook.style.top    = `${e.clientY - offsetY}px`;
-      guestbook.style.right  = "auto";
-      guestbook.style.bottom = "auto";
-    });
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-      guestbook.style.cursor = "default";
-    });
-
-    // ─── MINIMIZE / RESTORE ────────────────────────────────────────
-    minimizeBtn.addEventListener("click", () => {
-      guestbook.classList.toggle("minimized");
-    });
-
-    // ─── LOAD EXISTING MESSAGES ────────────────────────────────────
-    async function loadMessages() {
-      try {
-        const res  = await fetch(`https://api.github.com/gists/${GIST_ID}`);
-        if (!res.ok) throw new Error(`Load failed: ${res.status}`);
-        const data = await res.json();
-
-        const file = data.files?.[GIST_FILE];
-        if (!file) throw new Error(`File "${GIST_FILE}" not found`);
-        const comments = JSON.parse(file.content || "[]");
-
-        gbMessages.innerHTML = comments.map(msg => `
-          <div class="gb-message">
-            <strong>[${msg.date}]</strong>: ${msg.text}
-          </div>
-        `).join("");
-        gbMessages.scrollTop = gbMessages.scrollHeight;
-
-      } catch (err) {
-        console.error("loadMessages:", err);
-        gbMessages.innerHTML = `<div class="gb-message">Error loading messages. Try refreshing.</div>`;
-      }
-    }
-
-    // ─── SAVE A NEW MESSAGE ────────────────────────────────────────
-    async function saveMessage() {
-      const text = gbText.value.trim();
-      if (!text) return;
-
-      gbSubmit.disabled = true;
-
-      try {
-        // 1) fetch the current gist (with auth)
-        const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-          headers: {
-            "Authorization": `Bearer ${GIST_TOKEN}`,
-            "Accept":        "application/vnd.github.v3+json"
-          }
-        });
-        if (!getRes.ok) throw new Error(`Fetch error: ${getRes.status}`);
-        const gistData = await getRes.json();
-
-        // 2) parse out existing comments array
-        const file    = gistData.files?.[GIST_FILE];
-        const current = file ? JSON.parse(file.content || "[]") : [];
-        
-        // 3) append new message
-        current.push({
-          date: new Date().toLocaleString(),
-          text
-        });
-
-        // 4) PATCH it back
-        const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-          method: "PATCH",
-          headers: {
-            "Authorization": `Bearer ${GIST_TOKEN}`,
-            "Accept":        "application/vnd.github.v3+json",
-            "Content-Type":  "application/json"
-          },
-          body: JSON.stringify({
-            files: {
-              [GIST_FILE]: {
-                content: JSON.stringify(current, null, 2)
-              }
-            }
-          })
-        });
-        if (!patchRes.ok) throw new Error(`Update failed: ${patchRes.status}`);
-
-        // 5) on success, clear input & reload
-        gbText.value = "";
-        await loadMessages();
-
-      } catch (err) {
-        console.error("saveMessage:", err);
-        alert("Failed to save. Try again later!");
-      } finally {
-        gbSubmit.disabled = false;
-        gbText.focus();
-      }
-    }
-
-    // ─── HOOK UP EVENTS & INIT ────────────────────────────────────
-    gbSubmit.addEventListener("click", saveMessage);
-    gbText.addEventListener("keypress", e => { if (e.key === "Enter") saveMessage(); });
-    loadMessages();
-  });
-</script>
-
-  
-  
-  
-  
-  
-  
-
-
-  
 <body>
-  <div class="marquee">
-    <div class="marquee-text">NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25</div>
+  <!-- ─── GUESTBOOK ────────────────────────────────────────────── -->
+  <div id="guestbook" class="pixel-guestbook">
+    <div class="gb-header">
+      <span>LEAVE A MESSAGE</span>
+      <button class="gb-minimize">–</button>
+    </div>
+    <div id="gbMessages" class="gb-messages">
+      Loading messages…
+    </div>
+    <div class="gb-input">
+      <input id="gbText" placeholder="Type your message…" />
+      <button id="gbSubmit">SEND</button>
+    </div>
+    <div id="status"></div>
   </div>
-  
-  
+
+  <!-- ─── MARQUEE ──────────────────────────────────────────────── -->
+  <div class="marquee">
+    <div class="marquee-text">
+      NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25 • NEW STATION ADDED 5/17/25
+    </div>
+  </div>
+
+  <!-- ─── RADIO UI ─────────────────────────────────────────────── -->
   <div class="radio-container">
-    <img src="https://static.wixstatic.com/media/19b7e6_0176280cb3fc479e9e52fcf6089e12ad~mv2.webp" alt="radio UI" class="radio-img">
+    <img class="radio-img" src="https://static.wixstatic.com/media/19b7e6_0176280cb3fc479e9e52fcf6089e12ad~mv2.webp" alt="radio UI">
     <div class="display">
-      <div id="track-name">Loading...</div>
+      <div id="track-name">Loading…</div>
       <div id="time">0:00</div>
     </div>
     <button class="play-button" id="playPauseBtn">
-      <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="37" height="37" fill="#7f9c68">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-      <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="37" height="37" fill="#7f9c68" style="display:none;">
-        <path d="M6 19h4V5H6zm8-14v14h4V5h-4z"/>
-      </svg>
+      <svg id="play-icon" …>…</svg>
+      <svg id="pause-icon" style="display:none" …>…</svg>
     </button>
     <audio id="audio" preload="none"></audio>
     <img id="gif" src="https://u.cubeupload.com/1800HOTSOUP/musicalnotesv2.gif" />
   </div>
-  
-  
 
-
-
+  <!-- ─── GUESTBOOK SCRIPT ─────────────────────────────────────── -->
   <script>
-    document.title = "Local 8's Radio";
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const audio = document.getElementById('audio');
-    const trackName = document.getElementById('track-name');
-    const timeDisplay = document.getElementById('time');
-    const gif = document.getElementById('gif');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
+    // CONFIG — your own values here:
+    const GIST_ID    = "5c3e7a48dbd5b88c9cb5f6bff7da2dce";
+    const GIST_FILE  = "comments.json";
+    const GIST_TOKEN = "github_pat_11BRNS4NQ0WrkU…";  // truncated in example
 
-    // Song list
-    const songs = [
-      {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_da2dad670ecc409aba0bf39c13707fac.mp3',
-        name: 'L8s RADIO 98.1FM'
-      },
-      {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_e5690f7bc1824ac1994578cf3c56934a.mp3',
-        name: 'L8s RADIO 97.7FM'
-      },
-      {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_a2adbbf58f0848b6a90d7363b2c4e6ea.mp3',
-        name: 'L8s RADIO 104.3FM'
-      },
-      {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_a7252ef1469042b486f58c47858914eb.mp3',
-        name: 'L8s RADIO 92.1FM'
-      },
-      {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_73842fe6d4ad4d3b8e9391bc149aee38.mp3',
-        name: 'L8s RADIO 66.6FM'
+    document.addEventListener("DOMContentLoaded", () => {
+      const guestbook   = document.getElementById("guestbook");
+      const gbHeader    = guestbook.querySelector(".gb-header");
+      const minimizeBtn = guestbook.querySelector(".gb-minimize");
+      const gbMessages  = document.getElementById("gbMessages");
+      const gbText      = document.getElementById("gbText");
+      const gbSubmit    = document.getElementById("gbSubmit");
+      const statusDiv   = document.getElementById("status");
+
+      // DRAGGING
+      let dragging = false, offX=0, offY=0;
+      gbHeader.addEventListener("mousedown", e => {
+        if(e.target===minimizeBtn) return;
+        dragging = true;
+        const r = guestbook.getBoundingClientRect();
+        offX = e.clientX - r.left;
+        offY = e.clientY - r.top;
+        guestbook.style.cursor="grabbing";
+      });
+      document.addEventListener("mousemove", e=>{
+        if(!dragging) return;
+        guestbook.style.left  = (e.clientX-offX)+"px";
+        guestbook.style.top   = (e.clientY-offY)+"px";
+        guestbook.style.right = "auto";
+        guestbook.style.bottom= "auto";
+      });
+      document.addEventListener("mouseup", ()=>{
+        dragging=false;
+        guestbook.style.cursor="default";
+      });
+
+      // MINIMIZE
+      minimizeBtn.addEventListener("click", ()=>{
+        guestbook.classList.toggle("minimized");
+      });
+
+      // LOAD
+      async function loadMessages(){
+        try {
+          statusDiv.textContent = "";
+          const r = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+          if(!r.ok) throw new Error(r.statusText);
+          const data = await r.json();
+          const file = data.files?.[GIST_FILE];
+          if(!file) throw new Error(`File ${GIST_FILE} not found`);
+          const arr = JSON.parse(file.content||"[]");
+          gbMessages.innerHTML = arr.length
+            ? arr.map(m=>`<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`).join("")
+            : '<div class="gb-message">No messages yet.</div>';
+          gbMessages.scrollTop = gbMessages.scrollHeight;
+        } catch(err) {
+          console.error(err);
+          gbMessages.innerHTML = '<div class="gb-message">Error loading messages.</div>';
+        }
       }
-    ];
 
-    // Initialize player
-    function initPlayer() {
-      audio.volume = 0.7;
-      const randomSong = songs[Math.floor(Math.random() * songs.length)];
-      audio.src = randomSong.src;
-      trackName.textContent = randomSong.name;
-      
-      // Try autoplay (may be blocked by browser)
-      const playPromise = audio.play();
-      
-      if (playPromise !== undefined) {
-        playPromise
-          .then(_ => {
-            // Autoplay worked
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-            gif.style.display = 'block';
-            playPauseBtn.classList.add('playing');
-            document.title = `▶ ${randomSong.name}`;
-          })
-          .catch(error => {
-            // Autoplay was prevented
-            console.log("Autoplay prevented, user interaction required");
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
+      // SAVE
+      async function saveMessage(){
+        const text = gbText.value.trim();
+        if(!text) return;
+        gbSubmit.disabled=true;
+        statusDiv.textContent = "";
+        try {
+          // GET existing
+          const gr = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+            headers: {
+              "Authorization": `Bearer ${GIST_TOKEN}`,
+              "Accept":        "application/vnd.github.v3+json"
+            }
           });
-      }
-    }
-
-    // Time display
-    function formatTime(sec) {
-      const minutes = Math.floor(sec / 60);
-      const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
-      return `${minutes}:${seconds}`;
-    }
-
-    function updateTime() {
-      timeDisplay.textContent = formatTime(audio.currentTime);
-    }
-
-    // Play/pause toggle
-    playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playIcon.style.display = 'none';
-        pauseIcon.style.display = 'block';
-        gif.style.display = 'block';
-        playPauseBtn.classList.add('playing');
-        document.title = `▶ ${trackName.textContent}`;
-      } else {
-        audio.pause();
-        playIcon.style.display = 'block';
-        pauseIcon.style.display = 'none';
-        gif.style.display = 'none';
-        playPauseBtn.classList.remove('playing');
-        document.title = "Local 8's Radio";
-      }
-    });
-
-    // Initialize when page loads
-    window.addEventListener('load', initPlayer);
-    audio.addEventListener('timeupdate', updateTime);
-    audio.addEventListener('loadedmetadata', updateTime);
-  </script>
-</body>
-</html>
+          if(!gr.ok) throw new Error("Fetch error");
+          const gd = await gr.json();
+          const file = gd.files?.[GIST_FILE];
+          const arr  = file ? JSON.parse(file.content||"[]") : [];
+          arr.push({ date:new Date().toLocaleString(), text });
+          // PATCH back
+          const pr = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
