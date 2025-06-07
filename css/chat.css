@@ -25,6 +25,7 @@
   display: flex;
   justify-content: space-between;
   cursor: move;
+  touch-action: none;
 }
 
 .gb-minimize {
