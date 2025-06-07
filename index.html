@@ -256,8 +256,11 @@
 </style>
 
 <script>
+// REPLACE THESE TWO LINES WITH YOUR INFO:
+const GIST_ID = "4af66ed3b18ec54ebf0a7faa462329aa"; // Like "a1b2c3d4e5"
+const GIST_TOKEN = "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"; // Long random string
+
 document.addEventListener('DOMContentLoaded', async function() {
-  console.log("Guestbook loaded");
   const gbMessages = document.getElementById('gbMessages');
   const gbText = document.getElementById('gbText');
   const gbSubmit = document.getElementById('gbSubmit');
@@ -296,72 +299,46 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
   
   // Message functions
-  async function loadMessages() {
-    try {
-      console.log("Loading messages...");
-      const response = await fetch('https://local8s.github.io/data/comments.json');
-      console.log("Response status:", response.status);
-      
-      if (!response.ok) throw new Error(`Failed to load messages: ${response.status}`);
-      
-      const comments = await response.json();
-      console.log("Received comments:", comments);
-      
-      if (!Array.isArray(comments)) {
-        throw new Error("Invalid data format - expected array");
-      }
-      
-      displayMessages(comments);
-    } catch (e) {
-      console.error("Error loading messages:", e);
-      gbMessages.innerHTML = "No messages could be loaded. Try refreshing.";
-    }
-  }
-
-  function displayMessages(messages) {
-    if (messages.length === 0) {
-      gbMessages.innerHTML = "No messages yet. Be the first!";
-      return;
-    }
+async function loadMessages() {
+  try {
+    const response = await fetch(`https://api.github.com/gists/${4af66ed3b18ec54ebf0a7faa462329aa}`);
+    const data = await response.json();
+    const comments = JSON.parse(data.files['comments.json'].content);
     
-    gbMessages.innerHTML = messages.map(msg => `
+    gbMessages.innerHTML = comments.map(msg => `
       <div class="gb-message">
-        <strong>[${msg.date || "No date"}]</strong>: ${msg.text || "No text"}
+        <strong>[${msg.date}]</strong>: ${msg.text}
       </div>
     `).join('');
+    
+    // Auto-scroll to bottom
     gbMessages.scrollTop = gbMessages.scrollHeight;
-  }
-  
-  async function saveMessage() {
-    const text = gbText.value.trim();
-    if (!text) return;
-
-    try {
-      // Create a new GitHub Issue with the message
-      const response = await fetch('https://api.github.com/repos/Local8s/Local8s.github.io/issues', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/vnd.github.v3+json',
-        },
-        body: JSON.stringify({ 
-          title: `New Message: ${new Date().toLocaleString()}`,
-          body: text 
-        })
-      });
-
-      if (response.ok) {
-        gbText.value = '';
-        alert("Message submitted! It will appear after approval.");
-        loadMessages(); // Refresh the messages
-      } else {
-        throw new Error(`Submission failed: ${response.status}`);
-      }
-    } catch (e) {
-      console.error("Save error:", e);
-      alert("Failed to submit message. Please try again later.");
+    
+  } catch (e) {
+    gbMessages.innerHTML = "Error loading messages. Try refreshing.";
+ 
     }
   }
-
+  
+async function saveMessage() {
+  const text = gbText.value.trim();
+  
+  if (text) {
+    try {
+      // [Your existing save code...]
+      
+      gbText.value = '';
+      loadMessages().then(() => {
+        // Double ensure scroll after load completes
+        gbMessages.scrollTop = gbMessages.scrollHeight;
+      });
+      
+    } catch (e) {
+      alert("Failed to save. Try again later!");
+    }
+  }
+}
+  
   // Event listeners
   gbSubmit.addEventListener('click', saveMessage);
   gbText.addEventListener('keypress', e => {
@@ -371,9 +348,10 @@ document.addEventListener('DOMContentLoaded', async function() {
   // Initial load
   loadMessages();
 });
-</script>
+</script>  
   
   
+
 
   
 <body>
@@ -502,8 +480,5 @@ document.addEventListener('DOMContentLoaded', async function() {
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
   </script>
-
-
-  
 </body>
 </html>
