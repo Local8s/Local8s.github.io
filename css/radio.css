@@ -88,12 +88,13 @@
 @media (max-width: 600px) {
   /* Expand the radio container to fill more space */
   .radio-container {
-    width: 70% !important;
+    width: 75% !important;
     max-width: none !important;
     left: 0 !important;
     right: 0 !important;
     margin: 0 auto;
   }
+  
 /* SVG icons inside the button */
 .play-button svg {
   position: absolute;
@@ -114,16 +115,6 @@
   font-size: 8px;
   font-weight: bold;
   filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
-}
-
-/* Glow effect (if you use it) */
-.glow {
-  color: #000;
-  text-shadow:
-    0 0 5px #bae190,
-    0 0 5px #bae190,
-    0 0 5px #bae190,
-    0 0 5px #bae190;
 }
 
 /* Now Playing GIF */
