@@ -131,3 +131,16 @@
   font-size: 11px;
   margin-left: 4px;
 }
+
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  /* Center the guestbook and make it full-width */
+  .pixel-guestbook {
+    width: 90% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: 10px !important;
+    transform: translateX(-50%);
+  }
+
