@@ -129,6 +129,7 @@
     
   </style>
 </head>
+<body>
 
 <!-- START GUESTBOOK -->
 <div id="guestbook" class="pixel-guestbook">
@@ -256,96 +257,95 @@
 }
 </style>
 
+
+
 <script>
   // ─── CONFIGURATION ─────────────────────────────────────────────
-  const GIST_ID       = "ef5e3a7116b9bf56ee8f9376096dd5c7";  // your Gist ID
-  const GIST_FILENAME = "guestbook.json";                   // exact filename in that Gist
-  const GITHUB_TOKEN  = "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"; // your valid PAT with gist scope
+  const WORKER_URL    = "https://late-darkness-d0f2.local8sfm.workers.dev/";
+  const GIST_FILENAME = "guestbook.json";
 
   document.addEventListener("DOMContentLoaded", () => {
-    const gbMessages  = document.getElementById("gbMessages");
-    const gbText      = document.getElementById("gbText");
-    const gbSubmit    = document.getElementById("gbSubmit");
-    const guestbook   = document.getElementById("guestbook");
-    const gbHeader    = guestbook.querySelector(".gb-header");
-    const minimizeBtn = guestbook.querySelector(".gb-minimize");
-    const statusDiv   = document.createElement("div");
-    statusDiv.id      = "status";
-    statusDiv.style.color = "red";
-    statusDiv.style.fontSize = "12px";
-    statusDiv.style.marginTop = "4px";
-    guestbook.querySelector(".gb-input").appendChild(statusDiv);
+    // Grab your elements
+    const gbMessages = document.getElementById("gbMessages");
+    const gbText     = document.getElementById("gbText");
+    const gbSubmit   = document.getElementById("gbSubmit");
 
-    // ─── DRAG & MINIMIZE ────────────────────────────────────────
-    let dragging = false, offX=0, offY=0;
-    gbHeader.addEventListener("mousedown", e => {
-      if (e.target === minimizeBtn) return;
-      dragging = true;
-      const r = guestbook.getBoundingClientRect();
-      offX = e.clientX - r.left;
-      offY = e.clientY - r.top;
-      guestbook.style.cursor = "grabbing";
-    });
-    document.addEventListener("mousemove", e => {
-      if (!dragging) return;
-      guestbook.style.left  = (e.clientX-offX)+"px";
-      guestbook.style.top   = (e.clientY-offY)+"px";
-      guestbook.style.right = "auto";
-      guestbook.style.bottom= "auto";
-    });
-    document.addEventListener("mouseup", () => {
-      dragging = false;
-      guestbook.style.cursor = "default";
-    });
-    minimizeBtn.addEventListener("click", () => {
-      guestbook.classList.toggle("minimized");
+    // Create or find a status div for errors/loading
+    let statusDiv = document.getElementById("status");
+    if (!statusDiv) {
+      statusDiv = document.createElement("div");
+      statusDiv.id = "status";
+      statusDiv.style.color = "red";
+      statusDiv.style.fontSize = "12px";
+      statusDiv.style.marginTop = "4px";
+      document.querySelector(".gb-input").appendChild(statusDiv);
+    }
+
+    // ─── LOAD MESSAGES ────────────────────────────────────────────
+    async function loadMessages() {
+      statusDiv.textContent = "Loading messages…";
+      try {
+        const res = await fetch(WORKER_URL, { method: "GET" });
+        if (!res.ok) throw new Error(`Worker GET failed: ${res.status}`);
+        const gist = await res.json();
+
+        // Pull out your file
+        const file = gist.files?.[GIST_FILENAME];
+        if (!file) throw new Error(`File "${GIST_FILENAME}" not found`);
+        const arr = JSON.parse(file.content || "[]");
+
+        // Render
+        if (arr.length === 0) {
+          gbMessages.innerHTML = `<div class="gb-message">No messages yet. Be the first!</div>`;
+        } else {
+          gbMessages.innerHTML = arr
+            .map(m => `<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`)
+            .join("");
+        }
+        gbMessages.scrollTop = gbMessages.scrollHeight;
+        statusDiv.textContent = "";
+      } catch (err) {
+        console.error("loadMessages error:", err);
+        statusDiv.textContent = `Error: ${err.message}`;
+        setTimeout(() => (statusDiv.textContent = ""), 3000);
+      }
+    }
+
+    // ─── SAVE A NEW MESSAGE ────────────────────────────────────────
+    async function saveMessage() {
+      const text = gbText.value.trim();
+      if (!text) return;
+
+      gbSubmit.disabled = true;
+      statusDiv.textContent = "Posting message…";
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body:    JSON.stringify({ text })
+        });
+        if (!res.ok) throw new Error(`Worker POST failed: ${res.status}`);
+
+        gbText.value = "";
+        await loadMessages();
+      } catch (err) {
+        console.error("saveMessage error:", err);
+        statusDiv.textContent = `Error: ${err.message}`;
+      } finally {
+        gbSubmit.disabled = false;
+        setTimeout(() => (statusDiv.textContent = ""), 3000);
+      }
+    }
+
+    // ─── HOOK UP EVENTS & INITIAL LOAD ────────────────────────────
+    gbSubmit.addEventListener("click", saveMessage);
+    gbText.addEventListener("keydown", e => {
+      if (e.key === "Enter") saveMessage();
     });
 
-    // ─── FETCH + RENDER MESSAGES ────────────────────────────────
-  // ─── LOAD MESSAGES ─────────────────────────────────────────────
-async function loadMessages() {
-  statusDiv.textContent = 'Loading messages…';
-  try {
-    const res = await fetch(local8sfm.workers.dev, {
-      method: 'GET'
-    });
-    if (!res.ok) throw new Error(`Worker GET failed: ${res.status}`);
-    const gist = await res.json();
-    const arr = JSON.parse(gist.files[ GIST_FILENAME ].content || '[]');
-    // … render arr exactly as before …
-  } catch (err) {
-    console.error(err);
-    // … error UI …
-  } finally {
-    // … clear status …
-  }
-}
-
-// ─── SAVE MESSAGE ───────────────────────────────────────────────
-async function saveMessage() {
-  const text = gbText.value.trim();
-  if (!text) return;
-
-  gbSubmit.disabled = true;
-  statusDiv.textContent = 'Posting message…';
-
-  try {
-    const res = await fetch(local8sfm.workers.dev, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ text })
-    });
-    if (!res.ok) throw new Error(`Worker POST failed: ${res.status}`);
-    await loadMessages();
-  } catch (err) {
-    console.error(err);
-    statusDiv.textContent = `Error: ${err.message}`;
-  } finally {
-    gbSubmit.disabled = false;
-    setTimeout(() => (statusDiv.textContent = ''), 3000);
-  }
-}
-
+    loadMessages();
+  });
 </script>
 
 
