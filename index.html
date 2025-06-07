@@ -351,7 +351,14 @@ async function saveMessage() {
 </script>  
   
   
-
+<script src="js/config.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // Use the injected variables
+  console.log(GIST_ID, GIST_TOKEN); 
+  // ... rest of your guestbook code
+});
+</script>
 
   
 <body>
@@ -480,5 +487,8 @@ async function saveMessage() {
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
   </script>
+
+
+  
 </body>
 </html>
