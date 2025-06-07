@@ -255,12 +255,11 @@
 }
 </style>
 
+<script src="js/config.js"></script>
+  
 <script>
-// REPLACE THESE TWO LINES WITH YOUR INFO:
-const GIST_ID = "5c3e7a48dbd5b88c9cb5f6bff7da2dce"; // Like "a1b2c3d4e5"
-const GIST_TOKEN = "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"; // Long random string
-
 document.addEventListener('DOMContentLoaded', async function() {
+ console.log("Guestbook loaded with Gist ID:", GIST_ID ? "✅" : "❌");
   const gbMessages = document.getElementById('gbMessages');
   const gbText = document.getElementById('gbText');
   const gbSubmit = document.getElementById('gbSubmit');
@@ -351,14 +350,6 @@ async function saveMessage() {
 </script>  
   
   
-<script src="js/config.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  // Use the injected variables
-  console.log(GIST_ID, GIST_TOKEN); 
-  // ... rest of your guestbook code
-});
-</script>
 
   
 <body>
