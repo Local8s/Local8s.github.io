@@ -302,85 +302,50 @@
     });
 
     // ─── FETCH + RENDER MESSAGES ────────────────────────────────
-    async function loadMessages() {
-      statusDiv.textContent = "Loading messages…";
-      try {
-        const res = await fetch(
-          `https://api.github.com/gists/${GIST_ID}`,
-          { headers: {
-              "Authorization": `Bearer ${GITHUB_TOKEN}`,
-              "Accept":        "application/vnd.github.v3+json"
-          }}
-        );
-        if (!res.ok) throw new Error(`GET failed: ${res.status}`);
-        const gist = await res.json();
-        const file = gist.files?.[GIST_FILENAME];
-        if (!file) throw new Error(`File "${GIST_FILENAME}" not found`);
-        const arr = JSON.parse(file.content || "[]");
-        gbMessages.innerHTML = arr.length
-          ? arr.map(m=>`<div class="gb-message"><strong>[${m.date}]</strong>: ${m.text}</div>`).join("")
-          : `<div class="gb-message">No messages yet. Be the first!</div>`;
-        gbMessages.scrollTop = gbMessages.scrollHeight;
-      } catch (err) {
-        console.error("loadMessages error:", err);
-        gbMessages.innerHTML = `<div class="gb-message">Could not load messages.</div>`;
-        statusDiv.textContent = err.message;
-      } finally {
-        setTimeout(()=> statusDiv.textContent = "", 3000);
-      }
-    }
+  // ─── LOAD MESSAGES ─────────────────────────────────────────────
+async function loadMessages() {
+  statusDiv.textContent = 'Loading messages…';
+  try {
+    const res = await fetch(local8sfm.workers.dev, {
+      method: 'GET'
+    });
+    if (!res.ok) throw new Error(`Worker GET failed: ${res.status}`);
+    const gist = await res.json();
+    const arr = JSON.parse(gist.files[ GIST_FILENAME ].content || '[]');
+    // … render arr exactly as before …
+  } catch (err) {
+    console.error(err);
+    // … error UI …
+  } finally {
+    // … clear status …
+  }
+}
 
-    // ─── POST A NEW MESSAGE ──────────────────────────────────────
-    async function saveMessage() {
-      const text = gbText.value.trim();
-      if (!text) return;
-      gbSubmit.disabled = true;
-      statusDiv.textContent = "Posting message…";
+// ─── SAVE MESSAGE ───────────────────────────────────────────────
+async function saveMessage() {
+  const text = gbText.value.trim();
+  if (!text) return;
 
-      const headers = {
-        "Authorization": `Bearer ${GITHUB_TOKEN}`,
-        "Accept":        "application/vnd.github.v3+json",
-        "Content-Type":  "application/json"
-      };
+  gbSubmit.disabled = true;
+  statusDiv.textContent = 'Posting message…';
 
-      try {
-        // fetch current
-        const getRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
-        if (!getRes.ok) {
-          const e = await getRes.json().catch(()=>({}));
-          throw new Error(e.message||`GET failed: ${getRes.status}`);
-        }
-        const gistData = await getRes.json();
-        const file     = gistData.files?.[GIST_FILENAME];
-        const current  = file ? JSON.parse(file.content||"[]") : [];
-        // append
-        current.push({ date:new Date().toLocaleString(), text });
-        // patch back
-        const patchRes = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-          method: "PATCH",
-          headers,
-          body: JSON.stringify({ files:{ [GIST_FILENAME]:{ content:JSON.stringify(current,null,2) } } })
-        });
-        if (!patchRes.ok) {
-          const e = await patchRes.json().catch(()=>({}));
-          throw new Error(e.message||`PATCH failed: ${patchRes.status}`);
-        }
-        // done
-        gbText.value = "";
-        await loadMessages();
-      } catch (err) {
-        console.error("saveMessage error:", err);
-        statusDiv.textContent = `Error: ${err.message}`;
-      } finally {
-        gbSubmit.disabled = false;
-        setTimeout(()=> statusDiv.textContent = "", 3000);
-      }
-    }
+  try {
+    const res = await fetch(local8sfm.workers.dev, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ text })
+    });
+    if (!res.ok) throw new Error(`Worker POST failed: ${res.status}`);
+    await loadMessages();
+  } catch (err) {
+    console.error(err);
+    statusDiv.textContent = `Error: ${err.message}`;
+  } finally {
+    gbSubmit.disabled = false;
+    setTimeout(() => (statusDiv.textContent = ''), 3000);
+  }
+}
 
-    gbSubmit.addEventListener("click", saveMessage);
-    gbText.addEventListener("keypress", e=>{ if(e.key==="Enter") saveMessage(); });
-    loadMessages();
-  });
 </script>
 
 
