@@ -58,7 +58,7 @@ onChildAdded(orderedRef, snap => {
   if (admin) {
     // ADMIN: message [date]
     div.innerHTML = `
-      <span class="gb-admin-label">UPDATE:</span>
+      <span class="gb-admin-label">MODERATOR:</span>
       ${text}
       <span class="gb-date">[${formatDate(ts)}]</span>
     `;
