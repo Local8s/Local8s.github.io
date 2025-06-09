@@ -14,8 +14,8 @@
 /* Play/Pause Button */
 .play-button {
   position: absolute;
-  top: 49%;
-  left: 15%;
+  top: 50%;
+  left: 15.2%;
   transform: translate(-50%, -50%);
   
   /* let it scale to 10% of viewport width, but no larger than 60px */
