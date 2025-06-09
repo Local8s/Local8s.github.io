@@ -48,6 +48,7 @@
   padding: 6px;
   overflow-y: auto;
   font-size: 12px;
+  line-height: 20px;
   letter-spacing: -0.5px;
   color: #000;
   background: rgba(127, 156, 104, 0.6);
@@ -83,6 +84,7 @@
   color: #7f9c68;
   border: 2px solid #7f9c68;
   padding: 4px;
+  line-height: 20px;
   font-family: monospace;
   font-size: 12px;
   letter-spacing: -0.5px;
