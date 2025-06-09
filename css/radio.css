@@ -14,7 +14,7 @@
 /* Play/Pause Button */
 .play-button {
   position: absolute;
-  top: 51%;
+  top: 48%;
   left: 16%;
   transform: translate(-50%, -50%);
   
