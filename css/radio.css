@@ -14,7 +14,7 @@
 /* Play/Pause Button */
 .play-button {
   position: absolute;
-  top: 49.4%;
+  top: 49.5%;
   left: 15.3%;
   transform: translate(-50%, -50%);
   
@@ -112,7 +112,7 @@
     max-height: 30px;
 
     /* adjust its location if you like */
-    top: 51.3%;
+    top: 51.4%;
     left: 16%;
   }
 
@@ -126,7 +126,7 @@
     max-height: 28px;
 
     /* adjust its location if you like */
-    top: 49.8%;
+    top: 49.9%;
     left: 15%;
   }
 
