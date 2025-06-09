@@ -8,7 +8,7 @@ html, body {
 }
 body {
   background-image: url(https://walzr.com/gridnew.png);
-  background-size:100px 100px;
+  background-size: 80px 80px;
   background-color: #7f9c68;
   display: flex;
   justify-content: center;
