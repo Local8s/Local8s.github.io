@@ -14,7 +14,7 @@
 /* Play/Pause Button */
 .play-button {
   position: absolute;
-  top: 49.2%;
+  top: 49.3%;
   left: 15.3%;
   transform: translate(-50%, -50%);
   
@@ -112,7 +112,7 @@
     max-height: 30px;
 
     /* adjust its location if you like */
-    top: 51%;
+    top: 51.2%;
     left: 16%;
   }
 
@@ -122,11 +122,11 @@
     /* e.g. bump up to 12vw on tiny screens, capped at 50px */
     width: 12vw;
     height: 12vw;
-    max-width: 25px;
-    max-height: 25px;
+    max-width: 28px;
+    max-height: 28px;
 
     /* adjust its location if you like */
-    top: 48%;
+    top: 50%;
     left: 15%;
   }
 
