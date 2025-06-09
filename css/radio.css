@@ -108,8 +108,8 @@
     /* e.g. bump up to 12vw on tiny screens, capped at 50px */
     width: 12vw;
     height: 12vw;
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 30px;
+    max-height: 30px;
 
     /* adjust its location if you like */
     top: 50%;
