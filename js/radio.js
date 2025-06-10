@@ -80,7 +80,6 @@ function initPlayer() {
         playPauseBtn.click();
       }
     });
-  });
 
 
     // Play/pause toggle
