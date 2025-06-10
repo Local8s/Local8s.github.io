@@ -46,6 +46,7 @@
 .gb-messages {
   flex-grow: 1;
   padding: 6px;
+  margin-top: 8px;
   overflow-y: auto;
   font-size: 12px;
   line-height: 16px;
@@ -58,8 +59,8 @@
 /* Individual message */
 .gb-message {
   margin-bottom: 4px;
-  padding-bottom: 6px;
-  border-bottom: 0px dotted #000;
+  padding-bottom: 4px;
+  border-bottom: 1px dotted #000;
 }
 
 /* Input area */
