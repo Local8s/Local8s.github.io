@@ -46,7 +46,7 @@
 .gb-messages {
   flex-grow: 1;
   padding: 6px;
-  margin-top: 8px;
+  margin-top: 2px;
   overflow-y: auto;
   font-size: 12px;
   line-height: 16px;
