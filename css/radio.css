@@ -19,8 +19,8 @@
   transform: translate(-50%, -50%);
   
   /* let it scale to 10% of viewport width, but no larger than 60px */
-  width: 40vw;
-  height: 40vw;
+  width: 35vw;
+  height: 35vw;
   max-width: 48px;
   max-height: 48px;
   
