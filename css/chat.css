@@ -27,14 +27,6 @@
   cursor: move;
   touch-action: none;
 }
-
-.gb-messages .gb-message:nth-child(odd) {
-  background: rgba(127, 156, 104, 0.6);
-}
-.gb-messages .gb-message:nth-child(even) {
-  background: rgba(127, 156, 104, 0.3);
-}
-
 .gb-minimize {
   color: #7f9c68;
   background: #000;
@@ -58,15 +50,21 @@
   line-height: 16px;
   letter-spacing: -0.5px;
   color: #000;
-  background: rgba(127, 156, 104, 0.6);
   overflow-anchor: auto;
+}
+
+.gb-messages .gb-message:nth-child(odd) {
+  background: rgba(127, 156, 104, 0.6);
+}
+.gb-messages .gb-message:nth-child(even) {
+  background: rgba(127, 156, 104, 0.3);
 }
 
 /* Individual message */
 .gb-message {
   margin-bottom: 4px;
   padding-bottom: 4px;
-  border-bottom: 1px solid #000;
+  border-bottom: 0px solid #000;
 }
 
 /* Input area */
