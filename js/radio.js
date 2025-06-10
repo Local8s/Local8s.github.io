@@ -32,33 +32,36 @@
     ];
 
     // Initialize player
-    function initPlayer() {
-      audio.volume = 0.7;
-      const randomSong = songs[Math.floor(Math.random() * songs.length)];
-      audio.src = randomSong.src;
-      trackName.textContent = randomSong.name;
-      
-      // Try autoplay (may be blocked by browser)
-      const playPromise = audio.play();
-      
-      if (playPromise !== undefined) {
-        playPromise
-          .then(_ => {
-            // Autoplay worked
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-            gif.style.display = 'block';
-            playPauseBtn.classList.add('playing');
-            document.title = `▶ ${randomSong.name}`;
-          })
-          .catch(error => {
-            // Autoplay was prevented
-            console.log("Autoplay prevented, user interaction required");
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-          });
-      }
+function initPlayer() {
+  audio.volume = 0.7;
+  const randomSong = songs[Math.floor(Math.random() * songs.length)];
+  audio.src = randomSong.src;
+  trackName.textContent = randomSong.name;
+
+  // Delay autoplay by 3000 ms (3 seconds)
+  setTimeout(() => {
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(_ => {
+          // Autoplay worked
+          playIcon.style.display = 'none';
+          pauseIcon.style.display = 'block';
+          gif.style.display = 'block';
+          playPauseBtn.classList.add('playing');
+          document.title = `▶ ${randomSong.name}`;
+        })
+        .catch(err => {
+          // Autoplay was prevented
+          console.log("Autoplay prevented, user interaction required");
+          playIcon.style.display = 'block';
+          pauseIcon.style.display = 'none';
+        });
     }
+  }, 3000);  // ← 3 second delay
+}
+
 
     // Time display
     function formatTime(sec) {
