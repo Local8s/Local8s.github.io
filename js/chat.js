@@ -59,7 +59,7 @@ onChildAdded(orderedRef, snap => {
     // ADMIN: message [date]
     div.innerHTML = `
       <span class="gb-admin-label">MODERATOR:</span>
-      <strong>${text}</strong>
+      ${text}
     `;
   } else {
     // Normal users: [date]: message
