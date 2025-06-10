@@ -74,6 +74,15 @@ function initPlayer() {
       timeDisplay.textContent = formatTime(audio.currentTime);
     }
 
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        playPauseBtn.click();
+      }
+    });
+  });
+
+
     // Play/pause toggle
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
