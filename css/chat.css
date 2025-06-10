@@ -50,14 +50,8 @@
   line-height: 16px;
   letter-spacing: -0.5px;
   color: #000;
-  overflow-anchor: auto;
-}
-
-.gb-messages .gb-message:nth-child(odd) {
   background: rgba(127, 156, 104, 0.6);
-}
-.gb-messages .gb-message:nth-child(even) {
-  background: rgba(127, 156, 104, 0.3);
+  overflow-anchor: auto;
 }
 
 /* Individual message */
