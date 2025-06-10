@@ -63,7 +63,7 @@ onChildAdded(orderedRef, snap => {
     `;
   } else {
     // Normal users: [date]: message
-    div.innerHTML = `<strong>[${formatDate(ts)}]:</strong> ${text}`;
+    div.innerHTML = `<b>[${formatDate(ts)}]:</b> ${text}`;
   }
 
   messagesEl.appendChild(div);
