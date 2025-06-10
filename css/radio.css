@@ -21,8 +21,8 @@
   /* let it scale to 10% of viewport width, but no larger than 60px */
   width: 35vw;
   height: 35vw;
-  max-width: 48px;
-  max-height: 48px;
+  max-width: 45px;
+  max-height: 45px;
   
   border: none;
   background: transparent;
