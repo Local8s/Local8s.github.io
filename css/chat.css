@@ -58,7 +58,7 @@
 .gb-message {
   margin-bottom: 4px;
   padding-bottom: 4px;
-  border-bottom: 0px solid #000;
+  border-bottom: 0.5px solid #000;
 }
 
 /* Input area */
