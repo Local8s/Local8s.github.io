@@ -15,7 +15,7 @@
       },
        {
         src: 'https://static.wixstatic.com/mp3/19b7e6_ab35f2e69b894088b92972a7b3a5aa4d.mp3',
-        name: 'NEW! L8s RADIO 101.5FM'
+        name: 'L8s RADIO NEW! 101.5FM'
       },
       {
         src: 'https://static.wixstatic.com/mp3/19b7e6_e5690f7bc1824ac1994578cf3c56934a.mp3',
