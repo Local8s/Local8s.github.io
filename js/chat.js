@@ -91,3 +91,10 @@ function checkMobileAndMinimize() {
   }
 }
 
+// Prevent spacebar from triggering play/pause when typing in chat
+inputEl.addEventListener('keydown', function(e) {
+  if (e.key === ' ') {
+    e.stopPropagation(); // Prevent space from bubbling up to media players
+  }
+});
+
