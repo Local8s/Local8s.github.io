@@ -13,11 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare clean build folder
+        run: |
+          mkdir -p build
+          rsync -av \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='README.md' \
+            ./ build/
+
       - name: Deploy to Nekoweb
         uses: mp-pinheiro/nekoweb-deploy@main
         with:
           API_KEY: ${{ secrets.NEKOWEB_API_KEY }}
-          BUILD_DIR: './'
+          BUILD_DIR: './build'
           DEPLOY_DIR: '/'
           CLEANUP: 'False'
           DELAY: '0.5'
