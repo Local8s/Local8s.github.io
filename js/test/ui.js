@@ -34,6 +34,9 @@ gbHeader.addEventListener('pointerup', e => {
 minimizeBtn.addEventListener('click', () => {
   guestbook.classList.toggle('minimized');
 });
+
+// new 6/27
+
 function togglePopup(id) {
     const el = document.getElementById(id);
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
@@ -68,3 +71,5 @@ function togglePopup(id) {
       popup.style.cursor = 'move';
     });
   });
+
+
