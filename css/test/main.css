@@ -90,10 +90,9 @@ body {
     white-space: nowrap;
     display: inline-block;
     animation: scroll-left 10s linear infinite;
-    max-width: 300px;
+    max-width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 10px;
   }
 
   @keyframes scroll-left {
