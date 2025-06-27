@@ -34,3 +34,37 @@ gbHeader.addEventListener('pointerup', e => {
 minimizeBtn.addEventListener('click', () => {
   guestbook.classList.toggle('minimized');
 });
+function togglePopup(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function toggleGuestbook() {
+    const guestbook = document.getElementById('guestbook');
+    guestbook.classList.remove('minimized');
+  }
+
+  // Make popup draggable
+  document.querySelectorAll('.popup-box').forEach(popup => {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    popup.addEventListener('mousedown', e => {
+      isDragging = true;
+      offsetX = e.clientX - popup.offsetLeft;
+      offsetY = e.clientY - popup.offsetTop;
+      popup.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!isDragging) return;
+      popup.style.left = `${e.clientX - offsetX}px`;
+      popup.style.top = `${e.clientY - offsetY}px`;
+      popup.style.transform = 'none';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      popup.style.cursor = 'move';
+    });
+  });
