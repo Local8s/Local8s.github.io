@@ -88,7 +88,7 @@ body {
   .marquee-text {
     white-space: nowrap;
     display: inline-block;
-    animation: scroll-left 18s linear infinite;
+    animation: scroll-left 10s linear infinite;
     max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
