@@ -21,7 +21,7 @@ body {
     top: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.65);
-    height: 25px;
+    height: 12px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -30,7 +30,7 @@ body {
     font-weight: bold;
     color: #7f9c68;
     z-index: 1001;
-    padding: 8px 20px 8px 20px;
+    padding: 8px 8px 8px 8px;
   }
 
   .nav-left, .nav-right {
