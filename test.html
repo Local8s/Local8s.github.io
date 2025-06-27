@@ -13,9 +13,48 @@
 </head>
 <body>
 
-  <div class="marquee">
-    <div class="marquee-text">THIS IS A TEST !!! THIS IS A TEST !!! THIS IS A TEST</div>
+  <div class="nav-wrapper">
+  <div class="nav-left">
+    <div class="dropdown">
+      <span>FILE</span>
+      <div class="dropdown-content">
+        <div>Download</div>
+        <div>Upload</div>
+      </div>
+    </div>
+    <div class="dropdown">
+      <span>STATIONS</span>
+      <div class="dropdown-content">
+        <div>FM 98.1</div>
+        <div>FM 97.7</div>
+      </div>
+    </div>
+    <span style="cursor:pointer;" onclick="togglePopup('aboutPopup')">ABOUT</span>
+    <span style="cursor:pointer;" onclick="togglePopup('contactPopup')">CONTACT</span>
   </div>
+
+  <div class="marquee-text">
+    THIS IS A TEST !!! THIS IS A TEST !!!! THIS IS A TEST
+  </div>
+
+  <div class="nav-right">
+    <span style="cursor:pointer;" onclick="toggleGuestbook()">LEAVE A MESSAGE</span>
+  </div>
+</div>
+
+<div id="aboutPopup" class="popup-box">
+  <button onclick="togglePopup('aboutPopup')">X</button>
+  <p>Mod et dolor magnati atiur?
+Equi blant quiaepro ent que aliquis iur, sum que molorro blaboria as ipic tor sita cuptae il maioratendit expero culparcium volorepedite dolumquam andit odi quid et a consequid et lam aut quosa voloriorecus doluptam, soluptat mint, conseque in et aut quatiant, ommolo invende llaccat facerro maiora conet a iur?
+Ab inusam resto veliquiantin niatur, inctam fugit, nullupt asperum volessumquo evellaut as et id mo tem quas eumquid quam, quid exerspe ligenim intibus sundi to exped ut ulparibus plabor sam cus, que exerfera conectur, ipid magnim es am acepudaecae etur, sunt volorem assum hitis consequos ut eos venes erio. Sintur, ullecaecae et eum velendus volut hit remperionsed magniminci dolorib usamus, sitatur, cori ratiunt.
+</p>
+</div>
+
+<div id="contactPopup" class="popup-box">
+  <button onclick="togglePopup('contactPopup')">X</button>
+  <p>Contact info here...</p>
+</div>
+
 
 <!-- START GUESTBOOK -->
 <div id="guestbook" class="pixel-guestbook">
