@@ -30,7 +30,7 @@ body {
     font-weight: bold;
     color: #7f9c68;
     z-index: 1001;
-    padding: 0 10px;
+    padding: 25px 50px 75px 100px;
   }
 
   .nav-left, .nav-right {
