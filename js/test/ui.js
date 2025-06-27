@@ -72,4 +72,7 @@ function togglePopup(id) {
     });
   });
 
+window.togglePopup = togglePopup;
+window.toggleGuestbook = toggleGuestbook;
+
 
