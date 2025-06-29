@@ -70,6 +70,7 @@ body {
     background: #000;
     border: 2px solid #7f9c68;
     color: #7f9c68;
+    opacity: 0.65;
     padding: 10px;
     z-index: 2000;
     font-family: monospace;
