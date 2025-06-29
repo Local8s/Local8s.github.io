@@ -30,8 +30,8 @@
         name: 'L8s RADIO 92.1FM'
       },
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_73842fe6d4ad4d3b8e9391bc149aee38.mp3',
-        name: 'L8s RADIO 66.6FM'
+        src: 'https://file.garden/aGGJpwNLWActgKKi/032125_l8.mp3',
+        name: 'L8s RADIO NEW! 66.6FM'
       }
     ];
 
