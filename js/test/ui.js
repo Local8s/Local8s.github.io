@@ -52,12 +52,13 @@ function togglePopup(id) {
     let isDragging = false;
     let offsetX, offsetY;
 
-    popup.addEventListener('mousedown', e => {
-      isDragging = true;
-      offsetX = e.clientX - popup.offsetLeft;
-      offsetY = e.clientY - popup.offsetTop;
-      popup.style.cursor = 'grabbing';
-    });
+popup.addEventListener('mousedown', e => {
+  isDragging = true;
+  offsetX = e.clientX - popup.offsetLeft;
+  offsetY = e.clientY - popup.offsetTop;
+  popup.style.cursor = 'grabbing';
+  popup.style.transform = 'none'; // Clear transform when dragging starts
+});
 
     document.addEventListener('mousemove', e => {
       if (!isDragging) return;
@@ -71,6 +72,9 @@ function togglePopup(id) {
       popup.style.cursor = 'move';
     });
   });
+
+
+
 
 window.togglePopup = togglePopup;
 window.toggleGuestbook = toggleGuestbook;
