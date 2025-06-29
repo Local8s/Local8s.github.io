@@ -49,14 +49,21 @@ function toggleDropdown(el) {
   dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
 }
 
-// Optional: close dropdowns when clicking outside
 document.addEventListener('click', function(e) {
-  if (!e.target.closest('.dropdown')) {
-    document.querySelectorAll('.dropdown-content').forEach(menu => {
-      menu.style.display = 'none';
-    });
+  // Don't close dropdown if clicking on dropdown or popup or toggle buttons
+  if (
+    e.target.closest('.dropdown') ||
+    e.target.closest('.popup-box') ||
+    e.target.getAttribute('onclick')?.includes('togglePopup')
+  ) {
+    return;
   }
+
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
+  });
 });
+
 
 
 function togglePopup(id) {
