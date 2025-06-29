@@ -75,8 +75,10 @@ body {
   z-index: 2000;
   font-family: monospace;
   font-size: 12px;
-  width: max-content; /* prevents auto expansion */
+  width: 350px; /* prevents auto expansion */
   min-width: 150px;    /* optional for structure */
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 
