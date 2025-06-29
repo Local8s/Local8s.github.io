@@ -42,7 +42,6 @@ body {
 
   .dropdown {
     position: relative;
-    top: (100%; + 12px)
   }
 
   .dropdown-content {
