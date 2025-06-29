@@ -37,6 +37,28 @@ minimizeBtn.addEventListener('click', () => {
 
 // new 6/27
 
+function toggleDropdown(el) {
+  const dropdown = el.querySelector('.dropdown-content');
+  
+  // Close other open dropdowns first
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    if (menu !== dropdown) menu.style.display = 'none';
+  });
+
+  // Toggle this one
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// Optional: close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+      menu.style.display = 'none';
+    });
+  }
+});
+
+
 function togglePopup(id) {
     const el = document.getElementById(id);
     el.style.display = el.style.display === 'block' ? 'none' : 'block';
