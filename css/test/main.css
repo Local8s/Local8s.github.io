@@ -47,14 +47,14 @@ body {
   .dropdown-content {
    display: none;
    position: absolute;
-   top: 100%;
+   top: (100%; + 6px)  
    left: 0;
    background: #000;
    opacity: 0.65;
    border: 1px solid #7f9c68;
    padding: 5px;
    z-index: 2000;
-   min-width: 120px; /* Increase this value as needed */
+   min-width: 180px; /* Increase this value as needed */
  }
 
 
