@@ -37,6 +37,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    cursor: pointer;
     padding: 0px 20px 0px 20px;
   }
 
@@ -46,6 +47,7 @@ body {
 
 .dropdown-content {
   display: none;
+  cursor: pointer;
   position: absolute;
   top: calc(100% + 7px);
   left: 0;
@@ -95,6 +97,7 @@ body {
   min-width: 150px;    /* optional for structure */
   white-space: normal;
   word-wrap: break-word;
+  cursor: default;
 }
 
 
