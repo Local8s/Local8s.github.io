@@ -129,7 +129,7 @@ body {
   position: absolute;
   white-space: nowrap;
   will-change: transform;
-  animation: marquee 15s linear infinite;
+  animation: scroll-left 15s linear infinite;
   pointer-events: none;
   }
 
