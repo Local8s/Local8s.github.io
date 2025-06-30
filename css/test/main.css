@@ -126,23 +126,23 @@ body {
 
 
   .marquee-text {
-    white-space: nowrap;
-    display: inline-block;
-    animation: scroll-left 5s linear infinite;
-    max-width: 1000px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    pointer-events: none;
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  animation: scroll-left 15s linear infinite;
+  pointer-events: none;
   }
 
 .marquee-wrapper {
+  width: 65%;
+  margin: 0 auto;
   overflow: hidden;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 1em;
-  top: 50%;
+  position: relative;
+  height: 1em; /* Adjust based on font size */
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
