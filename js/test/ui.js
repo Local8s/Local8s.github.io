@@ -34,20 +34,27 @@ minimizeBtn.addEventListener('click', () => {
 // ─── DROPDOWN ──────────────────────────────────────────────────────────────
 
 function toggleDropdown(el, event) {
-  event.stopPropagation();
+  event.stopPropagation(); // Prevent outside click from immediately closing
 
-  // Close other open dropdowns
-  document.querySelectorAll('.dropdown').forEach(drop => {
-    if (drop !== el) drop.classList.remove('open');
+  const dropdown = el.querySelector('.dropdown-content');
+
+  const isOpen = dropdown.style.display === 'block';
+
+  // Close all dropdowns
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    menu.style.display = 'none';
   });
 
-  // Toggle this dropdown
-  el.classList.toggle('open');
+  // Reopen if it was closed
+  if (!isOpen) {
+    dropdown.style.display = 'block';
+  }
 }
 
 
 
-document.addEventListener('click', function (e) {
+
+document.addEventListener('click', function(e) {
   if (
     e.target.closest('.dropdown') ||
     e.target.closest('.popup-box') ||
@@ -60,6 +67,7 @@ document.addEventListener('click', function (e) {
     menu.style.display = 'none';
   });
 });
+
 
 // ─── POPUP TOGGLING ────────────────────────────────────────────────────────
 function togglePopup(id) {
