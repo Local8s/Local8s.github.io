@@ -52,7 +52,7 @@ body {
   background: #000;
   opacity: 0.65;
   border: 1px solid #7f9c68;
-  line-height: 28px;
+  line-height: 22px;
   padding: 5px;
   z-index: 2000;
   min-width: 160px;
@@ -75,7 +75,7 @@ body {
   padding: 10px;
   z-index: 3;
   font-family: monospace;
-  line-height: 22px;
+  line-height: 16px;
   font-size: 12px;
   width: 300px; /* prevents auto expansion */
   min-width: 150px;    /* optional for structure */
