@@ -19,7 +19,7 @@
       },
       {
         src: 'https://static.wixstatic.com/mp3/19b7e6_dbe270097217430b88e5991babe0843a.mp3',
-        name: 'L8s RADIO 97.7FM'
+        name: 'L8s RADIO NEW! 97.7FM'
       },
       {
         src: 'https://static.wixstatic.com/mp3/19b7e6_a2adbbf58f0848b6a90d7363b2c4e6ea.mp3',
