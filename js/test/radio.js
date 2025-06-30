@@ -109,3 +109,20 @@ function initPlayer() {
     window.addEventListener('load', initPlayer);
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
+
+document.querySelectorAll('.station').forEach(el => {
+  el.addEventListener('click', () => {
+    const index = parseInt(el.getAttribute('data-index'), 10);
+    const selectedSong = songs[index];
+
+    audio.src = selectedSong.src;
+    audio.play();
+    
+    trackName.textContent = selectedSong.name;
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'block';
+    gif.style.display = 'block';
+    playPauseBtn.classList.add('playing');
+    document.title = `▶ ${selectedSong.name}`;
+  });
+});
