@@ -46,6 +46,7 @@ function toggleDropdown(el, event) {
 }
 
 
+
 document.addEventListener('click', function (e) {
   if (
     e.target.closest('.dropdown') ||
@@ -72,6 +73,8 @@ function toggleGuestbook() {
 
 window.togglePopup = togglePopup;
 window.toggleGuestbook = toggleGuestbook;
+window.toggleDropdown = toggleDropdown;
+
 
 // ─── DRAGGABLE POPUPS ──────────────────────────────────────────────────────
 document.querySelectorAll('.popup-box').forEach(popup => {
