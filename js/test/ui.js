@@ -32,16 +32,19 @@ minimizeBtn.addEventListener('click', () => {
 });
 
 // ─── DROPDOWN ──────────────────────────────────────────────────────────────
+
 function toggleDropdown(el, event) {
   event.stopPropagation();
-  const dropdown = el.querySelector('.dropdown-content');
 
-  document.querySelectorAll('.dropdown-content').forEach(menu => {
-    if (menu !== dropdown) menu.style.display = 'none';
+  // Close other open dropdowns
+  document.querySelectorAll('.dropdown').forEach(drop => {
+    if (drop !== el) drop.classList.remove('open');
   });
 
-  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  // Toggle this dropdown
+  el.classList.toggle('open');
 }
+
 
 document.addEventListener('click', function (e) {
   if (
