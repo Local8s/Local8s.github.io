@@ -96,13 +96,13 @@ body {
 /* Basic list reset */
 .popup-box ol,
 .popup-box ul {
-  margin: 0 0 0 10px;   /* indent from image or edge */
+  margin: 0 10 10 0px;   /* indent from image or edge */
   padding: 0;
 }
 
 /* List items */
 .popup-box li {
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   line-height: 1;
 }
 
