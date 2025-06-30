@@ -50,9 +50,9 @@ function toggleDropdown(el) {
 }
 
 document.addEventListener('click', function(e) {
-  // Don't close dropdown if clicking on dropdown or popup or toggle buttons
   if (
     e.target.closest('.dropdown') ||
+    e.target.closest('.dropdown-content') || // important!
     e.target.closest('.popup-box') ||
     e.target.getAttribute('onclick')?.includes('togglePopup')
   ) {
@@ -63,6 +63,7 @@ document.addEventListener('click', function(e) {
     menu.style.display = 'none';
   });
 });
+
 
 
 
@@ -101,6 +102,19 @@ popup.addEventListener('mousedown', e => {
       popup.style.cursor = 'move';
     });
   });
+
+
+function toggleDropdown(el, event) {
+  event.stopPropagation(); // Prevent the event from bubbling and triggering the close
+  const dropdown = el.querySelector('.dropdown-content');
+
+  // Close other open dropdowns
+  document.querySelectorAll('.dropdown-content').forEach(menu => {
+    if (menu !== dropdown) menu.style.display = 'none';
+  });
+
+  dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
 
 
 
