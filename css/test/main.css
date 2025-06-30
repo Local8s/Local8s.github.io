@@ -93,6 +93,33 @@ body {
     float: right;
   }
 
+/* Basic list reset */
+.popup-box ol,
+.popup-box ul {
+  margin: 0 0 0 20px;   /* indent from image or edge */
+  padding: 0;
+  list-style-position: outside; /* keeps numbers outside */
+}
+
+/* List items */
+.popup-box li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* Optional: align text vertically if list is beside a floated image */
+.popup-box img {
+  float: left;
+  margin: 0 15px 10px 0;
+  height: 180px;
+}
+
+/* Optional: ensure wrapping text flows beside image + list nicely */
+.popup-box p {
+  overflow: hidden; /* clears float so content doesn’t wrap under image */
+}
+
+
   .marquee-text {
     white-space: nowrap;
     display: inline-block;
