@@ -98,19 +98,14 @@ body {
 .popup-box ul {
   margin: 0 0 0 5px;   /* indent from image or edge */
   padding: 0;
-  list-style-position: outside; /* keeps numbers outside */
 }
 
 /* List items */
 .popup-box li {
-  margin-bottom: 6px;
+  margin-bottom: 0px;
   line-height: 1.4;
 }
 
-/* Optional: ensure wrapping text flows beside image + list nicely */
-.popup-box p {
-  overflow: hidden; /* clears float so content doesn’t wrap under image */
-}
 
 
   .marquee-text {
