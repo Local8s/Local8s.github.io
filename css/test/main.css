@@ -96,7 +96,7 @@ body {
 /* Basic list reset */
 .popup-box ol,
 .popup-box ul {
-  margin: 0 0 0 20px;   /* indent from image or edge */
+  margin: 0 0 0 5px;   /* indent from image or edge */
   padding: 0;
   list-style-position: outside; /* keeps numbers outside */
 }
@@ -105,13 +105,6 @@ body {
 .popup-box li {
   margin-bottom: 6px;
   line-height: 1.4;
-}
-
-/* Optional: align text vertically if list is beside a floated image */
-.popup-box img {
-  float: left;
-  margin: 0 15px 10px 0;
-  height: 180px;
 }
 
 /* Optional: ensure wrapping text flows beside image + list nicely */
