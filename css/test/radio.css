@@ -93,7 +93,7 @@
 
 /* Apply blink when playing */
 .playing #pause-icon {
-  animation: blink 1.8s infinite;
+  animation: blink 1s infinite;
 }
 
 
