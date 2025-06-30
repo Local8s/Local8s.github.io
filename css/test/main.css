@@ -135,7 +135,18 @@ body {
     pointer-events: none;
   }
 
+.marquee-wrapper {
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1em;
+  top: 50%;
+}
+
+
   @keyframes scroll-left {
-    0% { transform: translateX(0%); }
-    50% { transform: translateX(-50%); }
+    0% { transform: translateX(100%); }
+    50% { transform: translateX(-100%); }
   }
