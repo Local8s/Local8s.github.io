@@ -110,19 +110,31 @@ function initPlayer() {
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
 
+
 document.querySelectorAll('.station').forEach(el => {
   el.addEventListener('click', () => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
 
+    // Update player
     audio.src = selectedSong.src;
     audio.play();
-    
     trackName.textContent = selectedSong.name;
     playIcon.style.display = 'none';
     pauseIcon.style.display = 'block';
     gif.style.display = 'block';
     playPauseBtn.classList.add('playing');
     document.title = `▶ ${selectedSong.name}`;
+
+    // Highlight selected station
+    document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
+    el.classList.add('current');
+
+    // Auto-close dropdown
+    const dropdown = el.closest('.dropdown-content');
+    if (dropdown) {
+      dropdown.style.display = 'none';
+    }
   });
 });
+
