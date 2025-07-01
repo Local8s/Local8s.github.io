@@ -152,12 +152,13 @@
 }
 
 /* Now Playing GIF */
-#gif {
+@media (max-width: 650px) {
+    #gif {
   position: absolute;
-  top: 2.5%;
-  left: 6.5%;
+  top: 2%;
+  left: 6.3%;
   width: 75%;
-  max-width: 150px;
+  max-width: 130px;
   display: none;
   opacity: 0.98;
 }
