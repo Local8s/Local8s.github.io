@@ -155,10 +155,10 @@
 @media (max-width: 650px) {
     #gif {
   position: absolute;
-  top: 2%;
-  left: 6.3%;
+  top: 2.2%;
+  left: 6.5%;
   width: 75%;
-  max-width: 80px;
+  max-width: 95px;
   display: none;
   opacity: 0.98;
 }
