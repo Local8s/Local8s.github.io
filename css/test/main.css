@@ -91,8 +91,8 @@ body {
   padding: 8px 5px 0px 5px;
   z-index: 3;
   font-family: monospace;
-  line-height: 15px;
-  font-size: 11px;
+  line-height: 16px;
+  font-size: 12px;
   width: 300px; /* prevents auto expansion */
   min-width: 150px;    /* optional for structure */
   white-space: normal;
