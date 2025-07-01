@@ -123,6 +123,18 @@ body {
   line-height: 1;
 }
 
+.popup-box {
+  cursor: default; /* default for whole popup */
+  /* existing styles... */
+}
+
+.popup-header {
+  cursor: move;              /* only this part is draggable */
+  display: flex;
+  justify-content: flex-end; /* align X button to the right */
+  padding: 4px;
+}
+
 
 
   .marquee-text {
