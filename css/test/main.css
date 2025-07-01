@@ -145,6 +145,12 @@ body {
   justify-content: center;
 }
 
+@media (max-width: 400px) {
+  .marquee-wrapper {
+    display: none;
+  }
+}
+
 
   @keyframes scroll-left {
     0% { transform: translateX(100%); }
