@@ -86,27 +86,28 @@ window.toggleDropdown = toggleDropdown;
 
 // ─── DRAGGABLE POPUPS ──────────────────────────────────────────────────────
 document.querySelectorAll('.popup-box').forEach(popup => {
+  const header = popup.querySelector('.popup-header');
+  if (!header) return;
+ 
   let isDragging = false;
   let offsetX, offsetY;
 
-  popup.addEventListener('mousedown', e => {
+  header.addEventListener('mousedown', e => {
     isDragging = true;
     offsetX = e.clientX - popup.offsetLeft;
     offsetY = e.clientY - popup.offsetTop;
     popup.style.cursor = 'grabbing';
-    popup.style.transform = 'none';
   });
 
   document.addEventListener('mousemove', e => {
     if (!isDragging) return;
     popup.style.left = `${e.clientX - offsetX}px`;
     popup.style.top = `${e.clientY - offsetY}px`;
-    popup.style.transform = 'none';
   });
 
   document.addEventListener('mouseup', () => {
     isDragging = false;
-    popup.style.cursor = 'move';
+    popup.style.cursor = 'default';
   });
 });
 
