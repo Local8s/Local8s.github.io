@@ -1,23 +1,71 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Local 8's Radio</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/radio.css">
-  <link rel="stylesheet" href="css/chat.css">
-
-  <!-- FAVICON -->
-  <link rel="icon" type="image/png" href="/images/favicon.png" sizes="16x16"/>
-  <link rel="shortcut icon" href="/images/favicon.png"/>
+  <title>404 - Local 8's Radio</title>
+  <link rel="stylesheet" href="css/test/main.css">
+  <link rel="stylesheet" href="css/test/radio.css">
+  <link rel="stylesheet" href="css/test/chat.css">
 
 </head>
 <body>
 
-  <div class="marquee">
-    <div class="marquee-text">NEW STATION 101.5FM ADDED 6/4/25 • NEW STATION 101.5FM ADDED 6/4/25 • NEW STATION 101.5FM ADDED 6/4/25</div>
+  <div class="nav-wrapper">
+  <div class="nav-left">
+<div class="dropdown" onclick="toggleDropdown(this, event)">
+        <span>FILE</span>
+  <div class="dropdown-content">
+        <div>New</div>
+        <div>Open</div>
+        <div>Save</div>
+        <div>Print</div>
   </div>
+      </div>
+
+<div class="dropdown" onclick="toggleDropdown(this, event)">
+      <span>STATIONS</span>
+      <div class="dropdown-content">
+      <div class="station" data-index="0">98.1FM - HOUSE</div>
+      <div class="station" data-index="1">101.5FM - MIX</div>
+      <div class="station" data-index="2">97.7FM - DISCO</div>
+      <div class="station" data-index="3">104.3FM - ALT</div>
+      <div class="station" data-index="4">92.1FM - TECH HOUSE</div>
+      <div class="station" data-index="5">89.5FM - HOUSE</div>
+      </div>
+    </div>
+    <span style="cursor:pointer;" onclick="togglePopup('aboutPopup')">ABOUT</span>
+    <span style="cursor:pointer;" onclick="togglePopup('contactPopup')">CONTACT</span>
+  </div>
+
+<div class="marquee-wrapper">
+  <div class="marquee-text">NEW STATION ADDED 6/4/25 • NEW STATION ADDED 6/4/25 • NEW STATION ADDED 6/4/25</div>
+</div>
+
+
+  <div class="nav-right">
+    <span style="cursor:pointer;" onclick="toggleGuestbook()">LEAVE A MESSAGE</span>
+  </div>
+</div>
+
+
+<div id="aboutPopup" class="popup-box">
+  <div class="popup-header">
+  <button onclick="togglePopup('aboutPopup')">X</button></div>
+  <p><img src="images/tester.webp" alt="About" width="115px" style="float:left; margin:0 10px 0px 3px;">
+  <b>ABOUT LOCAL 8's</b><br>
+    Broadcasting live from the Nightosphere.<p>
+    Local 8's started in 2022, named after the weather channel's classic segment "Local on the 8s" xxxxxxx xxx x xxxxxxx xxxxx<p>
+      <p><center>Dedicated to Jean Gillette.</center></p>
+</div>
+
+<div id="contactPopup" class="popup-box">
+   <div class="popup-header">
+  <button onclick="togglePopup('contactPopup')">X</button></div>
+  <p><center><img src="images/email.svg" width="25px"><br><br>LOCAL8SFM@GMAIL.COM</center></p>
+</div>
 
 <!-- START GUESTBOOK -->
 <div id="guestbook" class="pixel-guestbook">
@@ -61,10 +109,9 @@
 
 
 
-<script type="module" src="js/radio.js"></script>
-<script type="module" src="js/chat.js"></script>
-<script type="module" src="js/ui.js"></script>
-
+<script type="module" src="js/test/radio.js"></script>
+<script type="module" src="js/test/chat.js"></script>
+<script type="module" src="js/test/ui.js" defer></script>
 
 </body>
 </html>
