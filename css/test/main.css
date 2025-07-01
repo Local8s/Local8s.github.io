@@ -88,7 +88,7 @@ body {
   border: 2px solid #7f9c68; 
   opacity: 0.65;
   color: #7f9c68;
-  padding: 0px 15px 0px 15px;
+  padding: 10px 15px 0px 15px;
   z-index: 3;
   font-family: monospace;
   line-height: 16px;
@@ -132,7 +132,7 @@ body {
   cursor: move;              /* only this part is draggable */
   display: flex;
   justify-content: flex-end; /* align X button to the right */
-  padding: 10px;
+  padding: 0px;
 }
 
 
