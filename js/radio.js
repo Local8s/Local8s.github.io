@@ -10,28 +10,28 @@
     // Song list
     const songs = [
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_da2dad670ecc409aba0bf39c13707fac.mp3',
+        src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
         name: 'L8s RADIO 98.1FM'
       },
        {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_ab35f2e69b894088b92972a7b3a5aa4d.mp3',
+        src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
         name: 'L8s RADIO NEW! 101.5FM'
       },
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_dbe270097217430b88e5991babe0843a.mp3',
-        name: 'L8s RADIO 97.7FM'
+        src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
+        name: 'L8s RADIO NEW! 97.7FM'
       },
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_a2adbbf58f0848b6a90d7363b2c4e6ea.mp3',
+        src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
         name: 'L8s RADIO 104.3FM'
       },
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_a7252ef1469042b486f58c47858914eb.mp3',
+        src: 'https://file.garden/aGGJpwNLWActgKKi/040125_TECH_HOUSE_L8.mp3',
         name: 'L8s RADIO 92.1FM'
       },
       {
-        src: 'https://static.wixstatic.com/mp3/19b7e6_73842fe6d4ad4d3b8e9391bc149aee38.mp3',
-        name: 'L8s RADIO 66.6FM'
+        src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
+        name: 'L8s RADIO NEW! 89.5FM'
       }
     ];
 
@@ -109,3 +109,31 @@ function initPlayer() {
     window.addEventListener('load', initPlayer);
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
+
+
+document.querySelectorAll('.station').forEach(el => {
+  el.addEventListener('click', () => {
+    const index = parseInt(el.getAttribute('data-index'), 10);
+    const selectedSong = songs[index];
+
+    // Update player
+    audio.src = selectedSong.src;
+    audio.play();
+    trackName.textContent = selectedSong.name;
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'block';
+    gif.style.display = 'block';
+    playPauseBtn.classList.add('playing');
+    document.title = `▶ ${selectedSong.name}`;
+
+    // Highlight selected station
+    document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
+    el.classList.add('current');
+
+    // Auto-close dropdown
+    const dropdown = el.closest('.dropdown-content');
+    if (dropdown) {
+      dropdown.style.display = 'none';
+    }
+  });
+});
