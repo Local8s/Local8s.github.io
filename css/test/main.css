@@ -82,8 +82,8 @@ body {
 .popup-box {
   display: none;
   position: fixed;
-  top: 50px;
-  left: 10%;
+  top: 10px;
+  left: 15%;
   background: #000;
   border: 2px solid #7f9c68; 
   opacity: 0.65;
