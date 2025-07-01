@@ -93,7 +93,7 @@ body {
   font-family: monospace;
   line-height: 16px;
   font-size: 12px;
-  width: 300px; /* prevents auto expansion */
+  width: 310px; /* prevents auto expansion */
   min-width: 150px;    /* optional for structure */
   white-space: normal;
   word-wrap: break-word;
