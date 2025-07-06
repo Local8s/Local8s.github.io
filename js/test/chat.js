@@ -55,6 +55,18 @@ onChildAdded(orderedRef, snap => {
   const div = document.createElement('div');
   div.className = 'gb-message';
 
+  // Shorten URLs to just the domain (e.g., "spotify.com")
+  const shortenUrl = (url) => {
+    const domain = new URL(url).hostname.replace('www.', '');
+    return `<a href="${url}" target="_blank" rel="noopener">${domain}</a>`;
+  };
+
+  // Replace all URLs with shortened versions
+  const linkedText = text.replace(
+    /(https?:\/\/[^\s]+)/g, 
+    (match) => shortenUrl(match)
+  );
+
   if (admin) {
     // ADMIN: message [date]
     div.innerHTML = `
