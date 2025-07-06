@@ -71,11 +71,11 @@ onChildAdded(orderedRef, snap => {
     // ADMIN: message [date]
     div.innerHTML = `
       <span class="gb-admin-label">MODERATOR:</span>
-      ${text}
+       ${linkedText}
     `;
   } else {
     // Normal users: [date]: message
-    div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${text}`;
+    div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${linkedText}`;
   }
 
   messagesEl.appendChild(div);
