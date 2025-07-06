@@ -109,3 +109,4 @@ inputEl.addEventListener('keydown', function(e) {
     e.stopPropagation(); // Prevent space from bubbling up to media players
   }
 });
+

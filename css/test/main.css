@@ -16,10 +16,6 @@ body {
   font-family: sans-serif; /* fallback for general text */
 }
 
-img {
-  image-rendering: pixelated;
-}
-
 .nav-wrapper {
     position: fixed;
     top: 0;
