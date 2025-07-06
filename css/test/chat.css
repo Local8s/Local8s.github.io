@@ -80,7 +80,7 @@
 
 /* Hover effect */
 .gb-message a:hover {
-  color: #ffffff; /* Darker shade on hover */
+  color: rgba(194, 238, 157, 0.6);
   text-decoration: none;
 }
 
