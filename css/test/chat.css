@@ -70,6 +70,27 @@
   border-top: 2px solid #000;
 }
 
+/* Style for links in guestbook messages */
+.gb-message a {
+  color: #000000; /* Link color */
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+/* Hover effect */
+.gb-message a:hover {
+  color: #ffffff; /* Darker shade on hover */
+  text-decoration: none;
+}
+
+/* Active/focus state (for accessibility) */
+.gb-message a:active,
+.gb-message a:focus {
+  outline: 2px solid #4a6baf;
+  outline-offset: 2px;
+}
+
 .input-fields {
   flex-grow: 1;
   background: #000;

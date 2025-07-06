@@ -1,4 +1,4 @@
-  // 1) Import everything you need exactly once
+ // 1) Import everything you need exactly once
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
   import {
     getDatabase,
@@ -55,15 +55,27 @@ onChildAdded(orderedRef, snap => {
   const div = document.createElement('div');
   div.className = 'gb-message';
 
+  // Shorten URLs to just the domain (e.g., "spotify.com")
+  const shortenUrl = (url) => {
+    const domain = new URL(url).hostname.replace('www.', '');
+    return `<a href="${url}" target="_blank" rel="noopener">${domain}</a>`;
+  };
+
+  // Replace all URLs with shortened versions
+  const linkedText = text.replace(
+    /(https?:\/\/[^\s]+)/g, 
+    (match) => shortenUrl(match)
+  );
+
   if (admin) {
     // ADMIN: message [date]
     div.innerHTML = `
       <span class="gb-admin-label">MODERATOR:</span>
-      ${text}
+       ${linkedText}
     `;
   } else {
     // Normal users: [date]: message
-    div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${text}`;
+    div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${linkedText}`;
   }
 
   messagesEl.appendChild(div);
@@ -97,4 +109,3 @@ inputEl.addEventListener('keydown', function(e) {
     e.stopPropagation(); // Prevent space from bubbling up to media players
   }
 });
-
