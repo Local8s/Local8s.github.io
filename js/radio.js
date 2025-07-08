@@ -9,6 +9,7 @@
 
     // Song list
     const songs = [
+    
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
         name: 'L8s RADIO 98.1FM'
@@ -19,7 +20,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: 'L8s RADIO NEW! 97.7FM'
+        name: 'L8s RADIO 97.7FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
@@ -32,6 +33,10 @@
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
         name: 'L8s RADIO NEW! 89.5FM'
+      }
+   {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
+        name: 'L8s RADIO NEW! 88.6FM'
       }
     ];
 
