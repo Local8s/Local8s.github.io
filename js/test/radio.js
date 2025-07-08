@@ -32,6 +32,10 @@
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
         name: 'L8s RADIO NEW! 89.5FM'
+      },
+         {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
+        name: 'L8s RADIO NEW! 88.6FM'
       }
     ];
 
