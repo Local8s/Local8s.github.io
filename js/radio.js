@@ -16,7 +16,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8s RADIO NEW! 101.5FM'
+        name: 'L8s RADIO 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
@@ -33,7 +33,7 @@
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
         name: 'L8s RADIO NEW! 89.5FM'
-      }
+      },
      {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
         name: 'L8s RADIO NEW! 88.6FM'
