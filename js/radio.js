@@ -37,7 +37,7 @@
      {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
         name: 'L8s RADIO NEW! 88.6FM'
-      }
+      },
     ];
 
     // Initialize player
