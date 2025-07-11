@@ -32,27 +32,18 @@ minimizeBtn.addEventListener('click', () => {
 });
 
 // ─── DROPDOWN ──────────────────────────────────────────────────────────────
-
 function toggleDropdown(el, event) {
-  event.stopPropagation(); // Prevent outside click from immediately closing
-
+  event.stopPropagation();
   const dropdown = el.querySelector('.dropdown-content');
-
   const isOpen = dropdown.style.display === 'block';
-
-  // Close all dropdowns
   document.querySelectorAll('.dropdown-content').forEach(menu => {
     menu.style.display = 'none';
   });
 
-  // Reopen if it was closed
   if (!isOpen) {
     dropdown.style.display = 'block';
   }
 }
-
-
-
 
 document.addEventListener('click', function(e) {
   if (
@@ -88,7 +79,6 @@ window.toggleDropdown = toggleDropdown;
 document.querySelectorAll('.popup-box').forEach(popup => {
   const header = popup.querySelector('.popup-header');
   if (!header) return;
- 
   let isDragging = false;
   let offsetX, offsetY;
 
@@ -111,7 +101,7 @@ document.querySelectorAll('.popup-box').forEach(popup => {
   });
 });
 
-// ─── RADIO PLAYER STATION CLICK HANDLERS ───────────────────────────────────
+// ─── STATIONS ───────────────────────────────────
 document.querySelectorAll('.station').forEach(el => {
   el.addEventListener('click', e => {
     e.stopPropagation();
