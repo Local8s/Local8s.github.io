@@ -7,7 +7,7 @@
     const playIcon = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
 
-    // Song list
+// ─── SONG LIST ──────────────────────────────────────────────────────────────
     const songs = [
     
       {
@@ -40,21 +40,21 @@
       },
     ];
 
-    // Initialize player
+
 function initPlayer() {
   audio.volume = 0.7;
   const randomSong = songs[Math.floor(Math.random() * songs.length)];
   audio.src = randomSong.src;
   trackName.textContent = randomSong.name;
 
-  // Delay autoplay by 3000 ms (3 seconds)
+
   setTimeout(() => {
     const playPromise = audio.play();
 
     if (playPromise !== undefined) {
       playPromise
         .then(_ => {
-          // Autoplay worked
+
           playIcon.style.display = 'none';
           pauseIcon.style.display = 'block';
           gif.style.display = 'block';
@@ -62,17 +62,17 @@ function initPlayer() {
           document.title = `▶ ${randomSong.name}`;
         })
         .catch(err => {
-          // Autoplay was prevented
+
           console.log("Autoplay prevented, user interaction required");
           playIcon.style.display = 'block';
           pauseIcon.style.display = 'none';
         });
     }
-  }, 3000);  // ← 3 second delay
+  }, 3000); 
 }
 
 
-    // Time display
+// ─── TIME ──────────────────────────────────────────────────────────────
     function formatTime(sec) {
       const minutes = Math.floor(sec / 60);
       const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
@@ -91,7 +91,7 @@ function initPlayer() {
     });
 
 
-    // Play/pause toggle
+// ─── PLAY/PAUSE ──────────────────────────────────────────────────────────────
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -110,7 +110,7 @@ function initPlayer() {
       }
     });
 
-    // Initialize when page loads
+
     window.addEventListener('load', initPlayer);
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
@@ -121,7 +121,7 @@ document.querySelectorAll('.station').forEach(el => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
 
-    // Update player
+    
     audio.src = selectedSong.src;
     audio.play();
     trackName.textContent = selectedSong.name;
@@ -131,11 +131,11 @@ document.querySelectorAll('.station').forEach(el => {
     playPauseBtn.classList.add('playing');
     document.title = `▶ ${selectedSong.name}`;
 
-    // Highlight selected station
+
     document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
     el.classList.add('current');
 
-    // Auto-close dropdown
+
     const dropdown = el.closest('.dropdown-content');
     if (dropdown) {
       dropdown.style.display = 'none';
