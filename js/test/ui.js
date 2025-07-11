@@ -124,3 +124,26 @@ document.querySelectorAll('.station').forEach(el => {
     if (dropdown) dropdown.style.display = 'none';
   });
 });
+
+  function startMarquee() {
+    const marquee = document.querySelector('.marquee-text');
+    const wrapper = document.querySelector('.marquee-wrapper');
+    const marqueeWidth = marquee.offsetWidth;
+    const wrapperWidth = wrapper.offsetWidth;
+    const distance = marqueeWidth + wrapperWidth;
+    const speed = 60; // pixels per second
+    const duration = distance / speed;
+
+    marquee.style.animation = `scroll-left ${duration}s linear infinite`;
+    const styleSheet = document.createElement('style');
+    styleSheet.innerHTML = `
+      @keyframes scroll-left {
+        0% { transform: translateX(${wrapperWidth}px); }
+        100% { transform: translateX(-${marqueeWidth}px); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  }
+
+  window.addEventListener('load', startMarquee);
+  window.addEventListener('resize', startMarquee);
