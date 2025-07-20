@@ -40,6 +40,10 @@
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071725_MIX_L8.mp3',
         name: 'L8s RADIO NEW! 93.3FM'
+      },
+       {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/071925_ALT_L8.mp3',
+        name: 'L8s RADIO NEW! 96.8FM'
       }
     ];
 
