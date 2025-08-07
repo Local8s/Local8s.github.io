@@ -90,8 +90,8 @@ body {
   font-family: monospace;
   line-height: 16px;
   font-size: 12px;
-  width: 300px;
-  min-width: 150px;  
+  width: 300px; 
+  min-width: 150px; 
   white-space: normal;
   word-wrap: break-word;
   cursor: default;
@@ -112,27 +112,29 @@ body {
 }
 
 .popup-header {
-  cursor: move;           
+  cursor: move;       
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-end; 
   padding: 5px 5px 5px 5px;
   border-bottom: 1px solid #7f9c68;
 }
 
-  .marquee-text {
+
+
+.marquee-text {
   position: absolute;
   white-space: nowrap;
   will-change: transform;
-  animation: scroll-left 15s linear infinite;
   pointer-events: none;
-  }
+}
+
 
 .marquee-wrapper {
   width: 65%;
   margin: 0 auto;
   overflow: hidden;
   position: relative;
-  height: 1em;
+  height: 1em; 
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -144,6 +146,7 @@ body {
     display: none;
   }
 }
+
 
   @keyframes scroll-left {
     0% { transform: translateX(100%); }
