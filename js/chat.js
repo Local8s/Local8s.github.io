@@ -8,7 +8,6 @@
     onChildAdded
   } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
 
-
   const firebaseConfig = {
     apiKey: "AIzaSyDFUmElnuRTT0Ibv9yrs-evnHM74iH_Biw",
     authDomain: "l8-guestbook.firebaseapp.com",
@@ -20,12 +19,10 @@
     measurementId: "G-DV3X7Y672C"
   };
 
-
   const app = initializeApp(firebaseConfig);
   const db  = getDatabase(app);
   const guestbookRef = ref(db, 'guestbook');
   const orderedRef   = query(guestbookRef, orderByChild('ts'));
-
 
   const messagesEl = document.getElementById('gbMessages');
   const inputEl    = document.getElementById('gbText');
@@ -48,18 +45,15 @@
     return `${m}/${day}/${yy}`;
   }
 
-
 onChildAdded(orderedRef, snap => {
   const { text, ts, admin } = snap.val();
   const div = document.createElement('div');
   div.className = 'gb-message';
 
-
   const shortenUrl = (url) => {
     const domain = new URL(url).hostname.replace('www.', '');
     return `<a href="${url}" target="_blank" rel="noopener">${domain}</a>`;
   };
-
 
   const linkedText = text.replace(
     /(https?:\/\/[^\s]+)/g, 
@@ -67,21 +61,17 @@ onChildAdded(orderedRef, snap => {
   );
 
   if (admin) {
-
     div.innerHTML = `
       <span class="gb-admin-label">MODERATOR:</span>
        ${linkedText}
     `;
   } else {
-
     div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${linkedText}`;
   }
 
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 });
-
-
 
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
 
