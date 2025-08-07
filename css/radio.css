@@ -65,6 +65,7 @@
     0 0 5px #bae190;
 }
 
+
 #gif {
   position: absolute;
   top: 9.5%;
@@ -75,10 +76,12 @@
   opacity: 0.98;
 }
 
+
 @keyframes blink {
   0%, 49%   { opacity: 1; }
   50%, 100% { opacity: 0.5; }
 }
+
 
 .playing #pause-icon {
   animation: blink 1s infinite;
@@ -87,7 +90,6 @@
 
 /* Mobile adjustments */
 @media (max-width: 600px) {
-
   .radio-container {
     width: 75% !important;
     max-width: none !important;
@@ -116,7 +118,6 @@
     top: 49.6%;
     left: 15.5%;
   }
-
 
 .display {
   position: absolute;
