@@ -7,20 +7,19 @@
     const playIcon = document.getElementById('play-icon');
     const pauseIcon = document.getElementById('pause-icon');
 
-// ─── SONG LIST ──────────────────────────────────────────────────────────────
+    // Song list
     const songs = [
-    
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
         name: 'L8s RADIO 98.1FM'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8s RADIO 101.5FM'
+        name: 'L8s RADIO NEW! 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: 'L8s RADIO 97.7FM'
+        name: 'L8s RADIO NEW! 97.7FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
@@ -34,17 +33,21 @@
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
         name: 'L8s RADIO 89.5FM'
       },
-     {
+         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
         name: 'L8s RADIO NEW! 88.6FM'
       },
-       {
+        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071725_MIX_L8.mp3',
-        name: 'L8s RADIO NEW! 93.3FM'
+        name: 'L8s RADIO 93.3FM'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071925_ALT_L8.mp3',
         name: 'L8s RADIO NEW! 96.8FM'
+      },
+        {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/080625_EMO_L8.mp3',
+        name: 'L8s RADIO NEW! 107.2FM'
       }
     ];
 
@@ -55,14 +58,12 @@ function initPlayer() {
   audio.src = randomSong.src;
   trackName.textContent = randomSong.name;
 
-
   setTimeout(() => {
     const playPromise = audio.play();
 
     if (playPromise !== undefined) {
       playPromise
         .then(_ => {
-
           playIcon.style.display = 'none';
           pauseIcon.style.display = 'block';
           gif.style.display = 'block';
@@ -70,7 +71,6 @@ function initPlayer() {
           document.title = `▶ ${randomSong.name}`;
         })
         .catch(err => {
-
           console.log("Autoplay prevented, user interaction required");
           playIcon.style.display = 'block';
           pauseIcon.style.display = 'none';
@@ -79,8 +79,6 @@ function initPlayer() {
   }, 3000); 
 }
 
-
-// ─── TIME ──────────────────────────────────────────────────────────────
     function formatTime(sec) {
       const minutes = Math.floor(sec / 60);
       const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
@@ -98,8 +96,6 @@ function initPlayer() {
       }
     });
 
-
-// ─── PLAY/PAUSE ──────────────────────────────────────────────────────────────
     playPauseBtn.addEventListener('click', () => {
       if (audio.paused) {
         audio.play();
@@ -118,7 +114,6 @@ function initPlayer() {
       }
     });
 
-
     window.addEventListener('load', initPlayer);
     audio.addEventListener('timeupdate', updateTime);
     audio.addEventListener('loadedmetadata', updateTime);
@@ -129,7 +124,6 @@ document.querySelectorAll('.station').forEach(el => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
 
-    
     audio.src = selectedSong.src;
     audio.play();
     trackName.textContent = selectedSong.name;
@@ -139,10 +133,8 @@ document.querySelectorAll('.station').forEach(el => {
     playPauseBtn.classList.add('playing');
     document.title = `▶ ${selectedSong.name}`;
 
-
     document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
     el.classList.add('current');
-
 
     const dropdown = el.closest('.dropdown-content');
     if (dropdown) {
@@ -150,3 +142,4 @@ document.querySelectorAll('.station').forEach(el => {
     }
   });
 });
+
