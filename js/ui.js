@@ -33,12 +33,9 @@ minimizeBtn.addEventListener('click', () => {
 
 // ─── DROPDOWN ──────────────────────────────────────────────────────────────
 function toggleDropdown(el, event) {
-  event.stopPropagation(); 
-
+  event.stopPropagation();
   const dropdown = el.querySelector('.dropdown-content');
-
   const isOpen = dropdown.style.display === 'block';
-
   document.querySelectorAll('.dropdown-content').forEach(menu => {
     menu.style.display = 'none';
   });
@@ -47,9 +44,6 @@ function toggleDropdown(el, event) {
     dropdown.style.display = 'block';
   }
 }
-
-
-
 
 document.addEventListener('click', function(e) {
   if (
@@ -85,7 +79,6 @@ window.toggleDropdown = toggleDropdown;
 document.querySelectorAll('.popup-box').forEach(popup => {
   const header = popup.querySelector('.popup-header');
   if (!header) return;
- 
   let isDragging = false;
   let offsetX, offsetY;
 
@@ -131,3 +124,26 @@ document.querySelectorAll('.station').forEach(el => {
     if (dropdown) dropdown.style.display = 'none';
   });
 });
+
+  function startMarquee() {
+    const marquee = document.querySelector('.marquee-text');
+    const wrapper = document.querySelector('.marquee-wrapper');
+    const marqueeWidth = marquee.offsetWidth;
+    const wrapperWidth = wrapper.offsetWidth;
+    const distance = marqueeWidth + wrapperWidth;
+    const speed = 60; // pixels per second
+    const duration = distance / speed;
+
+    marquee.style.animation = `scroll-left ${duration}s linear infinite`;
+    const styleSheet = document.createElement('style');
+    styleSheet.innerHTML = `
+      @keyframes scroll-left {
+        0% { transform: translateX(${wrapperWidth}px); }
+        100% { transform: translateX(-${marqueeWidth}px); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+  }
+
+  window.addEventListener('load', startMarquee);
+  window.addEventListener('resize', startMarquee);
