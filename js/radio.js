@@ -48,7 +48,7 @@
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080625_EMO_L8.mp3',
         name: 'L8s RADIO NEW! 107.2FM'
-      }
+      },
     ];
 
 
