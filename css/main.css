@@ -38,6 +38,10 @@ body {
     padding: 0px 20px 0px 20px;
   }
 
+  .pixelated {
+  image-rendering: pixelated;
+  }
+
   .dropdown {
     position: relative;
   }
