@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Music Player</title>
+<style>
+  body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+  #player { display: flex; align-items: center; cursor: pointer; margin-bottom: 20px; }
+  #coverArt { width: 100px; height: 100px; margin-right: 15px; object-fit: cover; background: #ccc; }
+  .play-icon, .pause-icon { font-size: 24px; margin-left: 10px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 5px; }
+  tbody tr:hover { background: #e0e0e0; cursor: pointer; }
+  td div:first-child { font-weight: bold; }
+</style>
+</head>
+<body>
+
+<div id="player">
+  <img id="coverArt" src="" alt="Cover Art">
+  <div>
+    <div id="songTitle">Title</div>
+    <div id="artistName">Artist</div>
+    <div id="releaseDate">Time ago</div>
+  </div>
+  <span class="play-icon">▶️</span>
+  <span class="pause-icon" style="display:none;">⏸️</span>
+  <a id="spotifyLink" href="#" target="_blank" style="margin-left:15px;">Open in Spotify</a>
+</div>
+
+<audio id="audioPlayer"></audio>
+
+<table id="tracklist">
+  <tbody></tbody>
+</table>
+
+<script>
+// === CONFIG ===
+// Your tracklist: only artist, title, audioUrl, relative, time
+const tracksData = [
+  {
+    title: "B.B. King Freestyle (feat. Drake)",
+    artist: "Lil Wayne",
+    audioUrl: "audio/song1.mp3",
+    relative: "6m",
+    time: "9:38 PM"
+  },
+  {
+    title: "Song Two",
+    artist: "Artist B",
+    audioUrl: "audio/song2.mp3",
+    relative: "15m",
+    time: "9:20 PM"
+  }
+];
+
+const tracklistTbody = document.querySelector('#tracklist tbody');
+const audioPlayer = document.getElementById('audioPlayer');
+const playIcon = document.querySelector('.play-icon');
+const pauseIcon = document.querySelector('.pause-icon');
+let isPlaying = false;
+
+// Toggle playback
+function togglePlay() {
+  if (!audioPlayer.src) return;
+  if (isPlaying) {
+    audioPlayer.pause();
+    playIcon.style.display = 'inline';
+    pauseIcon.style.display = 'none';
+  } else {
+    audioPlayer.play();
+    playIcon.style.display = 'none';
+    pauseIcon.style.display = 'inline';
+  }
+  isPlaying = !isPlaying;
+}
+
+// Update player when a row is clicked
+function updatePlayer(song) {
+  document.getElementById('coverArt').src = song.coverArt || 'default.jpg';
+  document.getElementById('songTitle').textContent = song.title;
+  document.getElementById('artistName').textContent = song.artist;
+  document.getElementById('releaseDate').textContent = song.relative + ' ago';
+  audioPlayer.src = song.audioUrl;
+
+  const spotifyLink = document.getElementById('spotifyLink');
+  const searchQuery = encodeURIComponent(`${song.artist} ${song.title}`);
+  spotifyLink.href = `https://open.spotify.com/search/${searchQuery}`;
+
+  isPlaying = false;
+  playIcon.style.display = 'inline';
+  pauseIcon.style.display = 'none';
+}
+
+// Fetch cover art from iTunes
+async function getCoverArt(artist, title) {
+  try {
+    const query = encodeURIComponent(`${artist} ${title}`);
+    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=song&limit=1`);
+    const data = await res.json();
+    if (data.results && data.results.length > 0) {
+      // return higher-res image
+      return data.results[0].artworkUrl100.replace('100x100', '600x600');
+    }
+  } catch (e) {
+    console.warn('Could not fetch cover art for', title);
+  }
+  return 'default.jpg';
+}
+
+// Populate tracklist table
+async function loadTracklist() {
+  tracklistTbody.innerHTML = '';
+
+  for (const track of tracksData) {
+    track.coverArt = await getCoverArt(track.artist, track.title);
+
+    const row = document.createElement('tr');
+    row.dataset.coverArt = track.coverArt;
+    row.dataset.audioUrl = track.audioUrl;
+    row.dataset.title = track.title;
+    row.dataset.artist = track.artist;
+    row.dataset.relative = track.relative;
+
+    row.innerHTML = `
+      <td>${track.time}</td>
+      <td>
+        <div>${track.title}</div>
+        <div style="opacity:0.7">${track.artist}</div>
+      </td>
+    `;
+
+    row.addEventListener('click', () => updatePlayer(track));
+    tracklistTbody.appendChild(row);
+  }
+
+  // Load first song by default
+  if (tracksData.length > 0) updatePlayer(tracksData[0]);
+}
+
+// Initial load
+loadTracklist();
+
+// Optional: auto-refresh every 5 minutes to fetch updated cover art
+setInterval(loadTracklist, 300000);
+
+// Play/pause toggle
+document.getElementById('player').addEventListener('click', togglePlay);
+</script>
+
+</body>
+</html>
