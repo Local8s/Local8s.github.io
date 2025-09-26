@@ -38,7 +38,7 @@
 
 <script>
 // ================= CONFIG =================
-// Your tracklist: only title and artist. No need to host audio/images.
+// Your tracklist: title, artist, relative time, display time
 const tracksData = [
   { title: "B.B. King Freestyle (feat. Drake)", artist: "Lil Wayne", relative: "6m", time: "9:38 PM" },
   { title: "Song Two", artist: "Artist B", relative: "15m", time: "9:20 PM" }
@@ -53,19 +53,48 @@ let isPlaying = false;
 // Toggle playback
 function togglePlay() {
   if (!audioPlayer.src) return;
-  if (isPlaying) {
-    audioPlayer.pause();
-    playIcon.style.display='inline';
-    pauseIcon.style.display='none';
-  } else {
-    audioPlayer.play();
-    playIcon.style.display='none';
-    pauseIcon.style.display='inline';
-  }
+  if (isPlaying) { audioPlayer.pause(); playIcon.style.display='inline'; pauseIcon.style.display='none'; }
+  else { audioPlayer.play(); playIcon.style.display='none'; pauseIcon.style.display='inline'; }
   isPlaying = !isPlaying;
 }
 
-// Update player when a track is selected
+// Normalize title for better iTunes search
+function normalizeTitle(title) {
+  return title
+    .replace(/\(feat[^\)]*\)/i, '') // remove (feat. ...)
+    .replace(/[^\w\s]/g, '')         // remove symbols
+    .trim();
+}
+
+// Fetch preview audio and artwork from iTunes API
+async function fetchPreview(track) {
+  const cleanTitle = normalizeTitle(track.title);
+  
+  let data = await fetchITunes(`${track.artist} ${cleanTitle}`);
+  if(!data || data.results.length === 0) {
+    data = await fetchITunes(cleanTitle); // fallback to title only
+  }
+  
+  if(data && data.results.length > 0) {
+    track.previewUrl = data.results[0].previewUrl;
+    track.coverArt = data.results[0].artworkUrl100.replace('100x100','600x600');
+  } else {
+    track.previewUrl = '';
+    track.coverArt = 'default.jpg';
+  }
+}
+
+// Helper to call iTunes API
+async function fetchITunes(query) {
+  try {
+    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`);
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+// Update player UI when a track is selected
 function updatePlayer(track) {
   document.getElementById('coverArt').src = track.coverArt || 'default.jpg';
   document.getElementById('songTitle').textContent = track.title;
@@ -76,34 +105,15 @@ function updatePlayer(track) {
   playIcon.style.display='inline';
   pauseIcon.style.display='none';
 
-  // Update Spotify link
   const spotifyLink = document.getElementById('spotifyLink');
   const searchQuery = encodeURIComponent(`${track.artist} ${track.title}`);
   spotifyLink.href = `https://open.spotify.com/search/${searchQuery}`;
 }
 
-// Fetch preview audio and artwork from iTunes API
-async function fetchPreview(track) {
-  try {
-    const query = encodeURIComponent(`${track.artist} ${track.title}`);
-    const res = await fetch(`https://itunes.apple.com/search?term=${query}&entity=song&limit=1`);
-    const data = await res.json();
-    if(data.results.length > 0){
-      track.previewUrl = data.results[0].previewUrl;
-      track.coverArt = data.results[0].artworkUrl100.replace('100x100','600x600');
-    } else {
-      track.previewUrl = '';
-      track.coverArt = 'default.jpg';
-    }
-  } catch {
-    track.previewUrl = '';
-    track.coverArt = 'default.jpg';
-  }
-}
-
-// Populate the tracklist table dynamically
+// Populate the tracklist table
 async function loadTracklist() {
   tracklistTbody.innerHTML = '';
+  
   for(const track of tracksData){
     await fetchPreview(track);
 
