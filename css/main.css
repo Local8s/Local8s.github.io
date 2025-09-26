@@ -53,7 +53,7 @@ body {
   top: calc(100% + 7px);
   left: 0;
   background: #000;
-  opacity: 0.75;
+  opacity: 0.70;
   border: 1px solid #7f9c68;
   line-height: 14px;
   padding: 5px;
@@ -87,7 +87,7 @@ body {
   left: 10%;
   background: #000;
   border: 2px solid #7f9c68; 
-  opacity: 0.75;
+  opacity: 0.70;
   color: #7f9c68;
   padding: 5px 5px 0px 5px;
   z-index: 3;
