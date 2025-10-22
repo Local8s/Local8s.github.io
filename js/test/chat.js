@@ -80,20 +80,32 @@ submitBtn.addEventListener('click', async e => {
   const txt = inputEl.value.trim();
   if (!txt) return;
 
-  // --- Get approximate city/state from IP ---
-  let location = "Unknown";
+  let location = "Somewhere on Earth"; // default fallback
+
   try {
-    const res = await fetch("https://ipapi.co/json/");
-    const data = await res.json();
-    if (data && data.city && data.region_code) {
-      location = `${data.city}, ${data.region_code}`;
-    } else if (data && data.country_name) {
-      location = data.country_name;
+    // If testing locally, use a placeholder
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      location = "Localhost Test";
+    } else {
+      // Attempt IP-based lookup for real visitors
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+      
+      if (data) {
+        if (data.city && data.region_code) {
+          location = `${data.city}, ${data.region_code}`;
+        } else if (data.country_name) {
+          location = data.country_name;
+        }
+      }
     }
   } catch (err) {
     console.warn("Location lookup failed:", err);
+    // location remains as fallback "Somewhere on Earth"
   }
- push(guestbookRef, {
+
+  // Push the message to Firebase
+  push(guestbookRef, {
     text:  txt,
     ts:    Date.now(),
     admin: isAdmin,
