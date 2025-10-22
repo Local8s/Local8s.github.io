@@ -83,14 +83,14 @@ submitBtn.addEventListener('click', async e => {
   let location = "Somewhere on Earth"; // default fallback
 
   try {
-    // If testing locally, use a placeholder
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      // Local testing
       location = "Localhost Test";
     } else {
-      // Attempt IP-based lookup for real visitors
+      // Real visitor: attempt IP lookup
       const res = await fetch("https://ipapi.co/json/");
       const data = await res.json();
-      
+
       if (data) {
         if (data.city && data.region_code) {
           location = `${data.city}, ${data.region_code}`;
@@ -101,19 +101,20 @@ submitBtn.addEventListener('click', async e => {
     }
   } catch (err) {
     console.warn("Location lookup failed:", err);
-    // location remains as fallback "Somewhere on Earth"
+    // fallback "Somewhere on Earth" remains
   }
 
   // Push the message to Firebase
   push(guestbookRef, {
-    text:  txt,
-    ts:    Date.now(),
+    text: txt,
+    ts: Date.now(),
     admin: isAdmin,
     location: location
   });
 
   inputEl.value = '';
 });
+
 
 function checkMobileAndMinimize() {
   if (window.matchMedia("(max-width: 600px)").matches) {
