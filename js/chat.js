@@ -75,17 +75,33 @@ onChildAdded(orderedRef, snap => {
 
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
 
-submitBtn.addEventListener('click', e => {
+submitBtn.addEventListener('click', async e => {
   e.preventDefault();
   const txt = inputEl.value.trim();
   if (!txt) return;
-  push(guestbookRef, {
+  let location = "Unknown";
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    if (data && data.city && data.region_code) {
+      location = `${data.city}, ${data.region_code}`;
+    } else if (data && data.country_name) {
+      location = data.country_name;
+    }
+  } catch (err) {
+    console.warn("Location lookup failed:", err);
+  }
+  
+ push(guestbookRef, {
     text:  txt,
     ts:    Date.now(),
-    admin: isAdmin
+    admin: isAdmin,
+    location: location
   });
+
   inputEl.value = '';
 });
+
 function checkMobileAndMinimize() {
   if (window.matchMedia("(max-width: 600px)").matches) {
     guestbookEl.classList.add('minimized');
