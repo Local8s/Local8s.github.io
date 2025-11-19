@@ -55,11 +55,15 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091925_TECH_L8.mp3',
-        name: 'L8s RADIO NEW! 91.7FM'
+        name: 'L8s RADIO 91.7FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/100325_MBBM_L8s.mp3',
         name: 'L8s RADIO NEW! 90.4FM'
+      },
+      {
+       src: 'https://file.garden/aGGJpwNLWActgKKi/111825_PARTY_L8.mp3',
+        name: 'L8s RADIO NEW! 102.9FM'
       },
     ];
 
