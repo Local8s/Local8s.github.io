@@ -66,7 +66,7 @@
         name: 'L8s RADIO NEW! 102.9FM'
       },
       {
-       src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8.mp3',
+       src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
         name: 'L8s RADIO NEW! 89.9FM'
       },
     ];
