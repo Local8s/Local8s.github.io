@@ -15,7 +15,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: '101.5FM EVENING PARTY MIX'
+        name: 'EVENING PARTY MIX 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
