@@ -58,7 +58,7 @@ body {
   line-height: 14px;
   padding: 5px;
   z-index: 2000;
-  min-width: 160px;
+  min-width: 120px;
 }
 
 .dropdown.open .dropdown-content {
@@ -74,7 +74,7 @@ body {
   left: 100%; /* Appears to the right of parent station */
   background-color: rgba(0, 0, 0, 0.68); /* Match main dropdown */
   border: 1px solid #7f9c68; /* Match main dropdown border */
-  min-width: 160px;
+  min-width: 110px;
   line-height: 14px;
   padding: 5px;
   z-index: 3000;
