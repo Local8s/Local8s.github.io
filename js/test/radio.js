@@ -15,7 +15,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8 105.FM XPR-REWIND02N'
+        name: 'L8 105.FM XPR-GLIT02N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
