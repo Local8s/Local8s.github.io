@@ -11,11 +11,11 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'L8s RADIO 98.1FM'
+        name: 'DEC/03/2025 98.1FM'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8s RADIO 101.5FM'
+        name: 'ABCDEFGHIJ 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
