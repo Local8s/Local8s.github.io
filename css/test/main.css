@@ -90,7 +90,7 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   color: #7f9c68;
-  background-color: transparent;
+  background: #000;
   transition: background 0.2s;
 }
 
