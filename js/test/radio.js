@@ -27,7 +27,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040125_TECH_HOUSE_L8.mp3',
-        name: '92.1FM THS-GRID02C'
+        name: 'L8 92.1FM THS-GRID02C'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
