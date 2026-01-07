@@ -115,6 +115,18 @@ body {
   cursor: default;
 }
 
+.popup-box a {
+  color: #fff; 
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.gb-message a:hover {
+  color: #3b4a31;
+  text-decoration: none;
+}
+
 .popup-header {
   cursor: move;       
   display: flex;
