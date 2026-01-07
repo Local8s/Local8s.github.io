@@ -139,7 +139,7 @@ function initPlayer() {
     audio.addEventListener('loadedmetadata', updateTime);
 
 
-document.querySelectorAll('.station').forEach(el => {
+document.querySelectorAll('.sub-station').forEach(el => {
   el.addEventListener('click', () => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
@@ -153,7 +153,7 @@ document.querySelectorAll('.station').forEach(el => {
     playPauseBtn.classList.add('playing');
     document.title = `▶ ${selectedSong.name}`;
 
-    document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
+    document.querySelectorAll('.sub-station').forEach(s => s.classList.remove('current'));
     el.classList.add('current');
 
     const dropdown = el.closest('.dropdown-content');
