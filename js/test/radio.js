@@ -15,11 +15,11 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'EVENING PARTY MIX 101.5FM'
+        name: '11/06/2025 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: 'L8s RADIO 97.7FM'
+        name: '03/11/2025 NEW! 97.7FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
