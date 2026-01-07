@@ -119,7 +119,7 @@ function initPlayer() {
     audio.addEventListener('loadedmetadata', updateTime);
 
 
-document.querySelectorAll('.station').forEach(el => {
+document.querySelectorAll('.sub-station').forEach(el => {
   el.addEventListener('click', () => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
