@@ -43,38 +43,34 @@
 }
 
 
-/* --- Display container for marquee --- */
 .display {
-  position: relative;       /* container for absolute scrolling text */
-  overflow: hidden;         /* hide overflow so text scrolls out */
-  width: 100%;              /* keep it proportional to radio UI */
-  height: 16px;             /* fits the font size */
-  text-align: left;         /* left-align for scrolling effect */
+  position: relative;
+  overflow: hidden;          /* hide overflowing text */
+  width: 100%;               /* fill container */
+  height: 16px;              /* fixed height to match pixel font */
+  text-align: left;
   color: #7f9c68;
   font-family: monospace;
   font-size: 12px;
   font-weight: bold;
-  filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
-}
-
-/* --- Track name for pixel-by-pixel scroll --- */
-#track-name {
-  position: absolute;       /* controlled by JS */
-  white-space: nowrap;      /* prevents wrapping */
-  left: 100%;               /* initial off-screen start */
-  top: 0;                   /* vertical alignment inside container */
-  color: #7f9c68;
-  font-family: monospace;
-  font-weight: bold;
-  font-size: 12px;
-  pointer-events: none;     /* prevents accidental hover/click issues */
   filter: drop-shadow(1px 1px 0.5px rgba(0,0,0,0.5));
+  white-space: nowrap;       /* prevent wrapping */
+  box-sizing: border-box;    /* include padding in width */
 }
 
-/* Optional: slightly vintage pixel effect */
-.display, #track-name {
-  image-rendering: pixelated;
+#track-name {
+  position: absolute;
+  white-space: nowrap;
+  left: 100%;
+  top: 0;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 12px;
+  color: #7f9c68;
+  filter: drop-shadow(1px 1px 0.5px rgba(0,0,0,0.5));
+  pointer-events: none;
 }
+
 
 
 .glow {
