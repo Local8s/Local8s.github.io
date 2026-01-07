@@ -11,11 +11,11 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'DEC/03/2025 98.1FM'
+        name: 'HSE-VIBE01N 98.1FM'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: '11/06/2025 101.5FM'
+        name: 'THS-GRID02C 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
