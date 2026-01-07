@@ -15,11 +15,11 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8s RADIO NEW! 101.5FM'
+        name: 'L8s RADIO 101.5FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: 'L8s RADIO NEW! 97.7FM'
+        name: 'L8s RADIO 97.7FM'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
@@ -35,7 +35,7 @@
       },
          {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
-        name: 'L8s RADIO NEW! 88.6FM'
+        name: 'L8s RADIO 88.6FM'
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071725_MIX_L8.mp3',
@@ -43,12 +43,32 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071925_ALT_L8.mp3',
-        name: 'L8s RADIO NEW! 96.8FM'
+        name: 'L8s RADIO 96.8FM'
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080625_EMO_L8.mp3',
-        name: 'L8s RADIO NEW! 107.2FM'
-      }
+        name: 'L8s RADIO 107.2FM'
+      },
+       {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/091125_HOUSE_L8.mp3',
+        name: 'L8s RADIO 94.5FM'
+      },
+       {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/091925_TECH_L8.mp3',
+        name: 'L8s RADIO 91.7FM'
+      },
+      {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/100325_MBBM_L8s.mp3',
+        name: 'L8s RADIO 90.4FM'
+      },
+      {
+       src: 'https://file.garden/aGGJpwNLWActgKKi/111825_PARTY_L8.mp3',
+        name: 'L8s RADIO NEW! 102.9FM'
+      },
+      {
+       src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
+        name: 'L8s RADIO NEW! 89.9FM'
+      },
     ];
 
 
@@ -78,30 +98,6 @@ function initPlayer() {
     }
   }, 3000); 
 }
-
-// --- PIXEL-BY-PIXEL MARQUEE FOR TRACK NAME ---
-(function initMarquee() {
-  const marqueeText = trackName;
-  const marqueeContainer = marqueeText.parentElement;
-  let posX = marqueeContainer.offsetWidth; // start off right edge
-  const speed = 1; // pixels per frame, tweak for retro feel
-
-  function step() {
-    posX -= speed;
-    // Reset to right when fully off left
-    if (posX < -marqueeText.offsetWidth) {
-      posX = marqueeContainer.offsetWidth;
-    }
-    marqueeText.style.position = 'absolute';
-    marqueeText.style.left = posX + 'px';
-
-    requestAnimationFrame(step);
-  }
-
-  // Start the marquee loop
-  step();
-})();
-
 
     function formatTime(sec) {
       const minutes = Math.floor(sec / 60);
@@ -143,7 +139,7 @@ function initPlayer() {
     audio.addEventListener('loadedmetadata', updateTime);
 
 
-document.querySelectorAll('.sub-station').forEach(el => {
+document.querySelectorAll('.station').forEach(el => {
   el.addEventListener('click', () => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
@@ -166,4 +162,3 @@ document.querySelectorAll('.sub-station').forEach(el => {
     }
   });
 });
-
