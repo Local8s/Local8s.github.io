@@ -65,19 +65,22 @@ body {
   display: block;
 }
 
+
 /* Sub-dropdown container */
 .sub-dropdown {
   display: none; /* Hidden by default */
   position: absolute;
-  top: 0;
+  top: 0; /* Will adjust with transform */
   left: 100%; /* Appears to the right of parent station */
-  background: #000;
-  opacity: 0.68;
-  border: 1px solid #7f9c68;
+  background-color: rgba(0, 0, 0, 0.68); /* Match main dropdown */
+  border: 1px solid #7f9c68; /* Match main dropdown border */
   min-width: 160px;
   line-height: 14px;
   padding: 5px;
   z-index: 3000;
+
+  /* Align with parent station */
+  transform: translateY(0%); /* start aligned with the station */
 }
 
 /* Show sub-dropdown when hovering parent station */
@@ -85,23 +88,8 @@ body {
   display: block;
 }
 
-/* Sub-station styling */
+/* Sub-station styling (matches main dropdown) */
 .sub-station {
-  padding: 5px 10px;
-  cursor: pointer;
-  color: #7f9c68;
-  background: #000;
-  transition: background 0.2s;
-}
-
-.sub-station:hover,
-.sub-station.current {
-  background-color: #7f9c68;
-  color: #000;
-}
-
-
-.station {
   padding: 5px 10px;
   cursor: pointer;
   color: #7f9c68;
@@ -109,8 +97,8 @@ body {
   transition: background 0.2s;
 }
 
-.station:hover,
-.station.current {
+.sub-station:hover,
+.sub-station.current {
   background-color: #7f9c68;
   color: #000;
 }
