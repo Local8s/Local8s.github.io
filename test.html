@@ -8,148 +8,242 @@
   <link rel="stylesheet" href="css/test/main.css">
   <link rel="stylesheet" href="css/test/radio.css">
   <link rel="stylesheet" href="css/test/chat.css">
+  <style>
+    /* --- Navbar --- */
+    .nav-wrapper {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.68);
+        height: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: monospace;
+        font-size: 12px;
+        font-weight: bold;
+        color: #7f9c68;
+        z-index: 1001;
+        padding: 8px;
+    }
 
+    .nav-left, .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        padding: 0 20px;
+    }
+
+    .pixelated {
+        image-rendering: pixelated;
+    }
+
+    /* --- Dropdown --- */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: calc(100% + 7px);
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.68);
+        border: 1px solid #7f9c68;
+        min-width: 160px;
+        line-height: 14px;
+        padding: 5px;
+        z-index: 2000;
+    }
+
+    .dropdown.open .dropdown-content {
+        display: block;
+    }
+
+    /* --- Station (main item) --- */
+    .station {
+        position: relative; /* key for sub-dropdown alignment */
+        padding: 5px 10px;
+        cursor: pointer;
+        color: #7f9c68;
+        background-color: transparent;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+    .station:hover,
+    .station.current {
+        background-color: #7f9c68;
+        color: #000;
+    }
+
+    /* --- Sub-dropdown (cascading menu) --- */
+    .sub-dropdown {
+        display: none;
+        position: absolute;
+        top: 0;        /* aligns top with parent station */
+        left: 100%;    /* right of parent station */
+        background-color: rgba(0, 0, 0, 0.68); /* match main dropdown */
+        border: 1px solid #7f9c68;
+        min-width: 160px;
+        padding: 5px;
+        z-index: 3000;
+        white-space: nowrap;
+    }
+
+    /* Show sub-dropdown when hovering parent station */
+    .station:hover > .sub-dropdown {
+        display: block;
+    }
+
+    /* Sub-station styling */
+    .sub-station {
+        padding: 5px 10px;
+        cursor: pointer;
+        color: #7f9c68;
+        background-color: transparent;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
+
+    .sub-station:hover,
+    .sub-station.current {
+        background-color: #7f9c68;
+        color: #000;
+    }
+  </style>
 </head>
 <body>
 
   <div class="nav-wrapper">
-  <div class="nav-left">
-<div class="dropdown" onclick="toggleDropdown(this, event)">
+    <div class="nav-left">
+
+      <!-- FILE Dropdown -->
+      <div class="dropdown" onclick="toggleDropdown(this, event)">
         <span>FILE</span>
-  <div class="dropdown-content">
-        <div class="station">New</div>
-        <div class="station">Open</div>
-        <div class="station">Save</div>
-        <div class="station" onclick="window.open('https://file.garden/aGGJpwNLWActgKKi/24_L8s_artical_final.jpg', '_blank')">Print</div>
-        <div class="station" onclick="window.open('https://open.spotify.com/user/3134jzcgjmqem5ybpy65stcu7axm?si=a1f3b43c3618414c', '_blank')">Spotify</div>
-       <div class="station" onclick="window.open('https://www.soundcloud.com/local8sfm', '_blank')">Soundcloud</div>
-       <div class="station" onclick="window.open('https://coff.ee/local8s', '_blank')">Support</div>
-  </div>
+        <div class="dropdown-content">
+          <div class="station">New</div>
+          <div class="station">Open</div>
+          <div class="station">Save</div>
+          <div class="station" onclick="window.open('https://file.garden/aGGJpwNLWActgKKi/24_L8s_artical_final.jpg', '_blank')">Print</div>
+          <div class="station" onclick="window.open('https://open.spotify.com/user/3134jzcgjmqem5ybpy65stcu7axm?si=a1f3b43c3618414c', '_blank')">Spotify</div>
+          <div class="station" onclick="window.open('https://www.soundcloud.com/local8sfm', '_blank')">Soundcloud</div>
+          <div class="station" onclick="window.open('https://coff.ee/local8s', '_blank')">Support</div>
+        </div>
       </div>
 
-<div class="dropdown" onclick="toggleDropdown(this, event)">
-      <span>STATIONS</span>
-      <div class="dropdown-content">
-      <div class="station" data-index="0">98.1FM - HOUSE</div>
-      <div class="station" data-index="1">101.5FM - MIX</div>
-      <div class="station" data-index="2">97.7FM - DISCO</div>
-      <div class="station" data-index="3">104.3FM - ALT</div>
-      <div class="station" data-index="4">92.1FM - TECH HOUSE</div>
-      <div class="station" data-index="5">89.5FM - HOUSE</div>
-      <div class="station" data-index="6">88.6FM - ELECTRO</div>
-      <div class="station" data-index="7">93.3FM - MIX</div>
-      <div class="station" data-index="8">96.8FM - ALT</div>
-      <div class="station" data-index="9">107.2FM - EMO</div>
-      <div class="station" data-index="10">94.5FM - HOUSE</div>
-      <div class="station" data-index="11">91.7FM - TECH HOUSE</div>
-      <div class="station" data-index="12">90.4FM - TECH HOUSE</div>
-      <div class="station" data-index="13">102.9FM - PARTY</div>
-      <div class="station" data-index="14">89.9FM - GAS</div>
+      <!-- STATIONS Dropdown -->
+      <div class="dropdown" onclick="toggleDropdown(this, event)">
+        <span>STATIONS</span>
+        <div class="dropdown-content">
+          <div class="station" data-index="0">98.1FM - HOUSE</div>
+          <div class="station" data-index="1">101.5FM - MIX</div>
+          <div class="station" data-index="2">97.7FM - DISCO</div>
+          <div class="station" data-index="3">104.3FM - ALT</div>
+          <div class="station" data-index="4">92.1FM - TECH HOUSE</div>
+          <div class="station" data-index="5">89.5FM - HOUSE</div>
+          <div class="station" data-index="6">88.6FM - ELECTRO</div>
+          <div class="station" data-index="7">93.3FM - MIX</div>
+          <div class="station" data-index="8">96.8FM - ALT</div>
+          <div class="station" data-index="9">107.2FM - EMO</div>
+          <div class="station" data-index="10">94.5FM - HOUSE</div>
+          <div class="station" data-index="11">91.7FM - TECH HOUSE</div>
+          <div class="station" data-index="12">90.4FM - TECH HOUSE</div>
+          <div class="station" data-index="13">102.9FM - PARTY</div>
+          <div class="station" data-index="14">89.9FM - GAS</div>
+        </div>
       </div>
+
+      <!-- TESTER Dropdown with nested submenus -->
+      <div class="dropdown" onclick="toggleDropdown(this, event)">
+        <span>TESTER</span>
+        <div class="dropdown-content">
+
+          <div class="station">
+            98.1FM - HOUSE
+            <div class="sub-dropdown">
+              <div class="sub-station" data-index="0">Morning Mix</div>
+              <div class="sub-station" data-index="5">Evening Chill</div>
+            </div>
+          </div>
+
+          <div class="station">
+            101.5FM - MIX
+            <div class="sub-dropdown">
+              <div class="sub-station">Top Hits</div>
+              <div class="sub-station">Classic Mix</div>
+              <div class="sub-station">Evening Party</div>
+            </div>
+          </div>
+
+          <div class="station">
+            97.7FM - DISCO
+            <div class="sub-dropdown">
+              <div class="sub-station">Disco Morning</div>
+              <div class="sub-station">Disco Night</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <span style="cursor:pointer;" onclick="togglePopup('aboutPopup')">ABOUT</span>
+      <span style="cursor:pointer;" onclick="togglePopup('contactPopup')">CONTACT</span>
+
     </div>
 
-<div class="dropdown" onclick="toggleDropdown(this, event)">
-  <span>TESTER</span>
-  <div class="dropdown-content">
-    <div class="station">
-      98.1FM - HOUSE
-      <div class="sub-dropdown">
-        <div class="sub-station" data-index="0">Morning Mix</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-      </div> <!-- closes sub-dropdown -->
-    </div> <!-- closes station -->
+    <div class="marquee-wrapper">
+      <div class="marquee-text">THIS IS A TEST !!! THIS IS A TEST !!! THIS IS A TEST!!!</div>
+    </div>
 
-     <div class="station">
-      101.5FM - MIX
-      <div class="sub-dropdown">
-        <div class="sub-station" data-index="0">Morning Mix</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-      </div> <!-- closes sub-dropdown -->
-    </div> <!-- closes station -->
-
-         <div class="station">
-      97.7FM - DISCO
-      <div class="sub-dropdown">
-        <div class="sub-station" data-index="0">Morning Mix</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-        <div class="sub-station" data-index="5">Evening Chill</div>
-      </div> <!-- closes sub-dropdown -->
-    </div> <!-- closes station -->
-
-
-
-
-
-
-
-    
-  </div> <!-- closes dropdown-content -->
-</div> <!-- closes dropdown -->
-
-    
-    <span style="cursor:pointer;" onclick="togglePopup('aboutPopup')">ABOUT</span>
-    <span style="cursor:pointer;" onclick="togglePopup('contactPopup')">CONTACT</span>
+    <div class="nav-right">
+      <span style="cursor:pointer;" onclick="toggleGuestbook()">LEAVE A MESSAGE</span>
+    </div>
   </div>
 
-<div class="marquee-wrapper">
-  <div class="marquee-text">THIS IS A TEST !!! THIS IS A TEST !!! THIS IS A TEST!!!</div>
-</div>
-
-
-  <div class="nav-right">
-    <span style="cursor:pointer;" onclick="toggleGuestbook()">LEAVE A MESSAGE</span>
-  </div>
-</div>
-
-
-<div id="aboutPopup" class="popup-box">
-  <div class="popup-header">
-  <button onclick="togglePopup('aboutPopup')">X</button></div>
-  <p><img src="images/tester.webp" alt="About" width="115px" style="float:left; margin:0 10px 0px 3px;">
-  <b>ABOUT LOCAL 8's</b><br>
+  <!-- About Popup -->
+  <div id="aboutPopup" class="popup-box">
+    <div class="popup-header">
+      <button onclick="togglePopup('aboutPopup')">X</button>
+    </div>
+    <p><img src="images/tester.webp" alt="About" width="115px" style="float:left; margin:0 10px 0px 3px;">
+    <b>ABOUT LOCAL 8's</b><br>
     Broadcasting live from the Nightosphere.<p>
-    Local 8's started in 2022, named after the weather channel's classic segment "Local on the 8s". xxxxxxx xxx x xxxxxxx xxxxx<p>
-      <p><center>Dedicated to Jean Gillette.</p>
-      <p>
-      <a href="https://petrapixel.neocities.org/contest" target="_blank">
-    <img src="https://file.garden/aGGJpwNLWActgKKi/l8s_silver.png"></a><br>
-        Most unique site 2nd place winner 2025<p></p>
-
-        
-</div>
-
-<div id="contactPopup" class="popup-box">
-   <div class="popup-header">
-  <button onclick="togglePopup('contactPopup')">X</button></div>
-  <p><center><img src="images/email.svg" width="25px"><br><br>LOCAL8SFM@GMAIL.COM<p>
-  <strong>BUY ME A COFFEE</strong><br>
-  <a href="www.coff.ee/local8s" target="_blank">coff.ee/local8s</a></center></p>
-</div>
-
-<!-- GUESTBOOK -->
-<div id="guestbook" class="pixel-guestbook">
-  <div class="gb-header">
-    <span>LEAVE A MESSAGE</span>
-    <button class="gb-minimize">-</button>
+    Local 8's started in 2022, named after the weather channel's classic segment "Local on the 8s".<p>
+    <center>Dedicated to Jean Gillette.</center>
+    <p>
+    <a href="https://petrapixel.neocities.org/contest" target="_blank">
+      <img src="https://file.garden/aGGJpwNLWActgKKi/l8s_silver.png"></a><br>
+      Most unique site 2nd place winner 2025
   </div>
-  
-  <div class="gb-messages" id="gbMessages">
 
-  </div>
-  
-  <div class="gb-input">
-    <div class="input-fields">
-      <input type="text" id="gbText" placeholder="Type your message..">
+  <!-- Contact Popup -->
+  <div id="contactPopup" class="popup-box">
+    <div class="popup-header">
+      <button onclick="togglePopup('contactPopup')">X</button>
     </div>
-    <button id="gbSubmit">SEND</button>
+    <p><center><img src="images/email.svg" width="25px"><br><br>LOCAL8SFM@GMAIL.COM<p>
+    <strong>BUY ME A COFFEE</strong><br>
+    <a href="www.coff.ee/local8s" target="_blank">coff.ee/local8s</a></center></p>
   </div>
-</div>
-  
-  <!-- RADIO -->
+
+  <!-- Guestbook -->
+  <div id="guestbook" class="pixel-guestbook">
+    <div class="gb-header">
+      <span>LEAVE A MESSAGE</span>
+      <button class="gb-minimize">-</button>
+    </div>
+    <div class="gb-messages" id="gbMessages"></div>
+    <div class="gb-input">
+      <div class="input-fields">
+        <input type="text" id="gbText" placeholder="Type your message..">
+      </div>
+      <button id="gbSubmit">SEND</button>
+    </div>
+  </div>
+
+  <!-- Radio Player -->
   <div class="radio-container">
     <img src="images/L8s_player_v2.webp" alt="radio UI" class="radio-img">
     <div class="display">
@@ -167,14 +261,10 @@
     <audio id="audio" preload="none"></audio>
     <img id="gif" src="https://u.cubeupload.com/1800HOTSOUP/musicalnotesv2.gif" />
   </div>
-  
-  
 
-
-
-<script type="module" src="js/test/radio.js"></script>
-<script type="module" src="js/test/chat.js"></script>
-<script type="module" src="js/ui.js" defer></script>
+  <script type="module" src="js/test/radio.js"></script>
+  <script type="module" src="js/test/chat.js"></script>
+  <script type="module" src="js/ui.js" defer></script>
 
 </body>
 </html>
