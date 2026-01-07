@@ -79,6 +79,30 @@ function initPlayer() {
   }, 3000); 
 }
 
+// --- PIXEL-BY-PIXEL MARQUEE FOR TRACK NAME ---
+(function initMarquee() {
+  const marqueeText = trackName;
+  const marqueeContainer = marqueeText.parentElement;
+  let posX = marqueeContainer.offsetWidth; // start off right edge
+  const speed = 1; // pixels per frame, tweak for retro feel
+
+  function step() {
+    posX -= speed;
+    // Reset to right when fully off left
+    if (posX < -marqueeText.offsetWidth) {
+      posX = marqueeContainer.offsetWidth;
+    }
+    marqueeText.style.position = 'absolute';
+    marqueeText.style.left = posX + 'px';
+
+    requestAnimationFrame(step);
+  }
+
+  // Start the marquee loop
+  step();
+})();
+
+
     function formatTime(sec) {
       const minutes = Math.floor(sec / 60);
       const seconds = Math.floor(sec % 60).toString().padStart(2, '0');
