@@ -11,23 +11,23 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'L8 98.1FM HSE-VIBE01N'
+        name: 'L8 101.5FM XPR-DRIFT01N'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'THS-GRID02C 101.5FM'
+        name: '105.FM XPR-REWIND02N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: '03/11/2025 NEW! 97.7FM'
+        name: 'L8 97.7FM DSC-SPIN01N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
-        name: 'L8s RADIO 104.3FM'
+        name: 'L8 104.3FM ALT-HAZE01M'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040125_TECH_HOUSE_L8.mp3',
-        name: 'L8 92.1FM THS-GRID02C'
+        name: 'L8 92.1FM THS-VOID01N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
