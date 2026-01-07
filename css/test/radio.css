@@ -42,19 +42,40 @@
   font-weight: bold;
 }
 
+
+/* --- Display container for marquee --- */
 .display {
-  position: absolute;
-  top: 33.7%;
-  left: 13.4%;
-  width: 23%;
-  text-align: center;
-  color: #000;
-  opacity: 0.95;
+  position: relative;       /* container for absolute scrolling text */
+  overflow: hidden;         /* hide overflow so text scrolls out */
+  width: 100%;              /* keep it proportional to radio UI */
+  height: 16px;             /* fits the font size */
+  text-align: left;         /* left-align for scrolling effect */
+  color: #7f9c68;
   font-family: monospace;
-  font-size: 15px;
+  font-size: 12px;
   font-weight: bold;
   filter: drop-shadow(1px 1px 0.5px rgba(0, 0, 0, 0.5));
 }
+
+/* --- Track name for pixel-by-pixel scroll --- */
+#track-name {
+  position: absolute;       /* controlled by JS */
+  white-space: nowrap;      /* prevents wrapping */
+  left: 100%;               /* initial off-screen start */
+  top: 0;                   /* vertical alignment inside container */
+  color: #7f9c68;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 12px;
+  pointer-events: none;     /* prevents accidental hover/click issues */
+  filter: drop-shadow(1px 1px 0.5px rgba(0,0,0,0.5));
+}
+
+/* Optional: slightly vintage pixel effect */
+.display, #track-name {
+  image-rendering: pixelated;
+}
+
 
 .glow {
   color: #000;
