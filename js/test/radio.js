@@ -31,7 +31,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
-        name: 'L8s RADIO 89.5FM'
+        name: 'NEW! 107.5FM THS-GRID02C'
       },
          {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
