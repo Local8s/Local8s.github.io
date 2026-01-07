@@ -11,7 +11,7 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'HSE-VIBE01N 98.1FM'
+        name: '98.1FM HSE-VIBE01N'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
