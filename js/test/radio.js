@@ -15,7 +15,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: '105.FM XPR-REWIND02N'
+        name: 'L8 105.FM XPR-REWIND02N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
@@ -31,7 +31,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
-        name: 'L8 107.5FM THS-GRID02C'
+        name: 'L8 98.1FM HSE-WAVE02C'
       },
          {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
