@@ -116,13 +116,13 @@ body {
 }
 
 .popup-box a {
-  color: #fff; 
+  color: #7f9c68; 
   text-decoration: underline;
   font-weight: bold;
   transition: color 0.2s ease;
 }
 
-.gb-message a:hover {
+.popup-box a:hover {
   color: #3b4a31;
   text-decoration: none;
 }
