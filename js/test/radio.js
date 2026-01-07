@@ -11,7 +11,7 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: '998.1FM HSE-VIBE01N'
+        name: 'L8 98.1FM HSE-VIBE01N'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
@@ -31,7 +31,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
-        name: 'NEW! 107.5FM THS-GRID02C'
+        name: 'L8 107.5FM THS-GRID02C'
       },
          {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
