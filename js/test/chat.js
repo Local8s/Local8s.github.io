@@ -75,11 +75,39 @@ onChildAdded(orderedRef, snap => {
 
 const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
 
+submitBtn.addEventListener('click', async e => {
+  e.preventDefault();
+  const txt = inputEl.value.trim();
+  if (!txt) return;
 
-  // Use serverTimestamp() instead of Date.now()
+  let location = "Somewhere on Earth"; // default fallback
+
+  try {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      // Local testing
+      location = "Localhost Test";
+    } else {
+      // Real visitor: attempt IP lookup
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+
+      if (data) {
+        if (data.city && data.region_code) {
+          location = `${data.city}, ${data.region_code}`;
+        } else if (data.country_name) {
+          location = data.country_name;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("Location lookup failed:", err);
+    // fallback "Somewhere on Earth" remains
+  }
+
+  // Push the message to Firebase
   push(guestbookRef, {
     text: txt,
-    ts: serverTimestamp(), // This will be set by Firebase server
+    ts: Date.now(),
     admin: isAdmin,
     location: location
   });
@@ -87,3 +115,15 @@ const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1'
   inputEl.value = '';
 });
 
+
+function checkMobileAndMinimize() {
+  if (window.matchMedia("(max-width: 600px)").matches) {
+    guestbookEl.classList.add('minimized');
+  }
+}
+
+inputEl.addEventListener('keydown', function(e) {
+  if (e.key === ' ') {
+    e.stopPropagation(); 
+  }
+});
