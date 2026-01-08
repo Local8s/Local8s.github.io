@@ -113,10 +113,10 @@
         color: #000;
     }
 
-    .collapsible {
+   .collapsible {
   background-color: #7f9c68;
   cursor: pointer;
-  padding: 5px;
+  padding: 8px; /* Slightly increased padding */
   width: 100%;
   border: solid 1px;
   border-color: #000;
@@ -127,8 +127,33 @@
   font-weight: bold;
   text-align: center;
   color: #000;
+  
+  /* FIX: Make buttons stack vertically */
+  display: block;
+  margin-bottom: 3px; /* Space between buttons */
+  box-sizing: border-box;
+  
+  /* Better alignment */
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
+/* Ensure the content divs also stack properly */
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  line-height: 18px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #000;
+  
+  /* Ensure content divs are block elements */
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .active, .collapsible:hover {
   background-color: #3b4a31;
@@ -146,18 +171,6 @@
   content: "\2212";
 }
 
-.content {
-  padding: 0 18px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-
-  line-height: 18px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #000;
-}
-    
   </style>
 </head>
 <body>
