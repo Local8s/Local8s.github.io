@@ -113,63 +113,6 @@
         color: #000;
     }
 
-   .collapsible {
-  background-color: #7f9c68;
-  cursor: pointer;
-  padding: 8px; /* Slightly increased padding */
-  width: 100%;
-  border: solid 1px;
-  border-color: #000;
-  text-align: left;
-  outline: none;
-  font-family: monospace;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
-  color: #000;
-  
-  /* FIX: Make buttons stack vertically */
-  display: block;
-  margin-bottom: 3px; /* Space between buttons */
-  box-sizing: border-box;
-  
-  /* Better alignment */
-  position: relative;
-  transition: background-color 0.3s ease;
-}
-
-/* Ensure the content divs also stack properly */
-.content {
-  padding: 0 18px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-  line-height: 18px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #000;
-  
-  /* Ensure content divs are block elements */
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.active, .collapsible:hover {
-  background-color: #3b4a31;
-}
-
-.collapsible:after {
-  content: '\002B';
-  color: #000;
-  font-weight: bold;
-  float: right;
-  margin-left: 5px;
-}
-
-.active:after {
-  content: "\2212";
-}
 
   </style>
 </head>
@@ -276,24 +219,6 @@
     <div class="nav-right">
       <span style="cursor:pointer;" onclick="toggleGuestbook()">LEAVE A MESSAGE</span>
     </div>
-  </div>
-
-  <!-- About Popup -->
-  <div id="trackPopup" class="popup-box">
-    <div class="popup-header">
-      <button class="collapsible">03/28/2025 | DSC-HAZE01C | 30:57</button>
-<div class="content">
-  <p>#1. <a href="https://open.spotify.com/track/1rB4MaZhxbxuaIqvbs9nLc?si=360107d62fe84bab" target="_blank">Star - Good Sad Happy Bad</a><BR>
- 	 #2. <a href="https://www.freecodecamp.org/" target="_blank">In alto mare - Loredana Berte</a><br>
-	 #3. <a href="https://www.freecodecamp.org/" target="_blank">Messages from the Stars - The Rah Band</a><br>
-	#4. <a href="https://www.freecodecamp.org/" target="_blank">Baby Tonight - Social Lovers</a><br>
-	#5. <a href="https://www.freecodecamp.org/" target="_blank">Catch Me - Flying Mojito Bros</a><br>
-	#6. <a href="https://www.freecodecamp.org/" target="_blank">Podzim Zacina - ORM, Kamelie</a><br>
-	#7. <a href="https://www.freecodecamp.org/" target="_blank">Psychic City (Classixx Remix) - YACHT, Classixx</a><br>
-	#8. <a href="https://www.freecodecamp.org/" target="_blank">Simulation - Roisin Murphy</a></p>
-</div>
-</div>
-   
   </div>
 
    <!-- About Popup -->
