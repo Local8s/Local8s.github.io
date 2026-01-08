@@ -127,3 +127,49 @@ inputEl.addEventListener('keydown', function(e) {
     e.stopPropagation(); 
   }
 });
+
+
+import { 
+  initializeApp 
+} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  query,
+  orderByChild,
+  onChildAdded,
+  serverTimestamp // Add this import
+} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
+
+// ... (rest of your config remains the same)
+
+// Update your push function:
+submitBtn.addEventListener('click', async e => {
+  e.preventDefault();
+  const txt = inputEl.value.trim();
+  if (!txt) return;
+  
+  let location = "Unknown";
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    if (data && data.city && data.region_code) {
+      location = `${data.city}, ${data.region_code}`;
+    } else if (data && data.country_name) {
+      location = data.country_name;
+    }
+  } catch (err) {
+    console.warn("Location lookup failed:", err);
+  }
+  
+  // Use serverTimestamp() instead of Date.now()
+  push(guestbookRef, {
+    text: txt,
+    ts: serverTimestamp(), // This will be set by Firebase server
+    admin: isAdmin,
+    location: location
+  });
+
+  inputEl.value = '';
+});
