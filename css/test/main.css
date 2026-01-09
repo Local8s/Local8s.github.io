@@ -66,7 +66,7 @@ body {
 
 
    .station {
-        position: relative; /* key for sub-dropdown alignment */
+        position: relative;
         padding: 5px 10px;
         cursor: pointer;
         color: #7f9c68;
@@ -77,7 +77,7 @@ body {
 
     .station:hover,
     .station.current {
-        background-color: #7f9c68;
+        background-color: #3b4a31;
     }
 
    .sub-dropdown {
@@ -86,7 +86,6 @@ body {
         top: 0;        
         left: 100%;    
         background-color: #000;
-        opacity: 0.68;
         border: 1px solid #7f9c68;
         min-width: 130px;
         padding: 5px;
@@ -110,7 +109,7 @@ body {
 
     .sub-station:hover,
     .sub-station.current {
-        background-color: #7f9c68;
+        background-color: #3b4a31;
     }
 
 .popup-box {
