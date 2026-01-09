@@ -1,4 +1,4 @@
-<script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
 import {
   getDatabase,
@@ -145,4 +145,4 @@ function checkMobileAndMinimize() {
     guestbookEl.classList.add("minimized");
   }
 }
-</script>
+
