@@ -147,7 +147,6 @@ body {
   background: #000;
   color: #7f9c68;
   border: 1px solid #7f9c68;
-  font-weight: bold;
   cursor: pointer;
 }
 
@@ -155,7 +154,6 @@ body {
   background: #000;
   color: #7f9c68;
   border: 1px solid #7f9c68;
-  font-weight: bold;
   cursor: pointer;
   padding: 0 6px;
 }
@@ -166,6 +164,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 4px;
+  font-weight: bold;
   border-bottom: 1px solid #7f9c68;
 }
 
