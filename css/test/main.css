@@ -51,7 +51,7 @@ body {
     position: absolute;
     top: calc(100% + 7px);
     left: 0;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.68);
     border: 1px solid #7f9c68;
     min-width: 150px;
     line-height: 14px;
