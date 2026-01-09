@@ -71,7 +71,6 @@ body {
         cursor: pointer;
         color: #7f9c68;
         background-color: #000;
-        opacity: 0.68;
         transition: background 0.2s;
         white-space: nowrap;
     }
@@ -105,7 +104,6 @@ body {
         padding: 5px;
         color: #7f9c68;
         background-color: #OOO;
-        opacity: 0.68;
         transition: background 0.2s;
         white-space: nowrap;
     }
