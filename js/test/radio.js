@@ -39,15 +39,15 @@
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071725_MIX_L8.mp3',
-        name: 'L8 101.5 XPR-BOOM03E'
+        name: 'L8 101.5FM XPR-BOOM03E'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071925_ALT_L8.mp3',
-        name: 'L8 104.3 ALT-GRIT01E'
+        name: 'L8 104.3FM ALT-GRIT01E'
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080625_EMO_L8.mp3',
-        name: 'L8s RADIO 107.2FM'
+        name: 'L8 104.3FM ALT-TEAR01M'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091125_HOUSE_L8.mp3',
