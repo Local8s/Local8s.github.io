@@ -126,15 +126,6 @@ body {
 }
 
 
-  .popup-box button {
-    background: #000;
-    color: #7f9c68;
-    border: 1px;
-    font-weight: bold;
-    cursor: pointer;
-    float: right;
-  }
-
 .popup-box {
   cursor: default;
 }
@@ -151,13 +142,32 @@ body {
   text-decoration: none;
 }
 
+.popup-box button {
+  background: #000;
+  color: #7f9c68;
+  border: 1px solid #7f9c68;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.popup-close {
+  background: #000;
+  color: #7f9c68;
+  border: 1px solid #7f9c68;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
 .popup-header {
-  cursor: move;       
   display: flex;
-  justify-content: flex-end; 
-  padding: 5px 5px 5px 5px;
+  cursor: move;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px;
   border-bottom: 1px solid #7f9c68;
 }
+
 
 
 
