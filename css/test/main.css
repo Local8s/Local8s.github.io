@@ -69,7 +69,7 @@ body {
         padding: 5px 10px;
         cursor: pointer;
         color: #7f9c68;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.68);
         transition: background 0.2s;
         white-space: nowrap;
     }
@@ -83,9 +83,9 @@ body {
    .sub-dropdown {
         display: none;
         position: absolute;
-        top: 0;        /* aligns top with parent station */
-        left: 100%;    /* right of parent station */
-        background-color: #000;
+        top: 0;        
+        left: 100%;    
+        background-color: rgba(0, 0, 0, 0.68);
         border: 1px solid #7f9c68;
         min-width: 130px;
         padding: 5px;
@@ -99,10 +99,9 @@ body {
 }
 
     .sub-station {
-        padding: 5px 10px;
         cursor: pointer;
         color: #7f9c68;
-        background-color: #000;
+        background-color: rgba(0, 0, 0, 0.68);
         transition: background 0.2s;
         white-space: nowrap;
     }
