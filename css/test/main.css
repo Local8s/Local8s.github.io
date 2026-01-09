@@ -147,7 +147,7 @@ body {
   background: #000;
   color: #7f9c68;
   border: 1px solid #7f9c68;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -157,9 +157,9 @@ body {
   color: #7f9c68;
   border: 1px solid #7f9c68;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: bold;
-  padding: 0 6px;
+  padding: 0 4px;
 }
 
 .popup-header {
