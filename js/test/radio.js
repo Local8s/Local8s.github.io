@@ -51,19 +51,19 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091125_HOUSE_L8.mp3',
-        name: 'L8s RADIO 94.5FM'
+        name: 'L8 88.6FM DNC-PULS01E'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091925_TECH_L8.mp3',
-        name: 'L8s RADIO 91.7FM'
+        name: 'L8 98.1FM HSE-HEAT04N'
       },
       {
-        src: 'https://file.garden/aGGJpwNLWActgKKi/100325_MBBM_L8s.mp3',
-        name: 'L8s RADIO 90.4FM'
+        src: 'https://file.garden/aGGJpwNLWActgKKi/103225_OCBT_L8s.mp3',
+        name: 'L8 107.6FM AUX-MBBH01D'
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/111825_PARTY_L8.mp3',
-        name: 'L8s RADIO NEW! 102.9FM'
+        name: 'L8 97.7FM DSC-GLOW01P'
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
