@@ -35,7 +35,8 @@ const submitBtn = document.getElementById("gbSubmit");
 const guestbookEl = document.getElementById("guestbook"); // optional
 
 /* ------------------ Admin Flag ------------------ */
-const isAdmin = new URLSearchParams(window.location.search).get("admin") === "1";
+const isAdmin =
+  new URLSearchParams(window.location.search).get("admin") === "1";
 
 /* ------------------ Helpers ------------------ */
 function formatDate(ts) {
@@ -84,38 +85,16 @@ onChildAdded(orderedRef, snap => {
 });
 
 /* ------------------ Submit Message ------------------ */
-submitBtn.addEventListener("click", async e => {
+submitBtn.addEventListener("click", e => {
   e.preventDefault();
 
   const txt = inputEl.value.trim();
   if (!txt) return;
 
-  let location = "Somewhere on Earth";
-
-  try {
-    if (
-      window.location.hostname !== "localhost" &&
-      window.location.hostname !== "127.0.0.1"
-    ) {
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-      if (data?.city && data?.region_code) {
-        location = `${data.city}, ${data.region_code}`;
-      } else if (data?.country_name) {
-        location = data.country_name;
-      }
-    } else {
-      location = "Localhost Test";
-    }
-  } catch (err) {
-    console.warn("Location lookup failed:", err);
-  }
-
   push(guestbookRef, {
     text: txt,
     ts: serverTimestamp(),
-    admin: isAdmin,
-    location
+    admin: isAdmin
   });
 
   inputEl.value = "";
