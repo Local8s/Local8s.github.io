@@ -15,7 +15,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8 105.FM XPR-GLIT02N'
+        name: 'L8 105.5FM XPR-GLIT02N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
@@ -51,7 +51,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091125_HOUSE_L8.mp3',
-        name: 'L8 88.6FM DNC-PULS01E'
+        name: 'L8 88.9FM DNC-PULS01E'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091925_TECH_L8.mp3',
@@ -59,7 +59,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/103225_OCBT_L8s.mp3',
-        name: 'L8 107.6FM AUX-MBBH01D'
+        name: 'L8 107.1FM AUX-MBBH01D'
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/111825_PARTY_L8.mp3',
