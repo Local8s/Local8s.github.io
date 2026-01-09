@@ -3,6 +3,7 @@ html, body {
   padding: 0;
   height: 100%;
 }
+
 body {
   background-image: url(https://walzr.com/gridnew.png);
   background-size: 80px 80px;
@@ -60,12 +61,12 @@ body {
     z-index: 2000;
     }
 
-.dropdown.open .dropdown-content {
-  display: block;
-}
+  .dropdown.open .dropdown-content {
+    display: block;
+  }
 
 
-   .station {
+  .station {
         position: relative;
         padding: 5px 10px;
         cursor: pointer;
@@ -94,9 +95,9 @@ body {
     }
 
 
-.station:hover .sub-dropdown {
-  display: block;
-}
+    .station:hover .sub-dropdown {
+       display: block;
+    }
 
     .sub-station {
         cursor: pointer;
@@ -112,105 +113,99 @@ body {
         background-color: #3b4a31;
     }
 
-.popup-box {
-  display: none;
-  position: fixed;
-  top: 50px;
-  left: 10%;
-  background: #000;
-  border: 2px solid #7f9c68; 
-  opacity: 0.68;
-  color: #7f9c68;
-  padding: 5px 5px 0px 5px;
-  z-index: 3;
-  font-family: monospace;
-  line-height: 16px;
-  font-size: 12px;
-  width: 300px; 
-  min-width: 150px; 
-  white-space: normal;
-  word-wrap: break-word;
-  cursor: default;
-  padding: 2px 2px 2px 2px;
-}
-
-
-.popup-box {
-  cursor: default;
-}
-
-.popup-box a {
-  color: #7f9c68; 
-  text-decoration: underline;
-  font-weight: bold;
-  transition: color 0.2s ease;
-}
-
-.popup-box a:hover {
-  color: #3b4a31;
-  text-decoration: none;
-}
-
-.popup-box button {
-  background: #000;
-  color: #7f9c68;
-  border: 1px solid #7f9c68;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.popup-close {
-  background: #000;
-  color: #7f9c68;
-  border: 1px solid #7f9c68;
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 0 4px;
-}
-
-.popup-header {
-  display: flex;
-  cursor: move;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px;
-  font-weight: bold;
-  border-bottom: 1px solid #7f9c68;
-}
-
-
-
-
-.marquee-text {
-  position: absolute;
-  white-space: nowrap;
-  will-change: transform;
-  pointer-events: none;
-}
-
-
-.marquee-wrapper {
-  width: 65%;
-  margin: 0 auto;
-  overflow: hidden;
-  position: relative;
-  height: 1em; 
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 400px) {
-  .marquee-wrapper {
+  .popup-box {
     display: none;
+    position: fixed;
+    top: 50px;
+    left: 10%;
+    background: #000;
+    border: 2px solid #7f9c68; 
+    opacity: 0.68;
+    color: #7f9c68;
+    padding: 5px 5px 0px 5px;
+    z-index: 3;
+    font-family: monospace;
+    line-height: 16px;
+    font-size: 12px;
+    width: 300px; 
+    min-width: 150px; 
+    white-space: normal;
+    word-wrap: break-word;
+    cursor: default;
+    padding: 2px 2px 2px 2px;
   }
-}
 
+  .popup-box {
+    cursor: default;
+  }
 
+  .popup-box a {
+    color: #7f9c68; 
+    text-decoration: underline;
+    font-weight: bold;
+    transition: color 0.2s ease;
+  } 
+
+  .popup-box a:hover {
+    color: #3b4a31;
+    text-decoration: none;
+  }
+
+  .popup-box button {
+    background: #000;
+    color: #7f9c68;
+    border: 1px solid #7f9c68;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .popup-close {
+    background: #000;
+    color: #7f9c68;
+    border: 1px solid #7f9c68;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 0 4px;
+  }
+
+  .popup-header {
+    display: flex;
+    cursor: move;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    font-weight: bold;
+    border-bottom: 1px solid #7f9c68;
+  }
+
+  .marquee-wrapper {
+    width: 65%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    height: 1em; 
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .marquee-text {
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  @media (max-width: 400px) {
+    .marquee-wrapper {
+    display: none;
+    }
+   }
+      
   @keyframes scroll-left {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-  }
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
