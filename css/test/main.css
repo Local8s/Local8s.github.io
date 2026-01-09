@@ -46,63 +46,72 @@ body {
     position: relative;
   }
 
-.dropdown-content {
-  display: none;
-  cursor: pointer;
-  position: absolute;
-  top: calc(100% + 7px);
-  left: 0;
-  background: #000;
-  opacity: 0.68;
-  border: 1px solid #7f9c68;
-  line-height: 14px;
-  padding: 5px;
-  z-index: 2000;
-  min-width: 120px;
-}
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+    background-color: #000;
+    border: 1px solid #7f9c68;
+    min-width: 150px;
+    line-height: 14px;
+    padding: 5px;
+    z-index: 2000;
+    }
 
 .dropdown.open .dropdown-content {
   display: block;
 }
 
 
-/* Sub-dropdown container */
-.sub-dropdown {
-  display: none; /* Hidden by default */
-  position: absolute;
-  top: 0; /* Will adjust with transform */
-  left: 100%; /* Appears to the right of parent station */
-  background-color: rgba(0, 0, 0, 0.68); /* Match main dropdown */
-  border: 1px solid #7f9c68; /* Match main dropdown border */
-  min-width: 110px;
-  line-height: 14px;
-  padding: 5px;
-  z-index: 3000;
+   .station {
+        position: relative; /* key for sub-dropdown alignment */
+        padding: 5px 10px;
+        cursor: pointer;
+        color: #7f9c68;
+        background-color: #000;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
 
-  /* Align with parent station */
-  transform: translateY(0%); /* start aligned with the station */
-}
+    .station:hover,
+    .station.current {
+        background-color: #7f9c68;
+        color: #000;
+    }
 
-/* Show sub-dropdown when hovering parent station */
+   .sub-dropdown {
+        display: none;
+        position: absolute;
+        top: 0;        /* aligns top with parent station */
+        left: 100%;    /* right of parent station */
+        background-color: #000;
+        border: 1px solid #7f9c68;
+        min-width: 130px;
+        padding: 5px;
+        z-index: 3000;
+        white-space: nowrap;
+    }
+
+
 .station:hover .sub-dropdown {
   display: block;
 }
 
-/* Sub-station styling (matches main dropdown) */
-.sub-station {
-  padding: 5px 10px;
-  cursor: pointer;
-  color: #7f9c68;
-  background-color: transparent;
-  transition: background 0.2s;
-}
+    .sub-station {
+        padding: 5px 10px;
+        cursor: pointer;
+        color: #7f9c68;
+        background-color: #000;
+        transition: background 0.2s;
+        white-space: nowrap;
+    }
 
-.sub-station:hover,
-.sub-station.current {
-  background-color: #7f9c68;
-  color: #000;
-}
-
+    .sub-station:hover,
+    .sub-station.current {
+        background-color: #7f9c68;
+        color: #000;
+    }
 
 .popup-box {
   display: none;
