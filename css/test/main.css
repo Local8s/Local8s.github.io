@@ -164,8 +164,8 @@ body {
   cursor: move;
   justify-content: space-between;
   align-items: center;
-  padding: 2px;
-  border-bottom: 1px solid #7f9c68;
+  padding: 4px;
+  border-bottom: 3px solid #7f9c68;
 }
 
 
