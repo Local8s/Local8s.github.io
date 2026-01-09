@@ -123,6 +123,7 @@ body {
   white-space: normal;
   word-wrap: break-word;
   cursor: default;
+  padding: 2px 2px 2px 2px;
 }
 
 
@@ -165,7 +166,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 4px;
-  border-bottom: 3px solid #7f9c68;
+  border-bottom: 1px solid #7f9c68;
 }
 
 
