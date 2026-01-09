@@ -1,137 +1,5 @@
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
-  import {
-    getDatabase,
-    ref,
-    push,
-    query,
-    orderByChild,
-    onChildAdded
-  } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFUmElnuRTT0Ibv9yrs-evnHM74iH_Biw",
-    authDomain: "l8-guestbook.firebaseapp.com",
-    databaseURL: "https://l8-guestbook-default-rtdb.firebaseio.com",
-    projectId: "l8-guestbook",
-    storageBucket: "l8-guestbook.firebasestorage.app",
-    messagingSenderId: "917726834255",
-    appId: "1:917726834255:web:67ccde2898edf876d9c43a",
-    measurementId: "G-DV3X7Y672C"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getDatabase(app);
-  const guestbookRef = ref(db, 'guestbook');
-  const orderedRef   = query(guestbookRef, orderByChild('ts'));
-
-  const messagesEl = document.getElementById('gbMessages');
-  const inputEl    = document.getElementById('gbText');
-  const submitBtn  = document.getElementById('gbSubmit');
-
-  
-  inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    submitBtn.click();
-  }
-});
-
-
-  function formatDate(ts) {
-    const d   = new Date(ts);
-    const m   = d.getMonth() + 1;
-    const day = d.getDate();
-    const yy  = String(d.getFullYear()).slice(-2);
-    return `${m}/${day}/${yy}`;
-  }
-
-onChildAdded(orderedRef, snap => {
-  const { text, ts, admin } = snap.val();
-  const div = document.createElement('div');
-  div.className = 'gb-message';
-
-  const shortenUrl = (url) => {
-    const domain = new URL(url).hostname.replace('www.', '');
-    return `<a href="${url}" target="_blank" rel="noopener">${domain}</a>`;
-  };
-
-  const linkedText = text.replace(
-    /(https?:\/\/[^\s]+)/g, 
-    (match) => shortenUrl(match)
-  );
-
-  if (admin) {
-    div.innerHTML = `
-      <span class="gb-admin-label">MODERATOR:</span>
-       ${linkedText}
-    `;
-  } else {
-    div.innerHTML = `<span class="msg-date">[${formatDate(ts)}]:</span> ${linkedText}`;
-  }
-
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
-});
-
-const isAdmin = new URLSearchParams(window.location.search).get('admin') === '1';
-
-submitBtn.addEventListener('click', async e => {
-  e.preventDefault();
-  const txt = inputEl.value.trim();
-  if (!txt) return;
-
-  let location = "Somewhere on Earth"; // default fallback
-
-  try {
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-      // Local testing
-      location = "Localhost Test";
-    } else {
-      // Real visitor: attempt IP lookup
-      const res = await fetch("https://ipapi.co/json/");
-      const data = await res.json();
-
-      if (data) {
-        if (data.city && data.region_code) {
-          location = `${data.city}, ${data.region_code}`;
-        } else if (data.country_name) {
-          location = data.country_name;
-        }
-      }
-    }
-  } catch (err) {
-    console.warn("Location lookup failed:", err);
-    // fallback "Somewhere on Earth" remains
-  }
-
-  // Push the message to Firebase
-  push(guestbookRef, {
-    text: txt,
-    ts: Date.now(),
-    admin: isAdmin,
-    location: location
-  });
-
-  inputEl.value = '';
-});
-
-
-function checkMobileAndMinimize() {
-  if (window.matchMedia("(max-width: 600px)").matches) {
-    guestbookEl.classList.add('minimized');
-  }
-}
-
-inputEl.addEventListener('keydown', function(e) {
-  if (e.key === ' ') {
-    e.stopPropagation(); 
-  }
-});
-
-
-import { 
-  initializeApp 
-} from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
 import {
   getDatabase,
   ref,
@@ -139,37 +7,142 @@ import {
   query,
   orderByChild,
   onChildAdded,
-  serverTimestamp // Add this import
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-database.js";
 
-// ... (rest of your config remains the same)
+/* ------------------ Firebase Config ------------------ */
+const firebaseConfig = {
+  apiKey: "AIzaSyDFUmElnuRTT0Ibv9yrs-evnHM74iH_Biw",
+  authDomain: "l8-guestbook.firebaseapp.com",
+  databaseURL: "https://l8-guestbook-default-rtdb.firebaseio.com",
+  projectId: "l8-guestbook",
+  storageBucket: "l8-guestbook.firebasestorage.app",
+  messagingSenderId: "917726834255",
+  appId: "1:917726834255:web:67ccde2898edf876d9c43a",
+  measurementId: "G-DV3X7Y672C"
+};
 
-// Update your push function:
-submitBtn.addEventListener('click', async e => {
+/* ------------------ Init Firebase ------------------ */
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const guestbookRef = ref(db, "guestbook");
+const orderedRef = query(guestbookRef, orderByChild("ts"));
+
+/* ------------------ DOM Elements ------------------ */
+const messagesEl = document.getElementById("gbMessages");
+const inputEl = document.getElementById("gbText");
+const submitBtn = document.getElementById("gbSubmit");
+const guestbookEl = document.getElementById("guestbook"); // optional
+
+/* ------------------ Admin Flag ------------------ */
+const isAdmin = new URLSearchParams(window.location.search).get("admin") === "1";
+
+/* ------------------ Helpers ------------------ */
+function formatDate(ts) {
+  if (!ts || typeof ts !== "number") return "";
+  const d = new Date(ts);
+  if (isNaN(d)) return "";
+  const m = d.getMonth() + 1;
+  const day = d.getDate();
+  const yy = String(d.getFullYear()).slice(-2);
+  return `${m}/${day}/${yy}`;
+}
+
+function shortenUrl(url) {
+  const domain = new URL(url).hostname.replace("www.", "");
+  return `<a href="${url}" target="_blank" rel="noopener">${domain}</a>`;
+}
+
+/* ------------------ Listen for Messages ------------------ */
+onChildAdded(orderedRef, snap => {
+  const data = snap.val();
+  if (!data || !data.text) return;
+
+  const ts = typeof data.ts === "number" ? data.ts : Date.now();
+  const div = document.createElement("div");
+  div.className = "gb-message";
+
+  const linkedText = data.text.replace(
+    /(https?:\/\/[^\s]+)/g,
+    match => shortenUrl(match)
+  );
+
+  if (data.admin) {
+    div.innerHTML = `
+      <span class="gb-admin-label">MODERATOR:</span>
+      ${linkedText}
+    `;
+  } else {
+    div.innerHTML = `
+      <span class="msg-date">[${formatDate(ts)}]:</span>
+      ${linkedText}
+    `;
+  }
+
+  messagesEl.appendChild(div);
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+});
+
+/* ------------------ Submit Message ------------------ */
+submitBtn.addEventListener("click", async e => {
   e.preventDefault();
+
   const txt = inputEl.value.trim();
   if (!txt) return;
-  
-  let location = "Unknown";
+
+  let location = "Somewhere on Earth";
+
   try {
-    const res = await fetch("https://ipapi.co/json/");
-    const data = await res.json();
-    if (data && data.city && data.region_code) {
-      location = `${data.city}, ${data.region_code}`;
-    } else if (data && data.country_name) {
-      location = data.country_name;
+    if (
+      window.location.hostname !== "localhost" &&
+      window.location.hostname !== "127.0.0.1"
+    ) {
+      const res = await fetch("https://ipapi.co/json/");
+      const data = await res.json();
+      if (data?.city && data?.region_code) {
+        location = `${data.city}, ${data.region_code}`;
+      } else if (data?.country_name) {
+        location = data.country_name;
+      }
+    } else {
+      location = "Localhost Test";
     }
   } catch (err) {
     console.warn("Location lookup failed:", err);
   }
-  
-  // Use serverTimestamp() instead of Date.now()
+
   push(guestbookRef, {
     text: txt,
-    ts: serverTimestamp(), // This will be set by Firebase server
+    ts: serverTimestamp(),
     admin: isAdmin,
-    location: location
+    location
   });
 
-  inputEl.value = '';
+  inputEl.value = "";
 });
+
+/* ------------------ Enter Key Submit ------------------ */
+inputEl.addEventListener("keydown", e => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    submitBtn.click();
+  }
+});
+
+/* ------------------ Prevent Space Propagation ------------------ */
+inputEl.addEventListener("keydown", e => {
+  if (e.key === " ") {
+    e.stopPropagation();
+  }
+});
+
+/* ------------------ Mobile Minimize (Optional) ------------------ */
+function checkMobileAndMinimize() {
+  if (
+    guestbookEl &&
+    window.matchMedia("(max-width: 600px)").matches
+  ) {
+    guestbookEl.classList.add("minimized");
+  }
+}
+</script>
