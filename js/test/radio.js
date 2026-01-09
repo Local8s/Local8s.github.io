@@ -67,7 +67,7 @@
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
-        name: 'L8s RADIO NEW! 89.9FM'
+        name: 'L8 98.1FM HSE-DEEP01N'
       },
     ];
 
