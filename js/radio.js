@@ -11,63 +11,63 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'L8s RADIO 98.1FM'
+        name: 'L8 101.5FM XPR-DRIFT01N'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
-        name: 'L8s RADIO 101.5FM'
+        name: 'L8 105.5FM XPR-GLIT02N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040825_DISCO_L8.mp3',
-        name: 'L8s RADIO 97.7FM'
+        name: 'L8 97.7FM DSC-SPIN01N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032825_ALT_L8.mp3',
-        name: 'L8s RADIO 104.3FM'
+        name: 'L8 104.3FM ALT-HAZE01M'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/040125_TECH_HOUSE_L8.mp3',
-        name: 'L8s RADIO 92.1FM'
+        name: 'L8 92.1FM THS-VOID01N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/032125_HOUSE_L8.mp3',
-        name: 'L8s RADIO 89.5FM'
+        name: 'L8 98.1FM HSE-WAVE02C'
       },
          {
         src: 'https://file.garden/aGGJpwNLWActgKKi/070725_ELECTRO_L8s.mp3',
-        name: 'L8s RADIO 88.6FM'
+        name: 'L8 97.7FM DSC-HAZE01C'
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071725_MIX_L8.mp3',
-        name: 'L8s RADIO 93.3FM'
+        name: 'L8 101.5FM XPR-BOOM03E'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/071925_ALT_L8.mp3',
-        name: 'L8s RADIO 96.8FM'
+        name: 'L8 104.3FM ALT-GRIT01E'
       },
         {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080625_EMO_L8.mp3',
-        name: 'L8s RADIO 107.2FM'
+        name: 'L8 104.3FM ALT-TEAR01M'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091125_HOUSE_L8.mp3',
-        name: 'L8s RADIO 94.5FM'
+        name: 'L8 88.9FM DNC-PULS01E'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091925_TECH_L8.mp3',
-        name: 'L8s RADIO 91.7FM'
+        name: 'L8 98.1FM HSE-HEAT04N'
       },
       {
-        src: 'https://file.garden/aGGJpwNLWActgKKi/100325_MBBM_L8s.mp3',
-        name: 'L8s RADIO 90.4FM'
+        src: 'https://file.garden/aGGJpwNLWActgKKi/103225_OCBT_L8s.mp3',
+        name: 'L8 107.1FM AUX-MBBH01D'
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/111825_PARTY_L8.mp3',
-        name: 'L8s RADIO NEW! 102.9FM'
+        name: 'L8 97.7FM DSC-GLOW01P'
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
-        name: 'L8s RADIO NEW! 89.9FM'
+        name: 'L8 98.1FM HSE-DEEP01N'
       },
     ];
 
@@ -139,7 +139,7 @@ function initPlayer() {
     audio.addEventListener('loadedmetadata', updateTime);
 
 
-document.querySelectorAll('.station').forEach(el => {
+document.querySelectorAll('.sub-station').forEach(el => {
   el.addEventListener('click', () => {
     const index = parseInt(el.getAttribute('data-index'), 10);
     const selectedSong = songs[index];
@@ -153,7 +153,7 @@ document.querySelectorAll('.station').forEach(el => {
     playPauseBtn.classList.add('playing');
     document.title = `▶ ${selectedSong.name}`;
 
-    document.querySelectorAll('.station').forEach(s => s.classList.remove('current'));
+    document.querySelectorAll('.sub-station').forEach(s => s.classList.remove('current'));
     el.classList.add('current');
 
     const dropdown = el.closest('.dropdown-content');
@@ -162,4 +162,3 @@ document.querySelectorAll('.station').forEach(el => {
     }
   });
 });
-
