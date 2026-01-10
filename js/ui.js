@@ -74,6 +74,21 @@ window.togglePopup = togglePopup;
 window.toggleGuestbook = toggleGuestbook;
 window.toggleDropdown = toggleDropdown;
 
+// ─── COLLAPSIBLE ───────────────────────────────────
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    } 
+  });
+}
 
 // ─── DRAGGABLE POPUPS ──────────────────────────────────────────────────────
 document.querySelectorAll('.popup-box').forEach(popup => {
@@ -125,6 +140,7 @@ document.querySelectorAll('.station').forEach(el => {
   });
 });
 
+// ─── MARQUEE ───────────────────────────────────
   function startMarquee() {
     const marquee = document.querySelector('.marquee-text');
     const wrapper = document.querySelector('.marquee-wrapper');
