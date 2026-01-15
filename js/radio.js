@@ -69,6 +69,10 @@
        src: 'https://file.garden/aGGJpwNLWActgKKi/112525_GAS_L8_v2.mp3',
         name: 'L8 98.1FM HSE-DEEP01N'
       },
+      {
+       src: 'https://file.garden/aGGJpwNLWActgKKi/011426_DEEP_L8.mp3',
+        name: 'NEW! 98.1FM HSE-CULT01X'
+      },
     ];
 
 
