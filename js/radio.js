@@ -75,7 +75,7 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/012326_EMO_L8.mp3',
-        name: 'NEW! 104.3FM ALT-EMOT01'
+        name: 'NEW! 104.3FM ALT-EMOT01H'
       },
     ];
 
