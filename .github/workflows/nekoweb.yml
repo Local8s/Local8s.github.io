@@ -8,20 +8,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare clean build folder
+      - name: Prepare build
         run: |
-          mkdir -p build
-          rsync -av \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='.gitignore' \
-            --exclude='README.md' \
-            ./ build/
+          mkdir -p ./build
+          cp -r ./public/* ./build
 
       - name: Deploy to Nekoweb
         uses: mp-pinheiro/nekoweb-deploy@main
@@ -32,3 +27,4 @@ jobs:
           CLEANUP: 'False'
           DELAY: '0.5'
           NEKOWEB_PAGENAME: 'local8s'
+          ENCRYPTION_KEY: ${{ secrets.NEKOWEB_ENCRYPTION_KEY }}
