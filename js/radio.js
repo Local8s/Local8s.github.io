@@ -71,11 +71,15 @@
       },
       {
        src: 'https://file.garden/aGGJpwNLWActgKKi/011426_DEEP_L8.mp3',
-        name: 'NEW! 98.1FM HSE-CULT01X'
+        name: 'L8 98.1FM HSE-CULT01X'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/012326_EMO_L8.mp3',
         name: 'NEW! 104.3FM ALT-EMOT01H'
+      },
+       {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/020826_DNCFEVER_L8.mp3',
+        name: 'NEW! 88.9FM DNC-FEVER01P'
       },
     ];
 
