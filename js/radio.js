@@ -79,7 +79,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/020826_DNCFEVER_L8.mp3',
-        name: 'NEW! 88.9FM DNC-FEVER01P'
+        name: 'NEW! 88.9FM DNC-FEVR01P'
       },
     ];
 
