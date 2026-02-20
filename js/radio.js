@@ -11,7 +11,7 @@
     const songs = [
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/051725_HOUSE_L8.mp3',
-        name: 'L8 101.5FM XPR-DRIFT01N'
+        name: 'L8 101.5FM XPR-DRFT01N'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060325_MIX_L8.mp3',
