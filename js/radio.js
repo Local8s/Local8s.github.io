@@ -83,7 +83,7 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/030926_VELVT_L8.mp3',
-        name: 'NEW! L8 101.5FM XPR-VELV01N'
+        name: 'NEW! 101.5FM XPR-VELV01N'
       },
     ];
 
