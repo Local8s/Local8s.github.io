@@ -75,11 +75,15 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/012326_EMO_L8.mp3',
-        name: 'NEW! 104.3FM ALT-EMOT01H'
+        name: '104.3FM ALT-EMOT01H'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/020826_DNCFEVER_L8.mp3',
         name: 'NEW! 88.9FM DNC-FEVR01P'
+      },
+       {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/030926_VELVT_L8.mp3',
+        name: 'NEW! L8 101.5FM XPR-VELV01N'
       },
     ];
 
