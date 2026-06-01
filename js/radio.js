@@ -79,11 +79,15 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/020826_DNCFEVER_L8.mp3',
-        name: 'NEW! 88.9FM DNC-FEVR01P'
+        name: '88.9FM DNC-FEVR01P'
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/030926_VELVT_L8.mp3',
         name: 'NEW! 101.5FM XPR-VELV01N'
+      },
+      {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/053126_SYNC_L8.mp3',
+        name: 'NEW! 92.1FM THS-SYNC01N'
       },
     ];
 
