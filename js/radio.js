@@ -83,11 +83,15 @@
       },
        {
         src: 'https://file.garden/aGGJpwNLWActgKKi/030926_VELVT_L8.mp3',
-        name: 'NEW! 101.5FM XPR-VELV01N'
+        name: '101.5FM XPR-VELV01N'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/053126_SYNC_L8.mp3',
         name: 'NEW! 92.1FM THS-SYNC01N'
+      },
+            {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/060226_SUN.mp3',
+        name: 'NEW! 101.5FM XPR-SUNS04D'
       },
     ];
 
