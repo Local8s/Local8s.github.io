@@ -91,7 +91,7 @@
       },
             {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060226_SUN.mp3',
-        name: 'NEW! 101.5FM XPR-SUNS04D'
+        name: 'NEW! 101.5FM XPR-STYL04D'
       },
     ];
 
