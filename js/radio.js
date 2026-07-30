@@ -87,11 +87,15 @@
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/053126_SYNC_L8.mp3',
-        name: 'NEW! 92.1FM THS-SYNC01N'
+        name: '92.1FM THS-SYNC01N'
       },
             {
         src: 'https://file.garden/aGGJpwNLWActgKKi/060226_SUN.mp3',
         name: 'NEW! 101.5FM XPR-STYL04D'
+      },
+                  {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/062826_WAVE.mp3',
+        name: 'NEW! 101.5FM XPR-WAVE05M'
       },
     ];
 
