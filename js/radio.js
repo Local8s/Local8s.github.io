@@ -100,7 +100,7 @@
             {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080626_ECHO_L8.mp3',
         name: 'NEW! 98.1FM HSE-ECHO01M'
-      };
+      },
     ];
 
 
