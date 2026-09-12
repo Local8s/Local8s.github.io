@@ -95,11 +95,15 @@
       },
                   {
         src: 'https://file.garden/aGGJpwNLWActgKKi/062826_WAVE.mp3',
-        name: 'NEW! 101.5FM XPR-WAVE05M'
+        name: '101.5FM XPR-WAVE05M'
       },
             {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080626_ECHO_L8.mp3',
         name: 'NEW! 98.1FM HSE-ECHO01M'
+      },
+      {
+        src: 'https://file.garden/aGGJpwNLWActgKKi/091126_GROOVE_L8.mp3',
+        name: 'NEW! 88.9FM DNC-GROV03M'
       },
     ];
 
