@@ -99,11 +99,15 @@
       },
             {
         src: 'https://file.garden/aGGJpwNLWActgKKi/080626_ECHO_L8.mp3',
-        name: 'NEW! 98.1FM HSE-ECHO01M'
+        name: '98.1FM HSE-ECHO01M'
       },
       {
         src: 'https://file.garden/aGGJpwNLWActgKKi/091126_GROOVE_L8.mp3',
         name: 'NEW! 88.9FM DNC-GROV03M'
+      },
+            {
+        src: 'https://www.dropbox.com/scl/fi/r9j6aiu1iuuthr7h7dfes/112126_BASS_L8.mp3',
+        name: 'NEW! 92.1FM THS-BASS01K'
       },
     ];
 
